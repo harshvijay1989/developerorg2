@@ -1,0 +1,45 @@
+<template>
+	<lightning-card title="New Order">
+		<div class="slds-p-around_medium">
+			<div class="slds-grid slds-wrap">
+				<div class="slds-col slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-size_12-of-12">
+					<lightning-input class="slds-p-right_x-small" type="text" disabled="true" label="Account Name" value={account.Name}>
+					</lightning-input>
+				</div>
+				<div class="slds-col slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-size_12-of-12">
+
+				</div>
+			</div>
+			<div class="slds-grid slds-wrap">
+				<div class="slds-col slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-size_12-of-12">
+					<lightning-input-address class="slds-p-right_x-small" address-label="Billing Address"
+						street-label="Street" city-label="City" country-label="Country" province-label="Province"
+						postal-code-label="PostalCode" street={account.BillingStreet} city={account.BillingCity}
+						country={account.BillingCountry} province={account.BillingState}
+						postal-code={account.BillingPostalCode} required disabled>
+					</lightning-input-address>
+				</div>
+				<div class="slds-col slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-size_12-of-12">
+					<lightning-input-address class="slds-p-left_x-small" address-label="Shipping Address"
+						street-label="Street" city-label="City" country-label="Country" province-label="Province"
+						postal-code-label="PostalCode" street={account.ShippingStreet} city={account.ShippingCity}
+						country={account.ShippingCountry} province={account.ShippingState}
+						postal-code={account.ShippingPostalCode} required disabled>
+					</lightning-input-address>
+				</div>
+			</div>
+			</br>
+			</br>
+			<div>
+				<div class="slds-clearfix">
+					<div class="slds-float_left">
+						<!-- <button class="slds-button slds-button_neutral" aria-label="Add Item" onclick={addOrderItem}>Add Item</button> -->
+					</div>
+					<div class="slds-float_right">
+						<button class="slds-button slds-button_brand" onclick={handleSaveClick}>Submit</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</lightning-card>
+</template>

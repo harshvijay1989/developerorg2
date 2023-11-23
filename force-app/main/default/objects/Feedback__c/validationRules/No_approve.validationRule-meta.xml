@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>No_approve</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR( ISPICKVAL(Status__c, &apos;Closed Completed&apos;),
+ISPICKVAL(Status__c, &apos;Closed not Longer Required&apos;))</errorConditionFormula>
+    <errorMessage>You can not save record with Closed Complete or closed not longer reqquired status</errorMessage>
+</ValidationRule>

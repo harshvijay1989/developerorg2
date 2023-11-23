@@ -1,0 +1,16 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+<aura:handler event="c:HMC_AccountsLoaded" action="{!c.onAccountsLoaded}"/>
+    <lightning:navigation aura:id="navigation"/>
+    <aura:attribute name="rows" type="Map[]"/>
+    <aura:attribute name="cols" type="Map[]"/>
+    <lightning:card title="Customers List" iconName="standard:account">
+    <div class="slds-scrollable_y" style="height:20rem">    
+    <lightning:datatable
+            data="{!v.rows}"
+            columns="{!v.cols}"
+            keyField="Id"
+            hideCheckboxColumn="true"
+            showRowNumberColumn="true"
+            onrowaction="{!c.onRowAction}"/> </div>
+    </lightning:card>	
+</aura:component>

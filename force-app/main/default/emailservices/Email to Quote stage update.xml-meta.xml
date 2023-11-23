@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailServicesFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apexClass>emailToQuteStageUpdate</apexClass>
+    <attachmentOption>All</attachmentOption>
+    <authenticationFailureAction>Bounce</authenticationFailureAction>
+    <authorizationFailureAction>Bounce</authorizationFailureAction>
+    <authorizedSenders>vikasjoshi0297@gmail.com,
+sameer.khan@crmlanding.in,
+harsh@crmlanding.in,
+vikas.joshi@crmlanding.in,
+ravijangid16aug@gmail.com,
+rohit.sethi@crmlanding.in,
+dikshit.arya@crmlanding.in,
+dikearya94@gmail.com</authorizedSenders>
+    <emailServicesAddresses>
+        <developerName>truecallersalesforce</developerName>
+        <isActive>true</isActive>
+        <localPart>crmlanding.in</localPart>
+        <runAsUser>harsh.vijay02-vnt1@force.com.dev2</runAsUser>
+    </emailServicesAddresses>
+    <emailServicesAddresses>
+        <developerName>Truecaller</developerName>
+        <isActive>true</isActive>
+        <localPart>truecallersalesforce2</localPart>
+        <runAsUser>harsh.vijay02-vnt1@force.com.dev2</runAsUser>
+    </emailServicesAddresses>
+    <emailServicesAddresses>
+        <developerName>truecallersalesforce2</developerName>
+        <isActive>true</isActive>
+        <localPart>vikasjoshi</localPart>
+        <runAsUser>harsh.vijay02-vnt1@force.com.dev2</runAsUser>
+    </emailServicesAddresses>
+    <functionInactiveAction>Bounce</functionInactiveAction>
+    <functionName>Email to Quote stage update</functionName>
+    <isActive>true</isActive>
+    <isAuthenticationRequired>false</isAuthenticationRequired>
+    <isErrorRoutingEnabled>false</isErrorRoutingEnabled>
+    <isTextAttachmentsAsBinary>false</isTextAttachmentsAsBinary>
+    <isTlsRequired>false</isTlsRequired>
+    <overLimitAction>Bounce</overLimitAction>
+</EmailServicesFunction>

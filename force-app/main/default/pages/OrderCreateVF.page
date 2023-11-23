@@ -1,0 +1,10 @@
+<apex:page standardController="Order__c">
+    <apex:includeLightning />
+    <script>
+        $Lightning.use("c:OrderCreateApp", function () {
+            $Lightning.createComponent("c:dms_createOrderCmp", {}, "lwcContainer", function (cmp) {
+                // LWC component is rendered
+            });
+        });
+    </script>
+</apex:page>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>StageName__c</fullName>
+    <externalId>false</externalId>
+    <label>Stage</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Order Confirmation</fullName>
+                <default>true</default>
+                <label>Order Confirmation</label>
+            </value>
+            <value>
+                <fullName>Truck Load Challan</fullName>
+                <default>false</default>
+                <label>Truck Load Challan</label>
+            </value>
+            <value>
+                <fullName>Invoice</fullName>
+                <default>false</default>
+                <label>Invoice</label>
+            </value>
+            <value>
+                <fullName>Dispatch</fullName>
+                <default>false</default>
+                <label>Dispatch</label>
+            </value>
+            <value>
+                <fullName>Delivery</fullName>
+                <default>false</default>
+                <label>Delivery</label>
+            </value>
+            <value>
+                <fullName>Order Initiation</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Order Initiation</label>
+            </value>
+            <value>
+                <fullName>Order Pending</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Order Pending</label>
+            </value>
+            <value>
+                <fullName>Order created in ERP</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Order created in ERP</label>
+            </value>
+            <value>
+                <fullName>Pushed to ERP</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Pushed to ERP</label>
+            </value>
+            <value>
+                <fullName>Qualification</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Qualification</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

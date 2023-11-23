@@ -1,0 +1,200 @@
+<template>
+	<template if:true={showDocument}>
+	<div if:false={pdfURL}>
+		<!-- <lightning-quick-action-panel header="Template Selector"> -->
+		<div if:true={mainModal} class="custom-modal">
+			<div style="background-color:#4B5D78;  height: 46px;">
+				<h1 class="headerClass">Template Selector</h1>
+			</div>
+			<div style="padding:15px; margin-top: -50px;">
+				<lightning-combobox style="margin-top: 5%;" name="progress" label="Select Document Templates"
+					value={value} placeholder="Select Template" options={options} onchange={handleChange}>
+				</lightning-combobox>
+			</div>
+			<br/>
+			<br/>
+			<div if:true={isLoaded} class="slds-is-relative">
+				<lightning-spinner alternative-text="Loading..." variant="brand">
+				</lightning-spinner>
+			</div>
+			<br/><br/>
+			<div style="margin-top: -50px;">&nbsp;
+			</div>
+
+			<lightning-modal-footer>
+				<lightning-button style="margin-left:94px;" label="Cancel" onclick={closeQuickAction}>
+				</lightning-button> &nbsp;
+				<!--<button class="slds-button slds-button_brand button" style="--sds-c-button-brand-color-background: #4B5D78; --sds-c-button-text-color: white;" onclick={handleProceedClick} title="Proceed" disabled={isShowProceed}>Proceed</button>-->
+				<lightning-button variant="Brand" label="Save" title="Primary action" onclick={handleProceedClick}
+					class="slds-m-left_x-small button" disabled={isShowProceed}></lightning-button>
+			</lightning-modal-footer>
+		</div>
+		<!-- </lightning-quick-action-panel> -->
+		<template if:true={showAsPDF}>
+			<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+				aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+					<!-- Modal/Popup Box LWC header here -->
+					<header class="slds-modalproce__header">
+						<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                                <lightning-icon icon-name="utility:close"
+                                    alternative-text="close"
+                                    variant="inverse"
+                                    size="small" ></lightning-icon>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+						<h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Modal/PopUp Box
+							header
+							LWC</h2>
+					</header>
+					<!-- Modal/Popup Box LWC body starts here -->
+					<div class="slds-modal__content" id="modal-content-id-1">
+						<iframe src={orgBaseUrl} style="width:100%" height="1000px"></iframe>
+					</div>
+
+
+					<!-- Modal/Popup Box LWC footer starts here -->
+					<footer class="slds-modal__footer">
+						<button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
+						<button class="slds-button slds-button_brand" onclick={submitDetails} title="OK">OK</button>
+					</footer>
+
+				</div>
+			</section>
+		</template>
+		<div if:true={showSignaturePad}>
+			<lightning-card>
+				<div class="slds-m-around_medium">
+					<div
+						style=" background: #4b5d78; text-align: center;font-size: 17px; padding: 16px; margin-top: -30px; color: white;width: 110%; margin-left: -16px;">
+						Create Your
+						Signature
+					</div>
+
+					<div style="padding:2px; border: 1px solid #e6e6e0; height: 47px;width: 100%;">
+						<!-- CUSTOM TABS START -->
+						<lightning-tabset>
+							<lightning-tab label="Draw" onactive={showCustomSignature}>
+							</lightning-tab>
+							<lightning-tab label="Upload" onactive={hideCustomSigntaure}>
+							</lightning-tab>
+						
+						</lightning-tabset>
+
+					</div>
+				</div>
+
+				<div if:true={customeSignature}>
+					<c-testing-cmp-for-sign onincreasecount={updateMessage}>
+					</c-testing-cmp-for-sign>
+				</div>
+
+				<div if:true={uploadImg}>
+					<div>
+						<c-upload-image-sign-cmp onincreasecount={updateMessage2}>
+						</c-upload-image-sign-cmp>
+					</div>
+				</div>
+
+				<div if:true={showConfiguration}>
+					<section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+						class="slds-modal slds-fade-in-open">
+						<div class="slds-modal__container">
+							<button onclick={handleCancel} class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse">
+										<svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+										<use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#close"></use>
+										</svg>
+										<span class="slds-assistive-text">Cancel and close</span>
+										</button>
+							<div class="close-icon-container">
+							</div>
+							<div class="slds-modal__header">
+								<h1 id="modal-heaing-02" class="slds-modal__title slds-hyphenate">Signature Pad
+								</h1>
+							</div>
+						</div>
+					</section>
+					<div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+				</div>
+			</lightning-card>
+		</div>
+		<!-- open PDF And Word Preview -->
+		<template if:true={openPDFAndWordPreview}>
+			<div style="background-color:#4B5D78; width: 100%; height: 46px;">
+				<h1 class="headerClass">Select Preview Type</h1>
+			</div>
+
+			<div class="outerDiv" variant="label-hidden">
+
+				<div class="SelectType">
+					<div class="slds-grid slds-gutters" style="margin-top: 2%;">
+						<div class="cursor: pointer slds-col slds-box" style="cursor:pointer;width: 50%; height: 25vh;"
+							onclick={handlePreviewTypeChange}>
+							<img src={pdf} alt="My Image" style="width: 44%;margin-top: 4%;" value={selectedPreview}/>
+                </div>
+							<div if:true={isLoaded3} class="slds-is-relative">
+								<lightning-spinner alternative-text="Loading..." variant="brand">
+								</lightning-spinner>
+							</div>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<div class="slds-col slds-box" style="cursor:pointer; width: 50%; height: 25vh;"
+								onclick={handlePreviewTypeChangeWord}>
+								<img src={doc} alt="My Image"  style="width:55%;margin-top: 4%;" value={selectedPreview}/>
+                </div>
+							</div>
+						</div>
+						<br>
+					</div>
+
+		</template>
+
+		<template if:true={progressBarIsTrue}>
+			<lightning-card>
+				<div class="slds-backdrop slds-backdrop_open"></div>
+				<lightning-card>
+					<div class="slds-modal slds-fade-in-open">
+						<div class="slds-modal__container">
+							<div class="slds-modal__content slds-p-around_medium slds-border_radius-large"
+								style="background-color: transparent;">
+								<div>
+									<lightning-progress-bar size="medium" value={progress} variant="circular">
+									</lightning-progress-bar>
+								</div>
+								<div class="slds-text-align--center slds-text-title"
+									style="font-weight: bold; color: #C9C9C9;">
+									{processStatus}
+								</div>
+							</div>
+						</div>
+					</div>
+				</lightning-card>
+			</lightning-card>
+		</template>
+	</div>
+
+	<template if:true={pdfURL}>
+		<div style="height: 77vh;overflow:hidden;">
+
+			<div if:true={isLoaded1} class="slds-is-relative">
+				<lightning-spinner alternative-text="Loading..." variant="brand"></lightning-spinner>
+			</div>
+
+			<iframe src={vfPgaeUrl} width="100%" height="400px" margin-top="2%" frameborder="0" scrolling="auto"
+				onload={handleIframeLoad}></iframe>
+
+			<div class="slds-modal__footer">
+				<lightning-button variant="neutral" label="Close" title="titleName" onclick={handleClickCancel}>
+				</lightning-button> &nbsp;
+				<lightning-button variant="brand" label="Send Document" title="titleName"
+					onclick={handleClickSendEmail}></lightning-button>
+			</div>
+
+		</div>
+	</template>
+
+
+	<div if:true={sendEmailAct}>
+		<c-email-activity></c-email-activity>
+	</div>
+	</template>
+</template>

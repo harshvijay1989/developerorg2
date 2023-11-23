@@ -1,0 +1,16 @@
+<apex:page standardController="Document_Template__c">
+ 	<apex:includeLightning />    
+    <div id="LightningComponentid" />    
+    <script>
+    $Lightning.use("c:InvoiceCreatorApp", function() {
+        alert('vf page');
+        $Lightning.createComponent("c:frontPageObjSelectionCmp",
+          { 
+          },
+          "LightningComponentid",
+          function(cmp) {
+             console.log('LWC Componenet added in VF page');
+          });
+    });
+    </script>
+</apex:page>

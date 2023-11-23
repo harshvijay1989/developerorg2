@@ -1,0 +1,139 @@
+<!--<template>
+	<template if:true={isModalOpen}>
+		
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" style="margin-left:150px;" aria-modal="true"
+			aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open ">
+			<div class="slds-modal__container" >
+				
+				<header class="slds-modal__header" style="margin-top:180px;width:850px;">
+					<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={handleDismiss}>
+							<lightning-icon icon-name="utility:close"
+								alternative-text="close"
+								variant="inverse"
+								size="small" ></lightning-icon>
+							<span class="slds-assistive-text">Close</span>
+						</button>
+					<h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Address Information</h2>
+				</header>
+				<template if:true={isTableShow}>
+					<lightning-card style="width:850px;">
+						<div class="slds-grid slds-gutters ">
+							<div class="slds-col slds-size_2-of-3" style="margin-left:50px;width:756px;">
+								<span>
+									<table class="slds-table slds-table_cell-buffer slds-table_bordered my-class">
+										<thead>
+											<tr class="slds-text-title_caps">
+												<th scope="col" style="width:50%;margin:40px"><b>Company Address</b></th>
+												<th style="width:50%;">Ship To Address</th>
+											</tr>
+										</thead>
+										<tbody>
+											<template for:each={documentTemplates} for:item="template">
+												<tr key={template.Id}>
+													<td data-label="Address__c">{template.Name}<br>
+													{template.Street}<br>
+													{template.City}<br>
+													{template.State}<br>
+													{template.PostalCode}<br>
+													{template.IN}</td>
+													<td ><strong>Street: </strong><span contenteditable="true"></span><br>
+													<strong>City: </strong><span contenteditable="true"></span><br>
+													<strong>State: </strong><span contenteditable="true"></span><br>
+													<strong>Postal Code: </strong><span contenteditable="true"></span><br>
+													<strong>Country: </strong><span contenteditable="true"></span></td>
+												</tr>
+											</template>
+										</tbody>
+									</table>
+								<br>
+								</span>
+			</div>
+			<br>
+			<div class="slds-col slds-size_1-of-3">
+				
+			</div>
+
+			</div>
+			<lightning-modal-footer >
+				<lightning-button class="slds-button" variant="neutral" label="Cancel" onclick={handleDismiss}>
+				</lightning-button>
+				<lightning-button class="slds-button slds-m-left_x-small" variant="brand"  label="Copy Table" onclick={copyText}>
+				</lightning-button>
+			</lightning-modal-footer>
+			</lightning-card>
+
+	</template>
+
+	</div>
+	</section>
+	<div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+
+</template>-->
+<template>
+	<!-- <div>
+		<table border="1" class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_fixed-layout mainCl">
+			<tbody>
+				<tr>
+					<td align="center">Company Address</td>
+					<td>Ship To Address</td>
+				</tr>
+				<template for:each={organizationFields} for:item="field">
+					<tr key={field.fieldName}>
+						<td class="col-label">{field.label} : {field.value}</td>
+						<td class="col-value">&nbsp;</td>
+					</tr>
+				</template>
+			</tbody>
+		</table>
+	</div> -->
+
+
+	<template if:true={showModal}>
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+			aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open"
+			style="margin-left: 14%;margin-right: 15%;margin-top: 4%;width: 80%;height: 118vh;">
+			<div class="slds-modal__container">
+				<header class="slds-modal__header" style="background-color: #0831a9; color:white;">
+					<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideModalBox}>
+                <lightning-icon icon-name="utility:close"
+                   alternative-text="close"
+                   variant="inverse"
+                   size="small" ></lightning-icon>
+                <span class="slds-assistive-text">Close</span>
+             </button>
+					<h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Company Address</h2>
+				</header>
+
+				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+					<div>
+						<table border="1" class="slds-table  slds-table_cell-buffer slds-table_fixed-layout mainCl"
+							style="width: 88%;margin-left: 6%;margin-top: 2%;">
+							<tbody>
+								<tr>
+									<td style="font-size: initial;text-align: left;">
+										<b>Company Address</b></td>
+									<td style="font-size: initial;text-align: left;">
+										<b>Ship To Address</b></td>
+								</tr>
+								<template for:each={organizationFields} for:item="field">
+									<tr key={field.fieldName}>
+										<td class="col-label">{field.label} : {field.value}</td>
+										<td class="col-value">&nbsp;</td>
+									</tr>
+								</template>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<footer class="slds-modal__footer">
+					<lightning-button variant="neutral" label="Cancel" onclick={hideModalBox} class="slds-m-top_medium"></lightning-button>
+					<lightning-button variant="brand" label="Copy Table" onclick={handleCopyClick} 
+						class="slds-m-top_medium" style="margin-left: 1%;"></lightning-button>
+				</footer>
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+	</template>
+
+</template>

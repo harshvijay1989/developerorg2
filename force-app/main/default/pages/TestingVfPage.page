@@ -1,0 +1,4 @@
+<apex:page contentType="application/pdf" controller="TestingController">
+    <apex:pageMessages />
+    <apex:outputText value="{!data}" escape="false"/>
+</apex:page>

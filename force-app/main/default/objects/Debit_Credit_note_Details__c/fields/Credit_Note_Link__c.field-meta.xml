@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Credit_Note_Link__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF((ISBLANK(HMC_CrNoteNm__c) || ISNULL(HMC_CrNoteNm__c)),&apos;&apos;,HYPERLINK(&quot;/apex/AXDMS_InvoiceDocView?docId=&quot;&amp;HMC_CrNoteNm__c,&quot;Open Document&quot;))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Credit Note Link</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

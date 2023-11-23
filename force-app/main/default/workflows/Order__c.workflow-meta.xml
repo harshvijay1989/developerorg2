@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldUpdates>
+        <fullName>Approval_Inprogress</fullName>
+        <field>Financial_Approval__c</field>
+        <literalValue>In Progress</literalValue>
+        <name>Approval Inprogress</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Final_Approval_Step</fullName>
+        <field>Financial_Approval__c</field>
+        <literalValue>Approved</literalValue>
+        <name>Final Approval Step</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Order_Approved</fullName>
+        <field>Financial_Approval__c</field>
+        <literalValue>Approved</literalValue>
+        <name>Order Approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>RSM_Rejection</fullName>
+        <field>Financial_Approval__c</field>
+        <literalValue>Rejected</literalValue>
+        <name>RSM Rejection</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+</Workflow>

@@ -1,0 +1,598 @@
+<template>
+	<div class="slds-grid slds-wrap slds-theme_default">
+
+		<div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_9-of-12">
+
+			<div class="slds-align_absolute-center slds-m-top_medium">
+				<div class="slds-grid slds-gutters">
+					<div class="slds-col">
+						<div class="dot2"></div>
+					</div>
+					<div class="slds-col">
+						<div>Planned-visit</div>
+					</div>
+					<div class="slds-col">
+						<div class="dot3"></div>
+					</div>
+					<div class="slds-col">
+						<div>Holiday-visit</div>
+					</div>
+					<div class="slds-col">
+						<div class="dot1"></div>
+					</div>
+					<div class="slds-col">
+						<div>Ad-hoc-visit</div>
+					</div>
+				</div>
+			</div>
+			<div id="calendar" class="fullcalendarjs"></div>
+		</div>
+		<template if:true={popup}>
+			<div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_3-of-12">
+				<div class=" slds-p-around_medium slds-border_right slds-scrollable_y" style="height:800px">
+
+					<div class="slds-clearfix">
+						<!--<lightning-button icon-name="utility:add" slot="actions" alternative-text="add" title="Add"
+							size="small" class="slds-p-around_medium" label="New Add-hoc Visit" onclick={addEvent}>
+						</lightning-button>-->
+
+						<button  style="width: 60%;" class="slds-col--padded slds-button slds-button_neutral" onclick={addEvent}>New Add-hoc Visit</button>
+
+					</div>
+					<div>
+						<br>
+						<!--<lightning-button icon-name="utility:add" slot="actions" alternative-text="add" title="Add"
+							size="small" class="slds-p-around_medium" label="Manage Expense" onclick={managExpense}>
+						</lightning-button>-->
+						<button  style="width: 60%;" class="slds-col--padded slds-button slds-button_neutral" onclick={managExpense}>Manage Expense</button>
+
+					</div>
+					<div>
+						<br>
+
+						<button  style="width: 60%;" class="slds-col--padded slds-button slds-button_neutral" onclick={mapDirectionsHandler}>Today Visit</button>
+
+					</div>
+					<div>
+						<br>
+
+						<button  style="width: 60%;" class="slds-col--padded slds-button slds-button_neutral" onclick={endDayHandler}>End Day</button>
+
+					</div>
+
+
+					<template for:each={events} for:item="eachevent">
+						<lightning-card key={eachevent.id} class="slds-p-left_medium slds-p-right_small">
+							<h3 slot="title">
+								<span class="slds-p-right_small">
+							<lightning-icon icon-name="standard:event" size="small">
+							</lightning-icon>
+						</span>
+								{eachevent.title}
+							</h3>
+							<p class="slds-p-horizontal_small"> Visit Date: <lightning-formatted-date-time
+									value={eachevent.start} year="numeric" month="numeric" day="numeric">
+								</lightning-formatted-date-time>
+							</p>
+							<p class="slds-p-horizontal_small">Address :
+								{eachevent.billingStreet},{eachevent.billingCity}
+							</p>
+
+						</lightning-card>
+					</template>
+
+				</div>
+			</div>
+		</template>
+	</div>
+	<div class="slds-grid slds-wrap slds-theme_default">
+		<div class="slds-col slds-size_3-of-12">
+		</div>
+		<div class="slds-col slds-size_9-of-12">
+		</div>
+	</div>
+
+
+
+
+	<template if:true={isMobile}>
+		<template if:true={openEndDayPopup}>
+			<section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_medium"
+				aria-labelledby="modal-heading-01" aria-modal="true">
+				<div class="slds-modal__container">
+					<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={endDayPopup}>
+                    X
+                </button>
+					<div class="slds-modal__header">
+						<h1 id="modal-heading-06" class="slds-modal__title slds-hyphenate">Today visited Dealers
+						</h1>
+					</div>
+					<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-6">
+						<template if:true={todayEndDayVisiDealerList}>
+
+							<template for:each={todayEndDayVisiDealerList} for:item="exp" for:index="indx">
+								<div class="demo-only slds-m-bottom_large" key={exp.Id} style="width:280px">
+									<ul class="slds-has-dividers_around-space">
+										<li class="slds-item">
+											<p style="font-size:20px;"><b>{exp.Dealer_Name__r.Name}</b></p>
+
+											<p class="slds-m-top_xx-small">
+												<b>Address:</b>&nbsp;{exp.Dealer_Name__r.BillingStreet},{exp.Dealer_Name__r.BillingCity},{exp.Dealer_Name__r.BillingPostalCode},{exp.Dealer_Name__r.BillingState},{exp.Dealer_Name__r.BillingCountry}<br></p>
+
+
+										</li>
+									</ul>
+								</div>
+							</template>
+
+						</template>
+					</div>
+					<div class="slds-modal__footer">
+						<button class="slds-button slds-button_neutral" aria-label="Close" onclick={endDayPopup}>Close</button>
+					</div>
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+		</template>
+	</template>
+
+	<template if:false={isMobile}>
+		<template if:true={openEndDayPopup}>
+
+			<section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_medium"
+				aria-labelledby="modal-heading-01" aria-modal="true">
+				<div class="slds-modal__container">
+					<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={endDayPopup}>
+                    X
+                </button>
+					<div class="slds-modal__header">
+						<h1 id="modal-heading-07" class="slds-modal__title slds-hyphenate">Today visited Dealers
+						</h1>
+					</div>
+					<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-7">
+						<template if:true={todayEndDayVisiDealerList}>
+
+							<template for:each={todayEndDayVisiDealerList} for:item="exp" for:index="indx">
+								<div class="demo-only slds-m-bottom_large" key={exp.Id} style="width:1000px">
+									<ul class="slds-has-dividers_around-space">
+										<li class="slds-item">
+											<p style="font-size:20px;"><b>{exp.Dealer_Name__r.Name}</b></p>
+
+											<p class="slds-m-top_xx-small">
+												<b>Address:</b>&nbsp;{exp.Dealer_Name__r.BillingStreet},{exp.Dealer_Name__r.BillingCity},{exp.Dealer_Name__r.BillingPostalCode},{exp.Dealer_Name__r.BillingState},{exp.Dealer_Name__r.BillingCountry}<br></p>
+
+
+										</li>
+									</ul>
+								</div>
+							</template>
+
+						</template>
+					</div>
+					<div class="slds-modal__footer">
+						<button class="slds-button slds-button_neutral" aria-label="Close" onclick={endDayPopup}>Close</button>
+					</div>
+
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+
+		</template>
+
+	</template>
+
+	<template if:true={openmanagExpense}>
+		<section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_medium"
+			aria-labelledby="modal-heading-01" aria-modal="true">
+			<div class="slds-modal__container">
+				<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse">
+                    <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                       <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    </svg>
+                       <span class="slds-assistive-text">Cancel and close</span>
+                </button>
+				<div class="slds-modal__header">
+					<h1 id="modal-heading-03" class="slds-modal__title slds-hyphenate">{headerDate} Expense Management
+					</h1>
+				</div>
+				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+					<div class="slds-box slds-theme_default ">
+						<div class="slds-grid slds-wrap slds-theme_default">
+							<div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_12-of-12">
+
+								<div class="slds-scrollable" style="height:20rem;">
+
+									<div class="slds-text-longform" style="width:100%">
+										<table
+											class="slds-table  slds-table_cell-buffer slds-no-row-hover slds-table_bordered"
+											aria-label="Example table of Opportunities with no row hovers">
+											<thead>
+												<tr class="slds-line-height_reset">
+													<th class="" scope="col">
+														<div class="slds-truncate" title="Visit Date">Visit Date</div>
+													</th>
+													<th class="" scope="col">
+														<div class="slds-truncate" title="Expense Amount">Expense Amount
+														</div>
+													</th>
+													<th class="" scope="col">
+														<div class="slds-truncate" title="Comment">Comment</div>
+													</th>
+													<th class="" scope="col">
+														<div class="slds-truncate" title="Receipt Upload">Receipt Upload
+														</div>
+													</th>
+													<th class="" scope="col">
+														<div class="slds-truncate" title="Receipt">Receipt</div>
+													</th>
+
+
+												</tr>
+											</thead>
+											<tbody>
+												<template for:each={manageExpenseList} for:item="exp" for:index="indx">
+													<tr key={exp.Id} id={exp.Id}>
+														<td>
+															<lightning-input data-name="vstDate" data-index={indx}
+																data-id={exp.Id} type="date" name="date"
+																value={exp.Visit_Date__c} disabled="true"
+																onchange={getVisitdate}>
+															</lightning-input>
+														</td>
+														<td>
+															<lightning-input data-name="expAmt" data-index={indx}
+																style="width:70%" data-id={exp.Id} type="number"
+																disabled={exp.desableAmt} name="amount"
+																value={exp.Amount__c} onblur={getExpAmount}>
+															</lightning-input>
+														</td>
+														<td>
+															<lightning-textarea data-name="expComnt" data-index={indx}
+																style="width:110%" data-id={exp.Id} name="textArea"
+																disabled={exp.desableCmt} value={exp.Comment__c}
+																onblur={getComment}>
+															</lightning-textarea>
+														</td>
+
+
+														<td>
+
+															<lightning-file-upload accept={acceptedFormats}
+																record-id={exp.Id}
+																onuploadfinished={handleUploadFinished} multiple="true">
+															</lightning-file-upload>
+
+														</td>
+														<td>
+															<lightning-button label="Show" data-index={indx}
+																data-id={exp.Id} icon-name="action:preview"
+																variant="brand" onclick={showFile}>
+															</lightning-button>
+
+														</td>
+
+													</tr>
+												</template>
+
+											</tbody>
+										</table>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="slds-modal__footer">
+					<button class="slds-button slds-button_neutral" aria-label="Cancel and close" onclick={cancleManageExpenses}>Cancel</button>
+					<button class="slds-button slds-button_brand" onclick={SaveManageExpenses}>Save</button>
+				</div>
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+	</template>
+
+	<template if:true={openFile}>
+
+		<div data-modal="custommodal" class="modalclass">
+			<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+				aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+					<header class="slds-modal__header">
+						<lightning-button-icon icon-name="utility:close" class="slds-modal__close "
+							alternative-text="Close" title="Close" size="large" variant="bare-inverse"
+							onclick={CancelShowFile}>
+
+						</lightning-button-icon>
+						<h2 id="modal-heading-01333" class="slds-modal__title slds-hyphenate">Show Files</h2>
+					</header>
+					<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-12132">
+						<div class="slds-scrollable" style="height:20rem;">
+							<div class="slds-text-longform" style="width:120%">
+								<table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered "
+									aria-label="Example table of Opportunities with no row hovers">
+
+									<thead>
+										<tr class="slds-line-height_reset">
+											<th class="" scope="col">
+												<div class="slds-truncate" title="File Name">File Name</div>
+											</th>
+											<th class="button-menu-dasktop" scope="col">
+
+												<div class="slds-truncate " title="Download">Download
+												</div>
+											</th>
+
+											<th class="" scope="col">
+												<div class="slds-truncate" title="Preview">Preview</div>
+											</th>
+										</tr>
+									</thead>
+
+									<tbody>
+										<template for:each={filesList} for:item="file">
+											<tr key={file.value}>
+												<td>
+													<div
+														class="slds-col slds-large-size_4-of-12 slds-medium-size_4-of-12 slds-size_12-of-12">
+														<p>{file.label}</p>
+													</div>
+												</td>
+												<td class="button-menu-dasktop">
+
+													<div
+														class="slds-col slds-large-size_4-of-12 slds-medium-size_4-of-12 slds-size_12-of-12">
+														<!--<a href={file.url} download>download</a>-->
+														<a href={file.url}>
+															<lightning-button-icon icon-name="action:download"
+																label="download" size="large" variant="brand">
+															</lightning-button-icon>
+														</a>
+													</div>
+												</td>
+												<td>
+													<div
+														class="slds-col slds-large-size_4-of-12 slds-medium-size_4-of-12 slds-size_12-of-12">
+														<lightning-button-icon icon-name="action:preview"
+															label="Preview" data-id={file.value} size="large"
+															variant="brand" onclick={previewHandler}>
+														</lightning-button-icon>
+													</div>
+												</td>
+											</tr>
+										</template>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<footer class="slds-modal__footer">
+						<lightning-button-group>
+							<lightning-button label="Close" title="Close" icon-name="utility:close"
+								onclick={CancelShowFile}></lightning-button>
+
+						</lightning-button-group>
+
+					</footer>
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open"></div>
+		</div>
+	</template>
+
+	<!-- Open a modal with new event form  -->
+	<template if:true={openModal}>
+		<div data-modal="custommodal" class="modalclass">
+			<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+				aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+					<header class="slds-modal__header">
+						<lightning-button-icon icon-name="utility:close" class="slds-modal__close "
+							alternative-text="Close" title="Close" size="large" variant="bare-inverse"
+							onclick={handleCancel}>
+
+						</lightning-button-icon>
+						<h2 id="modal-heading-0133" class="slds-modal__title slds-hyphenate">New Add-hoc Visit</h2>
+					</header>
+					<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1213">
+						<c-custom-account-lookup obj-name="Account" search-placeholder="Search Accounts"
+							icon-name="standard:account" onlookupselected={handleAccountSelection}>
+						</c-custom-account-lookup>
+						<lightning-input label="Route Plane" name="routeplane" type="text" required
+							value={rootplaneidforlockupValue} onblur={handleRoutePlaneSelection} disabled="true">
+						</lightning-input>
+						<lightning-input label="Visit Date" name="visitDate" type="date" onchange={visitedDateEvent}
+							required value={startDate} disabled={visitDateDesable}>
+						</lightning-input>
+
+					</div>
+					<footer class="slds-modal__footer">
+						<lightning-button-group>
+							<lightning-button label="Close" title="Close" icon-name="utility:close"
+								onclick={handleCancel}></lightning-button>
+							<lightning-button label="Save" title="Save" variant="brand" icon-name="utility:save"
+								onclick={handleSaveEvent}></lightning-button>
+						</lightning-button-group>
+					</footer>
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open"></div>
+		</div>
+	</template>
+
+	<!-- Open a modal with dealer  -->
+	<template if:true={openModalDealer}>
+		<div data-modal="custommodal" class="modalclass">
+			<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+				aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+					<header class="slds-modal__header">
+						<lightning-button-icon icon-name="utility:close" class="slds-modal__close "
+							alternative-text="Close" title="Close" size="large" variant="bare-inverse"
+							onclick={handleCancelDealer}>
+
+						</lightning-button-icon>
+						<h2 id="modal-heading-02" class="slds-modal__title slds-hyphenate">CheckIn
+						</h2>
+					</header>
+					<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+
+						<div class="slds-scrollable" style="height:6rem;">
+							<div class="slds-text-longform" style="width:100%">
+								<div class="slds-align_absolute-center" style="height:5rem">
+									<div class="slds-grid slds-wrap slds-m-top_large">
+										<div class="slds-col slds-size_12-of-12 ">
+											<div><strong>Delear Name - </strong>{dealerName}</div>
+										</div>
+										<div class="slds-col slds-size_12-of-12 ">
+											<div><strong>Visited Date - </strong>{delervisitedDate}</div>
+										</div>
+										<div class="slds-col slds-size_12-of-12 ">
+											<div><strong>Address - </strong>{dealerStreet},{dealerCity}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slds-box slds-m-top_small">
+							<template if:true={buTypeValidation}>
+								<span style="color: red; display: block; text-align: center;">{toastMessage}</span>
+							</template>
+							<lightning-layout>
+								<br/><br/>
+								<div class="slds-align_absolute-center" style="height:5rem">
+									<lightning-layout-item>
+										<lightning-button variant="brand" disabled={disableCheckIn} label="Check-In"
+											title="titleName" onclick={handleCheckIn}>
+										</lightning-button>
+									</lightning-layout-item>
+								</div>
+							</lightning-layout>
+						</div>
+
+						<lightning-accordion allow-multiple-sections-open onsectiontoggle={toggleSectionHandleW3web}
+							active-section-name={activeSections}>
+
+							<lightning-accordion-section name="Details" label="Details">
+								<div class="slds-box">
+									<div class="slds-grid slds-wrap slds-theme_default slds-box">
+										<div
+											class=" slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+											<h2><strong>Check-In DateTime</strong></h2>
+										</div>
+
+										<div
+											class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+											<span>{checkindateTimeValue}</span>
+										</div>
+
+									</div>
+									<div class="slds-grid slds-wrap slds-theme_default slds-box">
+										<div
+											class=" slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+											<h2><strong>Location Lat</strong></h2>
+										</div>
+
+										<div
+											class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+											<span>{checkInLat}</span> </div>
+
+									</div>
+									<div class="slds-grid slds-wrap slds-theme_default slds-box">
+										<div
+											class=" slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+											<h2><strong>Location Long</strong></h2>
+										</div>
+
+										<div
+											class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+											<span>{checkInLong}</span> </div>
+									</div>
+								</div>
+
+							</lightning-accordion-section>
+							<lightning-accordion-section name="Check List" label="Check List">
+
+								<div class="slds-box">
+									<div class="slds-grid slds-wrap slds-theme_default slds-box">
+										<div
+											class="slds-m-top_large slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+
+											<h2><strong>Competitor Product</strong></h2>
+										</div>
+
+										<div
+											class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+
+											<span><lightning-textarea placeholder="type here..." name="Q1" value={question1} onblur={q1value}></lightning-textarea></span>
+										</div>
+
+									</div>
+									<div class="slds-grid slds-wrap slds-theme_default slds-box">
+										<div
+											class="slds-m-top_large slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+
+											<h2><strong>Competitor Details</strong></h2>
+										</div>
+
+										<div
+											class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+
+											<span><lightning-textarea  placeholder="type here..." name="Q3" value={question3} onblur={q3value} ></lightning-textarea></span>
+										</div>
+
+									</div>
+									<div class="slds-grid slds-wrap slds-theme_default slds-box">
+										<div
+											class="slds-m-top_large slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+
+											<h2><strong>Any Issue Facing with Product and Services</strong></h2>
+										</div>
+
+										<div
+											class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+
+											<span><lightning-textarea  placeholder="type here..." name="Q2" value={question2} onblur={q2value}></lightning-textarea></span>
+										</div>
+
+									</div>
+									<div class="slds-clearfix slds-m-top_small">
+										<lightning-button variant="brand" class="slds-float_right" label="Save"
+											title="Save" onclick={SaveCheckList}>
+										</lightning-button>
+									</div>
+								</div>
+							</lightning-accordion-section>
+						</lightning-accordion>
+					</div>
+					<footer class="slds-modal__footer">
+					</footer>
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open"></div>
+		</div>
+	</template>
+
+
+	<template if:true={openMapDirectionsPopup}>
+		<section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+			class="slds-modal slds-fade-in-open">
+			<div class="slds-modal__container">
+				<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={mapDirectionsHandlerEnd}>
+                    X
+                </button>
+				<div class="slds-modal__header">
+					<h1 id="modal-heading-05" class="slds-modal__title slds-hyphenate">Today Visit Dealers
+					</h1>
+				</div>
+				<div class="slds-modal__content" id="modal-content-id-5">
+					<c-map-directions></c-map-directions>
+				</div>
+				<div class="slds-modal__footer">
+					<button class="slds-button slds-button_neutral" aria-label="Close" onclick={mapDirectionsHandlerEnd}>Cancel</button>
+				</div>
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+	</template>
+</template>

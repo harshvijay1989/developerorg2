@@ -1,0 +1,21 @@
+<template>
+    <lightning-card >
+        <div class="slds-box" style="margin-left: 15px;width: 94%;height: fit-content;">
+            <input type="file" accept={acceptedFormats} onchange={handleFileChange} style="margin-left: 18px; margin-top: 3px"/>
+            <template if:true={selectedImage}>
+                <div>
+                    <img src={selectedImage} alt="Uploaded Image" height="150px" width="150px" style="margin-left: 18px; margin-top: 20px"/>
+                </div><br/>
+            </template>
+            <div if:true={spinner}>
+                <lightning-spinner 
+                    alternative-text="Loading..." variant="brand">
+                </lightning-spinner>
+            </div>
+        </div>
+        <br>
+        <div>
+            <button  class="custom-button" onclick={saveImage} style="margin-left: 88%;font-size: initial;">Sign</button>
+        </div>
+    </lightning-card>
+</template>

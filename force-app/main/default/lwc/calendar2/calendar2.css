@@ -1,0 +1,37 @@
+.fullcalendarjs {
+  max-width: 1000px;
+  margin: 40px auto;
+}
+.dot1 {
+height: 25px;
+width: 25px;
+background-color: rgba(25, 39, 230, 0.774);
+position: relative; 
+border: 1px solid #dddddd;
+}
+.dot2 {
+ height: 25px;
+width: 25px;
+background-color: rgb(0, 128, 0);
+position: relative; 
+border: 1px solid #dddddd;
+
+}
+.dot3 {
+height: 25px;
+width: 25px;
+background-color: orange;
+position: relative; 
+border: 1px solid #dddddd;
+
+}
+div.dataTables_wrapper {
+      width: 800px;
+      margin: 0 auto;
+  }
+
+  .slds-modal__container {
+    max-width: 100rem !important;
+    width: 80% !important;
+    max-height: 200rem;
+}

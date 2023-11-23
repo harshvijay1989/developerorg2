@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" access="PUBLIC" description="Product update shipping address">
+     <aura:attribute name="param" type="Map"/>
+</aura:event>

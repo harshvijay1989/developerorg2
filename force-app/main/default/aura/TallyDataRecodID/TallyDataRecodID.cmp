@@ -1,0 +1,5 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:attribute name="recordId" type="String" />
+    
+ <c:tallyData recordId="{!v.recordId}" onclose="{!c.closeQA}"></c:tallyData>
+</aura:component>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Order__c</entityName>
+    <fieldName>StageName__c</fieldName>
+    <masterLabel>Order process</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Dispatch_Start_Date__c</fieldNames>
+        <fieldNames>Dispatch_End_Date__c</fieldNames>
+        <picklistValueName>Invoice</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Docket_No__c</fieldNames>
+        <fieldNames>Driver_Name__c</fieldNames>
+        <fieldNames>Truck_No__c</fieldNames>
+        <picklistValueName>Truck Load Challan</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Order</recordTypeName>
+</PathAssistant>

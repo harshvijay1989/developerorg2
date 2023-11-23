@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Customer_Agreed_InReview_validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    ISPICKVAL( Status , &quot;In Review&quot;),
+    NOT( Customer_Agreed__c )
+)</errorConditionFormula>
+    <errorMessage>Customer should be agreed before sending mail to MD</errorMessage>
+</ValidationRule>

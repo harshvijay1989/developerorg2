@@ -1,0 +1,38 @@
+<template>
+	<template if:true={accounts}>
+		<div class="slds-grid slds-wrap thickerbg">
+			<div
+				class="slds-p-left_medium thicker slds-col slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-size_6-of-12">
+				<span>Name</span>
+			</div>
+			<div
+				class="thicker slds-col slds-p-left_xx-large slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-size_6-of-12">
+				<span>Action</span>
+			</div>
+		</div>
+		<div class="slds-grid slds-wrap">
+			<div class="slds-col slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12">
+				<span>
+					<template for:each={accounts} for:item="account">
+                        <div key={account.Id} class="slds-grid slds-wrap">
+				<div class="slds-p-top_x-small  slds-p-left_medium slds-col slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-size_6-of-12">
+					<span>{account.Name}</span>
+			</div>
+			<br/>
+			<div
+				class="slds-col slds-p-top_x-small slds-clearfix slds-float_right slds-m-top_xx-small slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-size_6-of-12">
+				<span>
+					<lightning-button class="slds-m-left_x-large" label="MOVE" onclick={redirectToGoogleMaps} icon-name="utility:checkin"  value={account}
+						title="Move to Google Maps">
+						</lightning-button>
+                        </span>
+			</div>
+		</div>
+	</template></span>
+	</div>
+	</div>
+</template>
+<template if:true={error}>
+	<div class="slds-text-color_error">{error}</div>
+</template>
+</template>

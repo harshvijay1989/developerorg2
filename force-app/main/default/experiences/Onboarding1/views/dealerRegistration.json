@@ -1,0 +1,46 @@
+{
+  "appPageId" : "b2b0fbd2-087e-4462-a7be-e45af45c9fc8",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "dataProviders" : [ ],
+  "id" : "7d728e4f-1656-4885-8c41-fbd40c456cd1",
+  "label" : "Dealer Registration",
+  "regions" : [ {
+    "id" : "586b843b-babe-40c6-9bd9-1b9b368e59d8",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:dms_BasicDetailsAccount",
+      "id" : "cc1b7166-3795-48d1-ab03-ea8671b86dde",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "8d329955-1d98-4cb9-997d-df1d290fd5f6",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "abfd9bdf-e59b-4912-b8e8-6e75b28cab8a",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Dealer Registration"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "6774110f-3f26-4992-9519-a08b83a20696",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "c229d417-f6ab-496e-b375-b94d6713fa34",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-dealer-registration"
+}

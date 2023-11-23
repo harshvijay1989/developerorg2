@@ -1,0 +1,29 @@
+<template>
+	<table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_fixed-layout">
+		<thead>
+			<tr class="table-header">
+				<th style="width:55px; background-color: #0831a9; color:white;">S.No.</th>
+				<th style="width:160px; background-color: #0831a9;color:white;">Elements Name</th>
+				<th style="width:70px; background-color: #0831a9;color:white;">Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<template for:each={tableData} for:item="record" for:index="index">
+				<tr key={record.SNo}>
+					<td>{record.SNo}</td>
+					<td>{record.Description}</td>
+					<td>
+						<lightning-icon style="cursor: pointer;" vari ant="brand" icon-name="utility:copy"  data-index={index} onclick={handleCopyClick}
+							class="slds-p-bottom_medium" size="xx-small" ></lightning-icon>
+					</td>
+				</tr>
+			</template>
+		</tbody>
+	</table>
+
+    <c-address-with-table table-from-parent={parentData} onmodalhide={modalHide}></c-address-with-table>
+
+
+
+
+</template>

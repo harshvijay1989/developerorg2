@@ -1,0 +1,60 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 10-03-2023
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+	<!-- {urlId} -->
+	<lightning-button icon-name="utility:back" label="Back" onclick={closeDetails}></lightning-button>
+	<br />
+	<br />
+	<template if:true={showDetails}>
+		<div class="slds-grid slds-wrap">
+			<div class="slds-col slds-large-size_4-of-12 slds-medium-size_6-of-12 slds-size_12-of-12">
+				<!-- <iframe style="width:348px; height:400px;" src="https://primeavianfeed-dev-ed--c.develop.vf.force.com/resource/1697739782000/FIveDiscount?"></iframe> -->
+			<img  style="width:348px; height:400px;"  src={companyLogo}/>
+			</div>
+			<div class="slds-col slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-size_12-of-12">
+				<p style="font-size:30px"><strong>{scheme.Name}</strong></p>
+				<br/>
+				<p style="font-size:15px">{scheme.Description__c}</p>
+				<br/>
+				<br/>
+				<lightning-button variant="brand" label="Order Now" onclick={handleOrderModal}>
+				</lightning-button>
+			</div>
+		</div>
+	</template>
+
+	<div class="custom-modal" if:true={isShowModel}>
+		<section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+			class="slds-modal slds-fade-in-open slds-modal_small">
+			<div class="slds-modal__container">
+				<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+					onclick={handleOrderModal}>X</button>
+				<div class="slds-modal__header">
+					<h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Place an Order</h1>
+				</div>
+				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+					<c-dms_create-order-cmp schemeid={urlId}></c-dms_create-order-cmp>
+					<!-- <c-dms_-Place-Order screen-type="scheme" scheme-id={scheme.Id}></c-dms_-Place-Order> -->
+				</div>
+				<!-- <div class="slds-modal__footer">
+					<div class="slds-clearfix">
+						<div class="slds-float_left">
+							
+						</div>
+						<div class="slds-float_right">
+							<button class="slds-button slds-button_neutral" aria-label="Cancel and close"
+								onclick={handleOrderModal}>Cancel</button>
+							<button class="slds-button slds-button_brand" onclick={handlePlaceOrder}>Place</button>
+						</div>
+					</div>
+				</div> -->
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+	</div>
+</template>

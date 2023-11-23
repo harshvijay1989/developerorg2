@@ -1,0 +1,95 @@
+.container{
+	background: #f5f5f5;
+	padding-top: 5px;
+	height: 124vh;
+}
+.center-header{
+	float: left;
+    width: 68%;
+    position: relative;
+    height: 120vh;
+    background: white;
+    border-radius: 4px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    margin-top: 10px;
+}
+.right{	  
+	float: right;
+    width: 83%;
+    margin-right: 8px;
+}
+.left{
+	margin-left: 10px;
+    width: 15%;
+	height: 120vh;
+	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    background: white;
+	margin-top: 9px;
+    border-radius: 3px;
+}
+
+.custom-button{
+    font-size: initial;
+	background: white;
+    padding: 9px;
+    border: 1px solid #ece5e5;
+    width: 173px;
+	margin: -5px;
+	cursor: pointer;
+	-webkit-touch-callout: none; 
+    -webkit-user-select: none; 
+    -khtml-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none; 
+}
+.custom-button:hover{
+	background-color : #f8f8f8;
+}
+
+
+
+ /* .center-header{
+	float: left;
+    width: 68%;
+    position: relative;
+    height: 120vh;
+    background: white;
+    border-radius: 4px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    margin-top: 10px;
+}*/
+table {
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+
+}
+.slds-modal__container {
+    max-width: 80rem !important;
+    width: 90% !important;
+    max-height: 80rem !important;
+    height: 80% !important;
+}
+.field-Div{
+width: 250px;
+}
+.divboxSize{
+    width: 700px;
+    height: 800px;
+}
+.col-label {
+  font-weight: bold;
+}
+
+.col-value {
+    font-weight: bold;
+  word-break: break-all;
+}
+.col-null{
+    font-weight: bold;
+    width: 100px;
+}

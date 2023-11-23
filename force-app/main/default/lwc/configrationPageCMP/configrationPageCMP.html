@@ -1,0 +1,370 @@
+<template>
+	<div style="background-color: #EFEFEF;">
+		<div class="sidebar slds-split-view_container slds-is-closed close-panel" data-my-id="leftPanel"
+			style="float:left; height:770px;background-color: #EFEFEF;">
+			<lightning-button-icon onclick={togglePanel} variant="bare" icon-name="utility:left"
+				class="slds-button slds-button_icon slds-button_icon slds-split-view__toggle-button sidebar-button"
+				aria-controls="split-view-id" aria-expanded="true">
+			</lightning-button-icon>
+			<article aria-hidden="false" id="split-view-id"
+				class="slds-split-view slds-grid slds-grid_vertical slds-grow"
+				style="padding-right:9px; width:auto;border-radius: 8px 7px 31px 1px;border: groove;">
+
+				<lightning-vertical-navigation selected-item="reports_recent" onselect={handleSelect}>
+					<div class="slds-box"
+						style="background-color:#4B5D78; text-align: center;font-size: 18px;margin-top:3%;color: white; padding:2%;border-radius: 4px 4px 2px 2px;width: 100%;">
+						Elements</div>
+
+					<lightning-vertical-navigation-item-icon label="Keywords" name="Keywords"
+						onclick={handleKeywordTemplate} icon-name="standard:bundle_config"
+						style="font-size: revert; font-weight:600;" size="large">
+					</lightning-vertical-navigation-item-icon>
+
+					<lightning-vertical-navigation-item-icon label="Header&Footer" name="reports_private"
+						icon-name="standard:data_integration_hub" style="font-size:revert;font-weight:600;" size="large"
+						onclick={handleHeaderAndFooter}>
+					</lightning-vertical-navigation-item-icon>
+
+					<lightning-vertical-navigation-item-icon label="Merge Field" name="Merge Field"
+						onclick={getShowMergeFields} icon-name="standard:merge"
+						style="font-size:revert;font-weight:600;" size="large">
+					</lightning-vertical-navigation-item-icon>
+
+					<lightning-vertical-navigation-item-icon label="Select Profile" name="Permission"
+						onclick={handlePermissionModal} icon-name="standard:avatar"
+						style="font-size: revert; font-weight:600;" size="large">
+					</lightning-vertical-navigation-item-icon>
+
+					<lightning-vertical-navigation-item-icon label="File Upload" name="File" onclick={handleFileModal}
+						icon-name="standard:document_preview" style="font-size: revert; font-weight:600;" size="large">
+					</lightning-vertical-navigation-item-icon>
+
+					<br>
+					<div if:true={showFileUpload}  variant="hidden">
+						<input type="file"  style="width: 44%;margin-left: 18%; color:#F3F3F3;" accept=".docx" onchange={handleFileChange}/>
+						<br>
+						<br>
+						<div style="margin-left: 18%;">{showFileName}</div>
+
+					</div>
+
+
+					<template if:true={showSpinner2}>
+						<lightning-spinner alternative-text="Loading"></lightning-spinner>
+					</template>
+					<!-- <template if:true={fileContent2}>
+							<div class="slds-m-around_medium">
+								<lightning-button label="Next" onclick={displayFileContent}></lightning-button>
+							</div>
+						</template> -->
+
+
+				</lightning-vertical-navigation>
+
+				<br/>
+	</article>
+		</div>
+
+		<!-- right panel parent start  -->
+		<div style="float:right;padding-left:10px;" data-my-id="rightPanel" class="expand-panel">
+			<div class="slds-grid slds-gutters wrapped-content; position: fixed;overflow-y: hidden;">
+				<!-- ck ediotr start  -->
+				<div
+					style="width:65%;height:490px; box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;padding: 2px;background-color: white;">
+					<div lwc:ref="contant" style="width:100%;" class="parent-div">
+						<div class="editEditable parent-div" onclick={handleContentEdit} ref={divRef}>
+							<div>
+								<template if:false={iframeIsVsbl}>
+									<template if:true={isURLNotBlank}>
+										<iframe src={ckEditoriframeUrl} id="myIframe" height="770px" width="100%"
+											frameborder="0" title="Invoice Editor"
+											class="over"
+											style="display: block; overflow: hidden; max-height: 100%;"></iframe>
+									</template>
+								</template>
+								<template if:true={iframeIsVsbl}>
+									<template if:true={isURLNotBlank}>
+										<iframe src={ckEditoriframeUrl} id="myIframe2" height="770px" width="100%"
+											frameborder="0" title="Invoice Editor"
+											class="over"
+											style="display: block; overflow: hidden; max-height: 100%;"></iframe>
+									</template>
+								</template>
+							</div>
+						</div>
+					</div>
+
+					<div class="slds-docked-form-footer" style="padding:13px;margin-left:0%;">
+						<lightning-button style="margin-left: 275px;" label="Preview" variant="brand-outline"
+							class="slds-m-left_medium" onclick={handleFinalPreview}
+							disabled={disabledFinalPreviewButton}>
+						</lightning-button>
+						<lightning-button label="Next" variant="brand" onclick={saveDocTemplateRecords}
+							class="slds-m-left_x-small" disabled={disabledSaveButton} if:true={NextButtonVisible}>
+						</lightning-button>
+
+						<lightning-button class="slds-m-left_medium" if:true={saveAsButtonVisible} variant="brand"
+							label="Save As" title="Save" onclick={handlSaveAs} disabled={disabledSaveAsButton}>
+						</lightning-button>
+					</div>
+				</div>
+
+				<!-- third block start -->
+
+				<div class="slds-col" style="width:300px; height: 770px; background-color:#efeffa;">
+					<span >
+		<div style="padding:0px;margin-right:10px">
+			<template if:true={headerFooterConfig}> 
+					<c-pre_-configuration  onselected={handleHeaderAndFooterEvent}
+					onblanckselectedheader={selectedNoneHeaderFooter}
+					onselectedconfig={handleConfigName}
+					selected-config-name={selectedHeaderFooterConfigName}
+					></c-pre_-configuration>
+				</template> 
+		</div>
+		<div style="padding:0px;margin-right:10px">
+		<template if:true={isKeywordOpen}> 
+					<c-invoice-keywords></c-invoice-keywords>
+				</template> 
+				</div>
+		<template if:true={isShowSign}>
+			Hello Please Sign Here      
+		</template>  
+		<template if:true={isShowMergeFields} class="wrapped-content">
+			<c-merge-fields-cmp selected-object-name={selectedObjectName}></c-merge-fields-cmp>
+		</template> 
+	</span>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- modal start -->
+		<template if:true={isShowModal}>
+			<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+				aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+					<!-- modal header start -->
+					<header class="slds-modal__header"
+						style="margin-left: 15%;height: 7vh;padding-top: 0%;width:65%; background-color:#4B5D78;color: white;font-size: x-large;font-weight: 500;">
+						Select Profile
+						<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideModalBox}>
+		<lightning-icon icon-name="utility:close"
+			alternative-text="close"
+			variant="inverse"
+			size="small" ></lightning-icon>
+		<span class="slds-assistive-text">Close</span>
+		</button>
+
+					</header>
+					<!-- modal body start -->
+					<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1"
+						style="width:65%;margin-left: 15%;">
+						<!-- //<c-profile-_permission onsenddata={handleChildData} show-from-parent={dataToSendAgain} ></c-profile-_permission> -->
+						<div class="slds-box" variant="label-hidden"
+							style="background-color: white;width: 95%;height: max-content;margin-left: 2%;">
+							<table class="slds-table slds-table_cell-buffer slds-table_bordered validate">
+								<thead>
+									<tr>
+										<th style="color:black; font-size: 16px; padding: 8px; line-height: 1.428571;">
+											All Profiles </th>
+										<th>
+											<lightning-input type="checkbox" checked={selectAllChecked}
+												onchange={handleSelectAllChange}>
+											</lightning-input>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<template for:each={profiles} for:item="profile">
+										<tr key={profile.Id}>
+											<td style="color:black;font-size:16px;padding:8px;line-height:1.428571;">
+												{profile.Name}</td>
+											<td>
+												<lightning-input type="checkbox" checked={profile.HasReadPermission}
+													onchange={handleReadChange} data-profile-id={profile.Id}
+													value={checkdValue}>
+												</lightning-input>
+											</td>
+										</tr>
+									</template>
+								</tbody>
+							</table>
+
+						</div>
+					</div>
+
+					<!-- modal footer start-->
+					<footer class="slds-modal__footer" style="width:65%;margin-left: 15%;">
+						<button class="slds-button slds-button_neutral" onclick={hideModalBox}>Cancel</button>
+						<button class="slds-button slds-button_brand"   onclick={handleChildDataOkButton}>OK</button>
+					</footer>
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open"></div>
+		</template>
+		<!-- modal end -->
+
+
+
+		<div class="custom-modal" if:true={finalPreview}>
+			<section role="dialog" class="slds-modal slds-fade-in-open ">
+				<div class="slds-modal__container">
+
+					<span class="slds-modal__close">
+				<lightning-icon icon-name="utility:close" variant="inverse" alternative-text="close" onclick={hideModel}></lightning-icon>
+			</span>
+					<lightning-modal-header label="Preview Template" class="my-modal-header textClass"
+						style="height:50px"></lightning-modal-header>
+
+					<div class="slds-modal__content slds-p-around_medium contentContainer">
+						<div lwc:ref="contant" style="width: 100%;" class="preview-page">
+
+							<div>
+								<div style={headerConatinerCSS} class="header">
+									<img src={attachmentBase64}  style={imgPosition} />
+									<div style="flex: 1;">
+										<p style={headerTextStyle}>{headerText}</p>
+									</div>
+								</div>
+							</div>
+
+							<div style="padding: 15px;" class="body">
+								<lightning-formatted-rich-text value={ckEditorData}></lightning-formatted-rich-text>
+							</div>
+
+
+							<div class="footer" >
+								<div style={footerConatinerCSS}>
+									<div style="flex: 1;">
+										<p style={footerTextStyle}>{footerText}</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<lightning-modal-footer>
+						<lightning-button variant="Brand" label="OK" title="Primary action" onclick={handlePreviewSave}
+							class="slds-m-left_x-small button"></lightning-button>
+					</lightning-modal-footer>
+				</div>
+
+			</section>
+			<div class="slds-backdrop slds-backdrop_open"></div>
+		</div>
+
+		<div class="custom-modal" if:true={openSaveAsPopUp}>
+			<section role="dialog" class="slds-modal slds-fade-in-open" style="margin-left: 348px;width: 50%;">
+				<div class="slds-modal__container"> -->
+
+					<div class="slds-modal__content slds-p-around_medium">
+						<div if:true={isShowNewTemplateHeading}
+							style=" background-color: #4B5D78; margin-top: -16px; width: 110%; margin-left: -16px; height: 48px;">
+							<!-- <h2
+						style="margin-top:;font-weight: inherit;font-size: 23px;font-size: x-large;text-align: center; color: white;padding-top:5px">
+						Document Template</h2> -->
+
+							<h2 if:true={newVersion} class="template-heading">New Document Version</h2>
+							<h2 if:true={newTemplate} class="template-heading">New Document Template</h2>
+						</div>
+						<!--<lightning-modal-header label="Select Contact" class="my-modal-header textClass"></lightning-modal-header>-->
+
+						<div if:true={isShowSaveAsHeading}
+							style=" background-color: #4B5D78; margin-top: -16px; width: 108%; margin-left: -16px; height: 48px;">
+							<h2
+								style="margin-top:;font-weight: inherit;font-size: 23px;font-size: x-large;text-align: center; color: white;">
+								Save As</h2>
+						</div>
+
+
+						<div if:true={saveAsButtonVisible}>
+							<lightning-layout multiple-rows>
+								<lightning-layout-item size="12" padding="around-small" small-device-size="3"
+									medium-device-size="6" large-device-size="12">
+									<div style="text-align: center;">
+										<fieldset class="slds-form-element">
+
+											<div class="slds-form-element__control">
+												<div class="slds-radio_button-group">
+													<span class="slds-button slds-radio_button">
+															<input type="radio" name="example-unique-name-92" id="example-unique-id-94" value="monday" onclick={handleNewVersion} />
+															<label class="slds-radio_button__label" for="example-unique-id-94">
+															<span class="slds-radio_faux">New Version</span>
+													</label>
+													</span>
+													<span class="slds-button slds-radio_button">
+															<input type="radio" name="example-unique-name-92" id="example-unique-id-95" value="tuesday" onclick={handleNewTemplate}/>
+															<label class="slds-radio_button__label" for="example-unique-id-95">
+															<span class="slds-radio_faux">New Template</span>
+													</label>
+													</span>
+
+
+
+												</div>
+											</div>
+										</fieldset>
+
+									</div>
+								</lightning-layout-item>
+							</lightning-layout>
+						</div>
+						<!-- if:true={saveAsTemplate} -->
+
+						<div style="background: white; padding: 10px;">
+							<div if:true={isLoaded} class="slds-is-relative">
+								<lightning-spinner alternative-text="Loading..." variant="brand">
+								</lightning-spinner>
+							</div>
+
+							<div if:true={isTemplateVisible}>
+								<lightning-layout multiple-rows>
+									<lightning-layout-item size="12" padding="horizontal-small" small-device-size="3"
+										medium-device-size="6" large-device-size="6">
+										<div class="custom-box">
+											<lightning-input type="text" variant="standard" name="name" label="Label"
+												placeholder="type here..." class="template-Name" data-field="Name"
+												required="true">
+											</lightning-input>
+										</div>
+									</lightning-layout-item>
+									<lightning-layout-item size="12" padding="horizontal-small" small-device-size="3"
+										medium-device-size="6" large-device-size="6">
+										<div class="custom-box">
+											<lightning-combobox name="progress" label="Object"
+												value={selectedObjectName} placeholder="Select Progress"
+												options={objectNameOptions} onchange={handleChangeObjectNameForEdit}
+												disabled>
+											</lightning-combobox>
+										</div>
+									</lightning-layout-item>
+									<lightning-layout-item size="12" padding="horizontal-small" small-device-size="3"
+										medium-device-size="6" large-device-size="6">
+										<div style=" margin-top: 11px;">
+											<lightning-input type="checkbox" variant="standard" name="name"
+												label="Active" placeholder="type here..." data-field="isActiove__c"
+												onchange={handleCheckBox}>
+											</lightning-input>
+										</div>
+									</lightning-layout-item>
+								</lightning-layout>
+							</div>
+						</div>
+					</div>
+
+					<lightning-modal-footer>
+						<lightning-button label="Cancel" title="Cancel" class="slds-m-right_small"
+							onclick={closeSaveAsPopUp}></lightning-button>
+						<lightning-button variant="brand" label="Save" title="Save" onclick={handleTemplateSave}
+							class="button">
+						</lightning-button>
+					</lightning-modal-footer>
+
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open"></div>
+		</div>
+	</div>
+</template>

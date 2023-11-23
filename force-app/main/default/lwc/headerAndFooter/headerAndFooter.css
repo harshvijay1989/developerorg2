@@ -1,0 +1,72 @@
+:host {
+    --slds-c-modal-content-color-background: white;
+}
+.my-modal-header{
+    --slds-c-modal-header-color-background: #4b5d78;
+   --slds-c-modal-header-text-color : #fff;
+}
+/* style="background-color: #4b5d78; color: white;" */
+.custom-modal{
+    width: 75%;
+    border: 1px solid #e6e4df;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    margin-top: 19px;
+}
+.custom-button-group{
+    float: right;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+.img{
+    height: 45px;
+    width: 10%;
+    margin-top: 10px;
+}
+.imag-pop-up{
+    padding: 2px;
+    height: 45px;
+    width: 70px;
+    margin-top: 15px;
+    margin-left: 9px;
+}
+
+.logo-button {
+    font-size: 12px;
+    padding: 3px;
+    background-color: #e6e4df;
+    margin: 8px;
+    border-radius: 5px;
+    color: blak;
+    border: 1px solid #b1afaf;
+    cursor: pointer;
+   
+}
+.right{
+	float: right;
+    width: 100%;
+    margin-right: 13px;
+    padding: 3px;
+    background: #e6e4df;
+    margin: 2px;
+}
+.left{	
+	background-color: #e6e4df;
+    width: 100%;
+    padding: 3px;
+}
+.container{
+	margin-left: 13px;
+}
+.logo{
+    background-color: #e6e4df;
+	width: 99%;
+    padding: 4px;
+    margin: 12px;
+}
+.modalheader{
+  background-color: #4B5D78;
+  text-align: center; 
+  height: 45px;
+  padding-top:8px;
+   color: white;
+}

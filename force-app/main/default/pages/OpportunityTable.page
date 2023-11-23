@@ -1,0 +1,308 @@
+<apex:page controller="VFPadCtrl"  showHeader="false" action="{!updateList}">
+    <apex:includeScript value="{!URLFOR($Resource.WordPad, 'ckeditor.js')}"/>
+    <!--<apex:includeScript value="{!URLFOR($Resource.WordPad, 'samples/js/sample.js')}"/>-->
+    <apex:styleSheet value="{!URLFOR($Resource.WordPad, 'samples/css/samples.css')}"/>
+    <apex:styleSheet value="{!URLFOR($Resource.WordPad, 'samples/toolbarconfigurator/lib/codemirror/neo.css')}"/>
+    
+    <div id="recordId" style="width:100%" class="recordId"></div>
+    <div id="editor" style="overflow: hidden;">
+          <apex:outputText escape="false" value=" {!fileContent}"> </apex:outputText>
+    </div>
+    <body onload="init();"/>
+    <script>
+    
+    var lexOrigin = '{!orgBaseURL}';
+    function init(){  
+        sendToLWC();
+        console.log('lexOriginUrl: ', lexOrigin);
+    } 
+    
+    CKEDITOR.on('dialogDefinition', function( ev ) {	
+        var diagName = ev.data.name;
+        var diagDefn = ev.data.definition;
+        
+        if(diagName === 'table') {
+            var infoTab = diagDefn.getContents('info');
+            console.log('check : ',infoTab);
+            var cellSpace = infoTab.get('txtCellSpace');
+            console.log(cellSpace);
+            cellSpace['default'] = "0";
+            var width = infoTab.get('txtWidth');
+            console.log(width);  
+            width['default'] = "100%";
+            
+        }
+        if ( diagName == 'tableProperties' )
+                {
+                    var tab = diagDefn.getContents( 'advanced' );
+                    var styCss = tab.get('advStyles');
+                    styCss['default'] = "border:1px solid black !important;";
+                }
+    });
+    CKEDITOR.replace( 'editor', {
+        //uiColor: '#CCEAEE',
+        height : "525",
+        extraPlugins: 'editorplaceholder',
+        editorplaceholder: 'Start typing here...',
+        extraPlugins: 'colordialog,tableresize',
+        allowedContent: true,
+        extraPlugins: 'divarea',
+        extraPlugins: 'uicolor'
+    }); 
+
+     
+    window.addEventListener("message",function(event){
+        if(event.origin !== lexOrigin){
+             console.log('lexOrigin ', lexOrigin);
+             console.log('event.origin ', event.origin);
+            return;  //Not the expected origin
+             
+        } 
+              console.log('lexOrigin external', lexOrigin);
+              console.log('event.origin external', event.origin);
+        
+        if(event.data == 'CKEDIOR_EMPTY'){
+            setEditorAsEmpty(); 
+        }
+        else sendToLWC();
+    },false);
+    
+     function setEditorAsEmpty() {
+      	CKEDITOR.instances.editor.setData("");
+     }
+    
+    function sendToLWC() {
+        var htmlData = CKEDITOR.instances.editor.getData();
+        var plainText = CKEDITOR.instances.editor.editable().getText();
+        htmlData = `<div width="100%" style="width:100% !important">${htmlData}</div>`;
+        var ObjectNameFromVF =  window.location.href;
+        console.log('VF_PAGE_LOG',htmlData, plainText,ObjectNameFromVF);
+        
+        var message = {	
+            name:"CKEDITOR_VALUE_EVENT",
+            payload:{htmlData, plainText,ObjectNameFromVF}
+                    };
+                     parent.postMessage(message, lexOrigin); //fire event
+                    }
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     /**
+ * @license Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
+ * CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extended Support Model.
+ 
+
+( function() {
+
+	function setupAdvParams( element ) {
+		var attrName = this.att;
+
+		var value = element && element.hasAttribute( attrName ) && element.getAttribute( attrName ) || '';
+
+		if ( value !== undefined )
+			this.setValue( value );
+	}
+
+	function commitAdvParams() {
+		// Dialogs may use different parameters in the commit list, so, by
+		// definition, we take the first CKEDITOR.dom.element available.
+		var element;
+
+		for ( var i = 0; i < arguments.length; i++ ) {
+			if ( arguments[ i ] instanceof CKEDITOR.dom.element ) {
+				element = arguments[ i ];
+				break;
+			}
+		}
+
+		if ( element ) {
+			var attrName = this.att,
+				value = this.getValue();
+
+			if ( value )
+				element.setAttribute( attrName, value );
+			else
+				element.removeAttribute( attrName, value );
+		}
+	}
+
+	var defaultTabConfig = { id: 1, dir: 1, classes: 1, styles: 1 };
+
+	CKEDITOR.plugins.add( 'dialogadvtab', {
+		requires: 'dialog',
+
+		// Returns allowed content rule for the content created by this plugin.
+		allowedContent: function( tabConfig ) {
+			if ( !tabConfig )
+				tabConfig = defaultTabConfig;
+
+			var allowedAttrs = [];
+			if ( tabConfig.id )
+				allowedAttrs.push( 'id' );
+			if ( tabConfig.dir )
+				allowedAttrs.push( 'dir' );
+
+			var allowed = '';
+
+			if ( allowedAttrs.length )
+				allowed += '[' + allowedAttrs.join( ',' ) +  ']';
+
+			if ( tabConfig.classes )
+				allowed += '(*)';
+			if ( tabConfig.styles )
+				allowed += '{*}';
+
+			return allowed;
+		},
+
+		// @param tabConfig
+		// id, dir, classes, styles
+		createAdvancedTab: function( editor, tabConfig, element ) {
+			if ( !tabConfig )
+				tabConfig = defaultTabConfig;
+
+			var lang = editor.lang.common;
+
+			var result = {
+				id: 'advanced',
+				label: lang.advancedTab,
+				title: lang.advancedTab,
+				elements: [ {
+					type: 'vbox',
+					padding: 1,
+					children: []
+				} ]
+			};
+
+			var contents = [];
+
+			if ( tabConfig.id || tabConfig.dir ) {
+				if ( tabConfig.id ) {
+					contents.push( {
+						id: 'advId',
+						att: 'id',
+						type: 'text',
+						requiredContent: element ? element + '[id]' : null,
+						label: lang.id,
+						setup: setupAdvParams,
+						commit: commitAdvParams
+					} );
+				}
+
+				if ( tabConfig.dir ) {
+					contents.push( {
+						id: 'advLangDir',
+						att: 'dir',
+						type: 'select',
+						requiredContent: element ? element + '[dir]' : null,
+						label: lang.langDir,
+						'default': '',
+						style: '',
+						items: [
+							[ lang.notSet, '' ],
+							[ lang.langDirLTR, 'ltr' ],
+							[ lang.langDirRTL, 'rtl' ]
+						],
+						setup: setupAdvParams,
+						commit: commitAdvParams
+					} );
+				}
+
+				result.elements[ 0 ].children.push( {
+					type: 'hbox',
+					widths: [ '50%', '50%' ],
+					children: [].concat( contents )
+				} );
+			}
+
+			if ( tabConfig.styles || tabConfig.classes ) {
+				contents = [];
+
+				if ( tabConfig.styles ) {
+					contents.push( {
+						id: 'advStyles',
+						att: 'style',
+						type: 'text',
+						requiredContent: element ? element + '{cke-xyz}' : null,
+						label: lang.styles,
+						'default': 'width:50%',
+
+						validate: CKEDITOR.dialog.validate.inlineStyle( lang.invalidInlineStyle ),
+						onChange: function() {},
+
+						getStyle: function( name, defaultValue ) {
+							var match = this.getValue().match( new RegExp( '(?:^|;)\\s*' + name + '\\s*:\\s*([^;]*)', 'i' ) );
+							return match ? match[ 1 ] : defaultValue;
+						},
+
+						updateStyle: function( name, value ) {
+							var styles = this.getValue();
+
+							var tmp = editor.document.createElement( 'span' );
+							tmp.setAttribute( 'style', styles );
+							tmp.setStyle( name, value );
+							styles = CKEDITOR.tools.normalizeCssText( tmp.getAttribute( 'style' ) );
+
+							this.setValue( styles, 1 );
+						},
+
+						setup: setupAdvParams,
+
+						commit: commitAdvParams
+
+					} );
+				}
+
+				if ( tabConfig.classes ) {
+					contents.push( {
+						type: 'hbox',
+						widths: [ '45%', '55%' ],
+						children: [ {
+							id: 'advCSSClasses',
+							att: 'class',
+							type: 'text',
+							requiredContent: element ? element + '(cke-xyz)' : null,
+							label: lang.cssClasses,
+							'default': '',
+							setup: setupAdvParams,
+							commit: commitAdvParams
+
+						} ]
+					} );
+				}
+
+				result.elements[ 0 ].children.push( {
+					type: 'hbox',
+					widths: [ '50%', '50%' ],
+					children: [].concat( contents )
+				} );
+			}
+
+			return result;
+		}
+	} );
+
+} )();*/
+                     </script>
+    
+    <apex:includeLightning />
+    <apex:outputPanel rendered="{!recId!=Null}">
+        <apex:outputText value="{!$CurrentPage.parameters.htmlParam}" escape="false"/>
+    </apex:outputPanel>
+    <div id="lwcContainer"></div>
+</apex:page>

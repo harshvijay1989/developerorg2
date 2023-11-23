@@ -1,0 +1,9 @@
+<apex:page standardController="Order__c">
+    <apex:includeLightning />
+    <div id="auraComponent"></div>
+    <script>
+        $Lightning.use("c:YourApp", function () {
+            $Lightning.createComponent("c:OrderCreate", {}, "auraComponent");
+        });
+    </script>
+</apex:page>

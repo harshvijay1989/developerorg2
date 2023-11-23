@@ -1,0 +1,24 @@
+<template>
+    <!-- <h1>Testing 2222</h1> -->
+    <template if:true={showComponent}>
+
+     <template if:true={isLoading}>
+             <lightning-spinner alternative-text="Loading" variant="brand" size="medium">
+             </lightning-spinner>
+        </template>
+ <template if:true={showDocument}>
+     
+        <div class="main">
+        <iframe src={vfPageUrllink} width="100%" height="400px" margin-top="2%" frameborder="0"
+									scrolling="auto"></iframe>
+        <div class="modal-footer slds-modal__footer slds-size_1-of-1">
+            <div class="forceChangeRecordTypeFooter">
+                <lightning-button variant="brand" label="Send Mail " title="titleName"
+                    onclick={sendmail}></lightning-button>
+            </div>
+        </div>
+        </div>
+        
+ </template>
+    </template> 
+</template>

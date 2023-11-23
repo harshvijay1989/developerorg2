@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Beat_Plan_Matrix</fullName>
+    <columns>NAME</columns>
+    <columns>Beat_Group__c</columns>
+    <columns>Dealer__c</columns>
+    <columns>ASM__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Beat_Matrix__c.Beat_Plan_Matrix</value>
+    </filters>
+    <label>Beat Plan Matrix</label>
+</ListView>

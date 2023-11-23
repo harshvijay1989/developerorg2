@@ -1,0 +1,56 @@
+<template>
+    <lightning-card >
+       <lightning-combobox
+            name="progress"
+            label="Status"
+            value={selectValue}
+            placeholder="Select Progress"
+            options={optionslist}
+            onchange={handleComboChange} ></lightning-combobox>
+        
+    </lightning-card>
+    <lightning-card >
+       <template if:true={showDuelBox}>
+                <lightning-dual-listbox name="Fields Selection"
+                                    label="Select Fields"
+                                    source-label="Available"
+                                    selected-label="Selected"
+                                    field-level-help="Select your Fields in Box"
+                                    options={options}
+                                    onchange={handleChange}></lightning-dual-listbox>
+        </template>    
+        <lightning-button variant="base" label="Preview" title="Preview" onclick={handlePreview}></lightning-button>
+        <template if:true={showContentBox}>
+             <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- modal header start -->
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideModalBox}>
+                            <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{selectValue} &nbsp; Table Preview</h2>
+                    </header>
+                
+                    <!-- modal body start -->
+                    <div class="slds-modal__content slds-p-around_medium my-class" id="modal-content-id-1" style="overflow: scroll;">
+                            <lightning-formatted-rich-text
+                                value={htmlTableBody}                          
+                            ></lightning-formatted-rich-text>
+                    </div>
+
+                    <!-- modal footer start-->
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={copyHtmlBodyContent}>Copy Table</button>
+                        <button class="slds-button slds-button_neutral" onclick={hideModalBox}>Cancel</button>
+                    </footer>
+                
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </lightning-card>
+</template>

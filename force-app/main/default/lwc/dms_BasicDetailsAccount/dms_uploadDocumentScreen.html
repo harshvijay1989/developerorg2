@@ -1,0 +1,76 @@
+<template>
+	<div class="slds-grid slds-wrap">
+		<div class="slds-col slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12">
+			<div class="container" style="max-width: 600px; margin: 0 auto; padding: 10px; border-radius: 5px; margin-top:5px;">
+				<div class="content">
+					<div class="form" style="background: #fff; padding: 20px; border: 1px solid #ddd; border-radius: 5px;">
+
+						<lightning-card>
+							<lightning-accordion allow-multiple-sections-open active-section-name={activeSections}>
+								<lightning-accordion-section name="A" label="Identity Proof">
+									<div class="slds-grid slds-gutters">
+										<div class="slds-col slds-size_1-of-3">
+											<div class="slds-grid slds-gutters">
+												<div class="slds-col slds-size_1-of-2"><img src={imgs}/></div>
+													<div class="slds-col slds-size_1-of-2">
+														<!-- <input type="checkbox" name="options" id="checkbox-unique-id-81" value="checkbox-unique-id-81"/>&nbsp;Identity Proof -->
+													</div>
+												</div>
+											</div>
+											<div class="slds-col slds-size_2-of-3">
+												<h1 class="slds-text-heading_small slds-m-bottom_x-small">Identity Proof
+												</h1>
+												<p>Upload individual identity proof.</p>
+												<lightning-file-upload label="" name="fileUploader"
+													accept={acceptedFormats} record-id={dealerId}
+													onuploadfinished={handleUploadFinished}>
+												</lightning-file-upload>
+											</div>
+										</div>
+								</lightning-accordion-section>
+
+
+								<lightning-accordion-section name="B" label="PAN Card">
+									<div class="slds-grid slds-gutters">
+										<div class="slds-col slds-size_1-of-3">
+											<div class="slds-grid slds-gutters">
+												<div class="slds-col slds-size_1-of-2"><img src={imgsPan}/></div>
+													<div class="slds-col slds-size_1-of-2">
+														<!-- <input type="checkbox" name="options" id="checkbox-unique-id-82" value="checkbox-unique-id-81"/>&nbsp;PAN Card -->
+													</div>
+												</div>
+											</div>
+											<lightning-file-upload label="" name="fileUploader" accept={acceptedFormats}
+												record-id={dealerId} onuploadfinished={handleUploadFinished}>
+											</lightning-file-upload>
+										</div>
+								</lightning-accordion-section>
+
+								<lightning-accordion-section name="C" label="Other Documents">
+									<div class="slds-grid slds-gutters">
+										<div class="slds-col slds-size_1-of-3">
+											<div class="slds-grid slds-gutters">
+												<div class="slds-col slds-size_1-of-2"><img src={imgsDoc}/></div>
+													<div class="slds-col slds-size_1-of-2">
+														<!-- <input type="checkbox" name="options" id="checkbox-unique-id-83" value="checkbox-unique-id-81"/>&nbsp;Other Documents -->
+													</div>
+												</div>
+											</div>
+											<lightning-file-upload label="" name="fileUploader" accept={acceptedFormats}
+												record-id={dealerId} onuploadfinished={handleUploadFinished}>
+											</lightning-file-upload>
+										</div>
+								</lightning-accordion-section>
+							</lightning-accordion>
+							<br/>
+							<br/>
+							<div>
+
+							</div>
+						</lightning-card>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

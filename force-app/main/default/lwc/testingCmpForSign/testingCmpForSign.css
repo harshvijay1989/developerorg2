@@ -1,0 +1,26 @@
+.dummy{
+	color : black;
+}
+
+.custom-button {
+    background-color: orangered;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 4px;
+    border: medium;
+    height: 32px;
+    width: 62px;
+    font-size: initial;
+
+
+}
+.clear-button{
+    border-radius: 4px;
+    height: 32px;
+    width: 62px;
+    background-color: darkred;
+    color: white;
+    font-size: initial;
+    border: medium;
+}

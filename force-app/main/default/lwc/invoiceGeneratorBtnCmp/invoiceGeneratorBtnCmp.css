@@ -1,0 +1,24 @@
+.modal {
+   width: 150%;
+   height: 100%;
+   position: absolute;
+   left: -13%;
+   top: 20%; 
+   margin-left: -150px;
+   margin-top: -150px;
+}
+.container {
+    display: flex; 
+    align-items: center;
+    border-radius: 10px; 
+    padding: 5px;
+}
+
+.custom-text {
+    font-size: 18px; /* Adjust the font size as needed */
+    font-weight: bold;
+    margin-top: -7px;
+    padding: 5px;
+    border-radius: 10px;
+    margin-left: 18px; /* Add some spacing between the icon and text */
+}

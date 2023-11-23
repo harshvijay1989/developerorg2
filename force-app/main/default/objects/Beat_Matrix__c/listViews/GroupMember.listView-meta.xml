@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GroupMember</fullName>
+    <columns>NAME</columns>
+    <columns>Beat_Group__c</columns>
+    <columns>ASM__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Beat_Matrix__c.Group_Member</value>
+    </filters>
+    <label>Group Member</label>
+</ListView>

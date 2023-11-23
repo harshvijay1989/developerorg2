@@ -1,0 +1,58 @@
+.my-icon {
+    --slds-c-icon-color-foreground-default: white;
+    --slds-c-icon-color-background: #0831a9;
+}
+.my-icon:active {
+    --slds-c-icon-color-foreground-default: white;
+    --slds-c-icon-color-background: #3356bb;
+}
+.left-profile-header{
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    background-color: #0831a9;
+    color: white;
+}
+.right-profile-header{
+   background-color: rgb(8, 49, 169);
+    color: white;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+.right-block{
+    float: right;    
+    width: 70%;
+}
+.container-block{
+    background-color: white;
+    width: 100%;
+}
+.left-block{
+    border: 1px solid #eee3e3;
+    height: 100vh;
+}
+
+.header-footer{
+	padding: 13px;
+    background-color: #0831a9;
+    border-radius: 6px;
+    color: white;
+    user-select: none;
+}
+.header-footer:active{
+      background-color: #3356bb; 
+}
+.header-out-border{
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+.temp-heading{
+   font-weight: inherit !important;
+   font-size: 20px !important;
+   text-align: center !important;
+    color: white !important;
+    padding-top:7px !important;
+}
+.my-modal-header {
+    --slds-c-modal-header-color-background:#0831a9;
+    --sds-c-modal-header-text-color: white;
+}

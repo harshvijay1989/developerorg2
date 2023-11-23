@@ -1,0 +1,54 @@
+<template>
+	
+	<div
+		class="slds-grid slds-gutters slds-grid_vertical-align-center slds-grid_align-space slds-grid_align-center container slider">
+		<p class="heading">Latest Schemes</p>
+	</div>
+
+
+	<div class="slds-grid slds-wrap">
+		<div class="slds-col slds-large-size_1-of-12 slds-medium-size_12-of-12 slds-size_12-of-12">
+		</div>
+		<div class="slds-col slds-large-size_10-of-12 slds-medium-size_12-of-12 slds-size_12-of-12">
+			<div class="slds-grid slds-gutters slds-wrap">
+				<template for:each={schemesRecord} for:item="sch" for:index="indx">
+					<div class="slds-col slds-large-size_3-of-12 slds-medium-size_6-of-12 slds-size_12-of-12"
+						key={sch.Id}>
+						<lightning-card class="scheme_card slds-m-horizontal_small" variant="Narrow" style="width:100%">
+							<div class="slds-col scheme_container">
+								<span class="scheme_offer">5%</span>
+								<div class="thumbnail">
+									<img src="https://supreme.co.in/uploads/images/oLQLPrsiYr4naP5HYb9RjcHPtTSMTi5wzZeFeoyg.jpg"></img>
+          						</div>
+								<div>
+									<h3 class="long-string slds-m-bottom_xx-small"><b>{sch.Title__c}</b></h3>
+            						<!-- <p class="long-string" >{sch.Subtitle__c}</p> -->
+									<p class="long-string" >{sch.Name}</p>
+									<!-- <p class="long-string" >{sch.Product_Type__c} X {sch.Round_Section__c} X {sch.Size__c}</p> -->
+									<template if:true = {sch.Start_Date__c}>
+									<p class="long-string" >{sch.Start_Date__c} To {sch.End_Date__c}</p>
+									</template>
+									
+									<!--
+									<div class="slds-p-around_small">
+										<lightning-button class="slds-button slds-button_brand slds-button_stretch" value = {sch.Id} variant="brand" label="View Scheme" onclick={handleOrder}></lightning-button>
+									</div>
+									-->
+									<lightning-button class="slds-button slds-button_brand slds-button_stretch" value = {sch.Id} variant="brand" label="View Scheme" onclick={handleOrder} style="width:100%;"></lightning-button>
+									<!--
+										Dev
+									<div class="sm-padding">
+										<lightning-button class="slds-align_absolute-center" value = {sch.Id} variant="brand" label="View Scheme" onclick={handleOrder}></lightning-button>
+									</div>
+									-->
+          						</div>
+							</div>
+						</lightning-card>
+					</div>
+				</template>
+			</div>
+		</div>
+		<div class="slds-col slds-large-size_1-of-12 slds-medium-size_12-of-12 slds-size_12-of-12">
+		</div>
+	</div>
+</template>

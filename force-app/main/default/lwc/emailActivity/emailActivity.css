@@ -1,0 +1,10 @@
+.my-modal-header {
+    --slds-c-modal-header-color-background:#4B5D78;
+}
+.textClass{
+	color :white;
+}
+lightning-button.button {
+	--sds-c-button-brand-color-background: #4B5D78;
+    --sds-c-button-text-color: white;
+}

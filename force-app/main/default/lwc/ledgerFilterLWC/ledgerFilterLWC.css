@@ -1,0 +1,15 @@
+.dummy{
+	color : black;
+}
+.fullwidth { width: -webkit-fill-available;}
+
+.slds-button_stretch,
+.slds-p-around_medium .slds-button_brand
+{
+    width: 100%;
+}
+.opening-balance-box{
+	inline-size: fit-content; 
+	font: initial;
+	width: -webkit-fill-available;
+}

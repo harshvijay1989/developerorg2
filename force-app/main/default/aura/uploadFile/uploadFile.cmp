@@ -1,0 +1,55 @@
+<aura:component controller="FileUploadController"  implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <!-- 'parentId' Aura Attribute for store the Id for Parent Record where we are attach our file --> 
+    <aura:attribute name="parentId" type="Id" default="00128000002KuXUAA0" />
+    <aura:attribute name="csvData" type="List" />
+    <aura:attribute name="showDataTable" type="Boolean" default="false" />
+    <aura:attribute name="showButtons" type="Boolean" default="false" />
+        <lightning:notificationsLibrary aura:id="notifLib"/>
+
+    
+    <div class="slds-m-around_medium slds-align_absolute-center slds-p-bottom_large">
+        <lightning:input aura:id="fuploader" onchange="{!c.handleFilesChange}" type="file" name="file" accept=".csv" multiple="false"/>
+    </div>
+    <br/>
+    
+    <div class="slds-m-around_medium slds-align_absolute-center">
+        <aura:if isTrue="{!v.showDataTable}">
+    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                <thead>
+                    <tr>
+                        <th>CompanyName</th>
+                        <th>PartName</th>
+                        <th>VoucherNumber</th>
+                        <th>VoucherType</th>
+                        <th>Amount</th>
+                        <th>Quantity</th>
+                        <th>Guid</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.csvData}" var="row">
+                        <tr>
+                            <td>{!row[0]}</td>
+                            <td>{!row[1]}</td>
+                            <td>{!row[2]}</td>
+                            <td>{!row[3]}</td>
+                            <td>{!row[4]}</td>
+                            <td>{!row[5]}</td>
+                            <td>{!row[6]}</td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>  
+        </aura:if>
+    </div>
+    <br/>
+    
+    
+    <div class="slds-m-around_medium slds-align_absolute-center">
+        <aura:if isTrue="{!v.showButtons}">
+            <lightning:button label="Save" onclick="{!c.handleSave}" variant="brand" class="slds-m-top--medium"/>
+            <lightning:button label="Save And Process" onclick="{!c.handleSaveandProcess}" variant="brand" class="slds-m-top--medium" />
+        </aura:if>
+    </div>
+</aura:component>

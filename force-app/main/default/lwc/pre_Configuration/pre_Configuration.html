@@ -1,0 +1,653 @@
+<!-- 
+Owner Name : Roshina Azmat
+Designation : salesforce Developer
+Email : roshina@crmlanding.in  -->
+<template>
+	<!-- pre confiiguration code -->
+	<!-- <div if:true={isLoaded} class="slds-is-relative slds-p-around_large">
+		<lightning-spinner alternative-text="Loading..." size="small" variant="brand">
+		</lightning-spinner>
+	</div> -->
+
+
+	<div>
+		<div style="width:100%">
+			<div class="table-box slds-scrollable ">
+				<div>
+					<!-- <div
+						style="background-color: #4B5D78;padding: 2%;color: white;width:100%;margin-top: 3%;text-align: center;font-size: 18px;border-radius: 4px 4px 2px 2px;">
+						Header & Footer</div> -->
+					<div style="padding: 8px 0px 5px 0px;">
+						<div style="background-color: #f0f1f5;">
+							<button class="slds-button  slds-button_stretch" onclick={openHeaderFooterTemplate}>
+					<lightning-icon icon-name="utility:add" class="my-icon" alternative-text="Create New Header Footer" title="Create New Header Footer" size="xx-small" style="padding: 5px;"></lightning-icon>
+			</button>
+						</div>
+					</div>
+
+					<!-- <div style="background-color: whitesmoke; padding: 8px 0px 5px 0px;">
+						<button class="slds-button slds-button_neutral slds-button_stretch" onclick={openStandardHeaderModal}>Standard
+<lightning-icon icon-name="utility:add" alternative-text="Create New Header Footer" title="Create New Header Footer" size="small" style="padding: 5px;"></lightning-icon>
+			</button>
+					</div> -->
+
+					<div style="width:100%; padding-bottom: 15px">
+						<table
+							class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped slds-border--left slds-border--right">
+
+							<thead>
+								<tr class="">
+									<th scope="col" style="width:8%;background-color:#0831a9;color: white;">Select</th>
+									<th scope="col" style="background-color:#0831a9;color: white;">
+										<center>Name</center>
+									</th>
+									<th scope="col" style="width:10%;background-color:#0831a9;color: white;">Edit</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<lightning-input type="checkbox" variant="label-hidden" name="name"
+											onclick={handleNoneHeaderFooter} checked={noneHeaderFooter}>
+										</lightning-input>
+									</td>
+									<td>None</td>
+									<td></td>
+								</tr>
+
+								<template if:true={configRecords} for:each={configRecords} for:item="obj">
+									<tr class="slds-hint-parent" key={obj.id}>
+
+										<!-- <lightning-input type="radio" variant="label-hidden" name="name" onclick={handleNoneHeaderFooter}></lightning-input> -->
+										<td>
+											<div class="radio">
+												<label>
+									<input type="radio" name="optradio" class='radio'  data-id={obj.name} value={selecteRadioButtonValue}
+										checked={obj.isChecked} onclick={handlePreview}/>
+								</label>
+											</div>
+										</td>
+										<td scope="row">{obj.name}</td>
+										<td scope="row" style="text-align: center;">
+											<lightning-icon variant="base" size="x-small" icon-name="utility:edit_form"
+												data-id={obj.name} alternative-text="opne" onclick={handleEdit}
+												class="icon">
+											</lightning-icon>
+											<lightning-icon variant="base" size="x-small" icon-name="utility:delete"
+												data-id={obj.name} alternative-text="opne" onclick={handleDelete}
+												class="icon">
+											</lightning-icon>
+										</td>
+									</tr>
+								</template>
+							</tbody>
+						</table>
+
+						<!-- Ravi Code Here - For Header & Footer  -->
+
+						<!-- <div style="background-color: #4B5D78;padding: 2%;color: white;width:100%;margin-top: 3%;text-align: center;font-size: 18px;border-radius: 4px 4px 2px 2px;">
+										Standard Header & Footer</div>
+										<div style="background-color: whitesmoke; padding: 8px 0px 5px 0px;">
+											<button class="slds-button slds-button_neutral slds-button_stretch" onclick={openStandardTemplate}>
+										<lightning-icon icon-name="utility:add" alternative-text="Create New Header Footer" title="Create New Header Footer" size="small" style="padding: 5px;"></lightning-icon>
+									</button>
+								</div>
+
+								<div if:true={showModal} class="slds-modal slds-fade-in-open">
+								<div class="slds-modal__container">
+									<header class="slds-modal__header">
+										<h2 class="slds-text-heading_medium">HTML Content</h2>
+									</header>
+									<div class="slds-modal__content slds-p-around_medium">
+										<lightning-textarea label="HTML Content" value={htmlContent} readonly></lightning-textarea>
+									</div>
+									<footer class="slds-modal__footer">
+										<button class="slds-button slds-button_neutral" onclick={closeModal}>Close</button>
+									</footer>
+								</div>
+							</div>
+							<div class="slds-backdrop slds-backdrop_open"></div> -->
+						<!-- -------------------------------------------- -->
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- preview pop up is start here -->
+	<template if:true={isOpenModal}>
+		<div class="custom-modal">
+			<section role="dialog" class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+
+					<span class="slds-modal__close">
+			<lightning-icon icon-name="utility:close" variant="inverse" alternative-text="close" onclick={handleModelHide} 	class="icon"></lightning-icon>
+		</span>
+					<lightning-modal-header label="Preview Configuration" class="my-modal-header textClass">
+					</lightning-modal-header>
+
+					<div class="slds-modal__content slds-p-around_medium modalBodySpinner">
+
+
+						<template if:true={showLoading}>
+							<lightning-spinner alternative-text="Loading" variant="brand" size="large"
+								class="spinnerClass">
+							</lightning-spinner>
+						</template>
+
+						<div class="main-preview-box" style="width: 100%;">
+							<div class="header-config">
+								<div style={headerConatinerCSS}>
+									<!-- <div  style={imgPosition}></div> -->
+									<img src={attachmentBase64}  style={imgPosition} if:true={attachmentBase64}/>
+									<div style="flex: 1;">
+										<p style={headerTextStyle}>{headerText}</p>
+									</div>
+								</div>
+							</div>
+
+							<div style="margin-top: 74mm;">
+								<div class="footer-config">
+									<div style={footerConatinerCSS}>
+										<div style="flex: 1;">
+											<p style={footerTextStyle}>{footerText}</p>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+						</div>
+						<div style="visibility: hidden;">
+							<iframe src={htmlHeaderFooterIframeUrl} width="100%" height="5px"> </iframe>
+						</div>
+					</div>
+
+
+					<footer class="slds-modal__footer">
+						<lightning-button label="Cancel" title="Cancel" class="slds-m-right_small"
+							onclick={handleModelHide}></lightning-button>
+						<lightning-button variant="brand" label="Ok" title="Select" onclick={handleSelectedData}>
+						</lightning-button>
+					</footer>
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open"></div>
+		</div>
+	</template>
+
+	<!-- header footer -->
+	<template if:true={isModalOpen}>
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+			aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+			<div class="slds-modal__container">
+
+				<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeHeaderFooterModal}>
+			<lightning-icon icon-name="utility:close"
+				alternative-text="close"
+				variant="inverse"
+				size="small" ></lightning-icon>
+			<span class="slds-assistive-text">Close</span>
+		</button>
+
+				<lightning-modal-header label="Header & Footer Configuration" class="my-modal-header textClass">
+				</lightning-modal-header>
+
+				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+					<lightning-spinner if:true={isSpinner} alternative-text="Loading" size="large" variant="brand">
+					</lightning-spinner>
+					<div>
+
+
+						<lightning-layout multiple-rows>
+							<lightning-layout-item size="12" padding="horizontal-small" small-device-size="3"
+								medium-device-size="6" large-device-size="6">
+								<div class="left">Margin </div>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" padding="horizontal-small" small-device-size="3"
+								medium-device-size="6" large-device-size="6">
+
+								<div class="right">Font Style</div>
+							</lightning-layout-item>
+						</lightning-layout>
+						<lightning-layout multiple-rows>
+							<lightning-layout-item size="12" padding="horizontal-small" small-device-size="3"
+								medium-device-size="6" large-device-size="3">
+								<lightning-combobox label="Horizontal Margin" data-field="Horizontal_Margin__c"
+									class="common-fields horizontal-margin" value={horizontalMarginOptionsvalue}
+									options={horizontalMarginOptions}>
+								</lightning-combobox>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" padding="horizontal-small" small-device-size="3"
+								medium-device-size="6" large-device-size="3">
+								<lightning-combobox label="Vertical Margin" data-field="Vertical_Margin__c"
+									class="common-fields vertical-margin" value={verticalMarginOptionsvalue}
+									options={verticalMarginOptions}>
+								</lightning-combobox>
+							</lightning-layout-item>
+
+							<lightning-layout-item size="12" padding="horizontal-small" small-device-size="3"
+								medium-device-size="6" large-device-size="3">
+								<lightning-combobox label="Font Family" data-field="Font_Family__c"
+									class="common-fields font-style" value={fontFamilyOptionsvalue}
+									options={fontFamilyOptions}>
+								</lightning-combobox>
+
+							</lightning-layout-item>
+							<lightning-layout-item size="12" padding="horizontal-small" small-device-size="3"
+								medium-device-size="6" large-device-size="3">
+								<lightning-combobox label="Font Size" data-field="Font_Size__c"
+									class="common-fields font-size" value={fontSizeOptionsvalue}
+									options={fontSizeOptions}>
+								</lightning-combobox>
+
+							</lightning-layout-item>
+						</lightning-layout>
+					</div>
+
+					<div style="margin-top: 20px">
+						<lightning-layout multiple-rows>
+							<lightning-layout-item size="12" padding="horizontal-small" small-device-size="3"
+								medium-device-size="6" large-device-size="6">
+								<div class="right">Header</div>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" padding="horizontal-small" small-device-size="3"
+								medium-device-size="6" large-device-size="6">
+								<div class="left">Footer</div>
+							</lightning-layout-item>
+						</lightning-layout>
+						<lightning-layout multiple-rows>
+							<lightning-layout-item size="12" padding="horizontal-small" small-device-size="3"
+								medium-device-size="6" large-device-size="3">
+								<lightning-input type="text" variant="standard" name="name" label="Header Text"
+									placeholder="type here..." data-field="Header_Text__c"
+									class="header-fields header-text" value={defaultHeaderText} required>
+								</lightning-input>
+								<span class="headerText"></span>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" padding="horizontal-small" small-device-size="3"
+								medium-device-size="6" large-device-size="3">
+								<lightning-input type="color" name="input-color" label="Header Text Color"
+									data-field="Header_Text_Color__c" class="header-fields header-text-color"
+									value={defaultHeaderTextColorValue}></lightning-input>
+								<!-- <lightning-combobox label="Header Text Position" data-field="Header_Text_Position__c"
+									class="header-fields header-text-postition" value={headerTextPositionOptionsValue}
+									disabled options={headerTextPositionOptions}>
+								</lightning-combobox> -->
+							</lightning-layout-item>
+
+
+							<lightning-layout-item size="12" padding="horizontal-small" small-device-size="3"
+								medium-device-size="6" large-device-size="3">
+								<lightning-input type="text" variant="standard" name="name" label="Footer Text"
+									placeholder="type here..." data-field="Footer_Text__c"
+									class="footer-fields footer-text" value={defaultFooterText}>
+								</lightning-input>
+
+							</lightning-layout-item>
+							<lightning-layout-item size="12" padding="horizontal-small" small-device-size="3"
+								medium-device-size="6" large-device-size="3">
+
+								<lightning-combobox label="Footer Text Position"
+									data-field="Footer_Text_Position__c"
+									class="footer-fields footer-text-postion" value={footerTextPositionOptionsValue}
+									options={footerTextPositionOptions}>
+								</lightning-combobox>
+
+							</lightning-layout-item>
+						</lightning-layout>
+
+						<lightning-layout multiple-rows>
+							<lightning-layout-item size="12" padding="horizontal-small" small-device-size="3"
+								medium-device-size="6" large-device-size="3">
+								<!-- <lightning-input type="color" name="input-color" label="Header Text Color"
+									data-field="Header_Text_Color__c" class="header-fields header-text-color"
+									value={defaultHeaderTextColorValue}></lightning-input> -->
+							</lightning-layout-item>
+
+							<lightning-layout-item size="12" padding="horizontal-small" small-device-size="3"
+								medium-device-size="6" large-device-size="3">
+								<!-- <lightning-input type="color" name="input-color" label="Footer Text Color"
+									data-field="Footer_Text_Color__c" class="footer-fields footer-text-color"
+									value={defaultFooterTextColorValue}></lightning-input> -->
+							</lightning-layout-item>
+
+							<lightning-layout-item size="12" padding="horizontal-small" small-device-size="3"
+								medium-device-size="6" large-device-size="3">
+								<div>
+									<lightning-input type="color" name="input-color" label="Footer Text Color"
+										data-field="Footer_Text_Color__c"
+										class="footer-fields footer-text-color" value={defaultFooterTextColorValue}>
+									</lightning-input>
+									<!-- <lightning-combobox name="progress" label="Page Number Format " value={value}
+										placeholder="Page Number Format" options={PageNumberFormatOptions}
+										class="footer-fields" data-field="Page_Number_Formate__c"></lightning-combobox> -->
+								</div>
+
+							</lightning-layout-item>
+						</lightning-layout>
+
+					</div>
+
+					<div class="logo">Logo</div>
+					<lightning-layout multiple-rows>
+						<lightning-layout-item size="12" padding="horizontal-small" small-device-size="3"
+							medium-device-size="6" large-device-size="2">
+							<div style="margin-top: 21px;">
+								<!-- <span style="float: right;margin-right: 195px">Apply Logo</span> -->
+
+								<lightning-input type="checkbox" name="input-color" label="Apply Logo"
+									class="is-apply-logo" onchange={handleLogo} checked={checkBoxValue} disabled={disabledLogoCheckbox}>
+								</lightning-input>
+							</div>
+						</lightning-layout-item>
+
+						<lightning-layout-item size="12" padding="horizontal-small" small-device-size="3"
+							medium-device-size="6" large-device-size="1">
+							<div style="margin-top: 21px; margin-left: -90px;">
+								   <lightning-button-icon icon-name="utility:edit" onclick={handlePopUpForIconClick} class="icon" if:true={editableVisible} variant="container" alternative-text="Settings" title="Settings"></lightning-button-icon>		
+							</div>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" padding="horizontal-small" small-device-size="3"
+							medium-device-size="6" large-device-size="1">
+							<div style="margin-top: 21px; margin-left: -155px;">
+								   <lightning-button-icon icon-name="utility:delete" onclick={handleDeleteIconClick} class="icon" if:true={editableVisible} variant="container" alternative-text="Settings" title="Settings"></lightning-button-icon>		
+							</div>
+						</lightning-layout-item>
+
+						<!-- logo popUp -->
+						
+						<lightning-layout-item size="12" padding="horizontal-small" small-device-size="3"
+							medium-device-size="6" large-device-size="12">
+							<div style="margin-left: 190px;">
+								<template if:true={logoPopUp}>
+									<div class="custom-modal my-modal-header">
+										<lightning-modal-header label="Select Logo">
+
+										</lightning-modal-header>
+										<lightning-modal-body>
+											<lightning-layout multiple-rows>
+
+												<lightning-layout-item size="12" padding="horizontal-small"
+													small-device-size="3" medium-device-size="6" large-device-size="6">
+
+													Select Logo<span class="logo-button" onclick={handleImageFile}>Click Here
+											<input type="file" name="myImage" accept="image/png, image/gif, image/jpeg"
+																style="display:none;" class="image-file"
+																onchange={handleFilesChange} />
+										</span>
+												</lightning-layout-item>
+
+												<lightning-layout-item size="12" padding="horizontal-small"
+													small-device-size="3" medium-device-size="6" large-device-size="6">
+
+												</lightning-layout-item>
+
+
+												<lightning-layout-item size="12" padding="horizontal-small"
+													small-device-size="3" medium-device-size="6" large-device-size="6">
+													<div>
+														<lightning-combobox label="Logo Position" class="logo-fields"
+															value={logoPositionOptionsValue}
+															options={logoPositionOptions}
+															data-field="Logo_Position__c">
+														</lightning-combobox>
+													</div>
+												</lightning-layout-item>
+
+												<lightning-layout-item size="12" padding="horizontal-small"
+													small-device-size="3" medium-device-size="6" large-device-size="6">
+													<div>
+														<img src={logoSelectedIMG} class="img" if:true={imageShow}/>
+
+													</div>
+												</lightning-layout-item>
+
+											</lightning-layout>
+											<lightning-layout multiple-rows>
+												<lightning-layout-item size="12" padding="horizontal-small"
+													small-device-size="3" medium-device-size="6" large-device-size="6">
+													<div>
+														<lightning-combobox label="Width" class="logo-fields"
+															value={logWidthDefaultValue} options={logoWidth}
+															data-field="Logo_Width__c">
+														</lightning-combobox>
+													</div>
+												</lightning-layout-item>
+
+												<lightning-layout-item size="12" padding="horizontal-small"
+													small-device-size="3" medium-device-size="6" large-device-size="6">
+													<div>
+														<lightning-combobox label="Height" class="logo-fields"
+															value={logHeightDefaultValue} options={logoHeight}
+															data-field="Logo_Height__c">
+														</lightning-combobox>
+													</div>
+												</lightning-layout-item>
+
+
+												<lightning-layout-item size="12" padding="horizontal-small"
+													small-device-size="3" medium-device-size="6" large-device-size="12">
+													<div class="custom-button-group">
+
+														<lightning-button-group>
+															<lightning-button label="Cancel" icon-name="utility:close"
+																onclick={closeLogoPopUp}  disabled={disabledLogoCancelButton}>
+															</lightning-button>
+															<lightning-button label="Apply" variant="brand"
+																icon-name="utility:save" onclick={handleLogoLayOut}
+																disabled={isApplyButtonVisible}></lightning-button>
+														</lightning-button-group>
+													</div>
+												</lightning-layout-item>
+											</lightning-layout>
+
+										</lightning-modal-body>
+									</div>
+								</template>
+
+
+
+							</div>
+
+						</lightning-layout-item>
+					
+					
+						<lightning-layout-item size="12" padding="horizontal-small" small-device-size="3"
+							medium-device-size="6" large-device-size="12">
+							<img src={logoSelectedIMG}   class="img" if:true={imageHideForPopUp}/>
+		</lightning-layout-item>
+					</lightning-layout>
+					<!-- </div> -->
+
+					<template if:true={isOpenModal}>
+						<div class="custom-modal">
+							<section role="dialog" class="slds-modal slds-fade-in-open">
+								<div class="slds-modal__container">
+
+									<span class="slds-modal__close">
+						<lightning-icon icon-name="utility:close" variant="inverse" alternative-text="close" onclick={handleModelHide} ></lightning-icon>
+					</span>
+									<h2 class="slds-text-heading_medium slds-hyphenate modalheader">Preview
+										Configuration</h2>
+
+									<div class="slds-modal__content slds-p-around_medium">
+
+										<div style="width: 100%; border: 1px solid #eee3e3;">
+											<div style={headerConatinerCSS} class="header">
+												<div if:true={imageShow} style={imgPosition}></div>
+												<div style="flex: 1;">
+													<p style={headerTextStyle}>{headerText}</p>
+												</div>
+											</div>
+
+
+											<div style="margin-top: 74mm;" class="footer">
+												<div style={footerConatinerCSS}>
+													<div style="flex: 1;">
+														<p style={footerTextStyle}>{footerText}</p>
+													</div>
+												</div>
+											</div>
+
+
+										</div>
+									</div>
+									<footer class="slds-modal__footer">
+										<lightning-button label="Cancel" title="Cancel" class="slds-m-right_small"
+											onclick={handleModelHide}></lightning-button>
+									</footer>
+								</div>
+							</section>
+							<div class="slds-backdrop slds-backdrop_open"></div>
+						</div>
+					</template>
+
+					<template if:true={isOpenNamePopUp}>
+						<div class="custom-modal">
+							<section role="dialog" class="slds-modal slds-fade-in-open"
+								style="width: 50%; margin-left: 290px;">
+								<div class="slds-modal__container">
+									<header class="slds-modal__header" style="background-color: #0831a9;color: white;">
+										<span class="slds-modal__close">
+								<lightning-icon icon-name="utility:close" variant="inverse" alternative-text="close" onclick={handleModelHide}></lightning-icon>
+							</span>
+										<h2 class="slds-text-heading_medium slds-hyphenate">Header & Footer Template
+											Name</h2>
+									</header>
+									<div class="slds-modal__content slds-p-around_medium modalBodySpinner">
+
+										<template if:true={showLoading}>
+											<lightning-spinner alternative-text="Loading" variant="brand" size="large"
+												class="spinnerClass">
+											</lightning-spinner>
+										</template>
+
+
+										<lightning-input type="text" variant="standard" name="name"
+											label="Enter Template Name" placeholder="type here..." class="template-name"
+											required></lightning-input>
+										<span class='errorDuplicate' ></span>
+									</div>
+									<footer class="slds-modal__footer">
+										<lightning-button label="Cancel" title="Cancel" class="slds-m-right_small"
+											onclick={handleModelHide}></lightning-button>
+										<lightning-button variant="brand" label="Save" title="Save"
+											onclick={handleSave}>
+										</lightning-button>
+
+
+									</footer>
+								</div>
+							</section>
+							<div class="slds-backdrop slds-backdrop_open"></div>
+						</div>
+					</template>
+				</div>
+				<!-- final fooeter -->
+				<footer class="slds-modal__footer">
+					<lightning-button-group>
+						<!-- <lightning-button label="Cancel"  onclick={handleCancelClick} >Cancel</lightning-button> -->
+						<lightning-button label="Preview" icon-name="utility:preview" onclick={handlePerview}>
+						</lightning-button>
+						<lightning-button label="Save" if:false={hideSaveButton} variant="brand"
+							icon-name="utility:save" onclick={handleClickSave}>
+						</lightning-button>
+
+						<lightning-button label="Update" variant="brand" icon-name="utility:save"
+							onclick={handleUpdateHeaderFooter} if:true={hideSaveButton}>
+						</lightning-button>
+
+						<lightning-button label="Cancel" icon-name="utility:Cancel" onclick={closeHeaderFooterModal}>
+						</lightning-button>
+
+
+
+					</lightning-button-group>
+
+					<!-- <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button> -->
+				</footer>
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+	</template>
+
+	<template if:true={isOpenStandardHeaderModal}>
+		<div class="custom-modal">
+			<section role="dialog" class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+					<header class="slds-modal__header">
+						<span class="slds-modal__close">
+						<lightning-icon icon-name="utility:close" variant="inverse" alternative-text="close"></lightning-icon>
+					</span>
+						<h2 class="slds-text-heading_medium slds-hyphenate">Standard Header</h2>
+					</header>
+
+
+					<div class="slds-modal__content slds-p-around_medium">
+						<!-- header 1 -->
+						<div style="float: right; margin: 11px; padding: 2px;margin-right: 20px; margin-top: 22px;">
+							<lightning-button variant="brand" label="Select" title="titleName" onclick={handleClick}>
+							</lightning-button>
+						</div>
+
+						<div style="border: 1px solid;border: 1px solid #e6dede;  margin: 12px;">
+							<span style="text-align: center width: 50%;float: right;float: right;margin-right: 200px;   margin-top: 25px;">
+									<div style="font-size: 28px; font-family: emoji">CRM LANDING PVT LTD </div>
+									<div style="text-align: right;">This is a private company</div>
+
+							</span>
+							<span>
+								<img src="https://crmlandingsoftwareprivatelimited--dev2.sandbox.file.force.com/servlet/rtaImage?eid=a0x1y000001M2Wg&feoid=00N1y00000H77U6&refid=0EM1y000000Kzkt"
+								width="20%" />		
+							</span>
+
+
+						</div>
+
+						<!-- 2 header start -->
+						<div style="border: 1px solid;border: 1px solid #e6dede;  margin: 12px;">
+							<div style="background-color: green;">
+								<div class="second-header">SOPHIE COMPANY</div>
+								<div class="small-second-header">This is private company</div>
+							</div>
+
+
+						</div>
+
+						<!-- 2 header end -->
+
+
+						<!-- 3 header start -->
+						<div style="float: right; margin: 11px; padding: 2px;margin-right: 20px">
+							<lightning-button variant="brand" label="Select" title="titleName" onclick={handleClick}>
+							</lightning-button>
+						</div>
+
+						<div style="border: 1px solid;border: 1px solid #e6dede;  margin: 12px;">
+							<span style="text-align: center width: 50%;float: right;float: right;margin-right: 460px;   margin-top: 25px;">
+									<div style="font-size: 28px; font-family: inherit">SOFIA COMPANY PVT LTD </div>
+									<div style="text-align: center;">This is a private company</div>
+							</span>
+
+							<span>
+								<img src="https://crmlandingsoftwareprivatelimited--dev2.sandbox.file.force.com/servlet/rtaImage?eid=a0x1y000001M2Wg&feoid=00N1y00000H77U6&refid=0EM1y000000Kzkt" width="20%" />
+							</span>
+						</div>
+						<!-- 2 header end -->
+
+
+
+					</div>
+					<footer class="slds-modal__footer">
+						<lightning-button label="Cancel" title="Cancel" class="slds-m-right_small"
+							onclick={isCancelStandardHeaderModal}></lightning-button>
+						<lightning-button variant="brand" label="Save" title="Save"></lightning-button>
+					</footer>
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open"></div>
+		</div>
+	</template>
+</template>

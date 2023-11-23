@@ -1,0 +1,57 @@
+.dummy{
+color : black;
+}
+.input-error {
+	border: 1px solid red !important;
+}
+.container{
+ background-color: #f2ebeb;
+  height: 100vh;
+}
+.header{
+    background: #51b4f8;
+    padding: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+    border: 1px solid #0d91ec;
+}
+.card{
+	margin-left: 369px;
+    margin-top: 19px;
+    background-color: white;
+    width: 40%;
+    border-radius: 5px;
+    padding: 18px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+.custom-button{
+	margin: 7px 0px;text-align: right; color: white;
+    background: #51b4f8;
+    padding: 4px 14px;
+    border-radius: 4px;
+    border: 1px solid #117bc4;
+    width: 56px;
+	cursor: pointer;
+	float: right;
+
+}
+.my-modal-header {
+    --slds-c-modal-header-color-background:#0831a9;
+    height: px;
+}
+.textClass{
+	color :white;
+}
+lightning-button.button {
+	--sds-c-button-brand-color-background: #4B5D78;
+    --sds-c-button-text-color: white;
+}
+.template-heading{
+font-family: apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto;
+font-weight: inherit;
+font-size: 20px;
+text-align: center;
+color: white;
+padding-top:7px
+}

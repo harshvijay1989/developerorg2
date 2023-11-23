@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type_of_Complaint__c</fullName>
+    <externalId>false</externalId>
+    <label>Type of Complaint</label>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Invoice</fullName>
+                <default>false</default>
+                <label>Invoice</label>
+            </value>
+            <value>
+                <fullName>Credit Note</fullName>
+                <default>false</default>
+                <label>Credit Note</label>
+            </value>
+            <value>
+                <fullName>Debit Note</fullName>
+                <default>false</default>
+                <label>Debit Note</label>
+            </value>
+            <value>
+                <fullName>Ledger</fullName>
+                <default>false</default>
+                <label>Ledger</label>
+            </value>
+            <value>
+                <fullName>Worn Stock</fullName>
+                <default>false</default>
+                <label>Worn Stock</label>
+            </value>
+            <value>
+                <fullName>Short Stock</fullName>
+                <default>false</default>
+                <label>Short Stock</label>
+            </value>
+            <value>
+                <fullName>Damaged Good</fullName>
+                <default>false</default>
+                <label>Damaged Good</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

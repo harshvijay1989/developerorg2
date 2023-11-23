@@ -1,0 +1,31 @@
+<template>
+    <lightning-card  icon-name="custom:custom19" title='Read CSV File '>
+    </lightning-card>
+
+    <lightning-card class="slds-p-bottom_xx-large">
+
+        <div if:true={showFile} class="slds-align_absolute-center  slds-p-bottom_large">
+            <lightning-file-upload accept={acceptedFormats} label="Attach receipt" multiple="multiple"
+                onuploadfinished={handleUploadFinished} record-id={recordId}></lightning-file-upload>
+        </div> 
+        <div class="slds-p-bottom_x-large">
+
+    <div if:true={data}>
+        <lightning-datatable class="data-table" style="width:50px; " columns={columns} data={data} hide-checkbox-column="true" key-field="id">
+        </lightning-datatable>
+    </div>
+<br/>
+    <div class="slds-align_absolute-center  " if:true={showbutton}>
+        <button class="slds-button slds-button_brand" style="width:150px;"  onclick={handleProceed}> Save</button>&nbsp;&nbsp;        
+        <lightning-button class="custom-button" variant="brand" label="Savd and Process" onclick={handleCancel}></lightning-button>
+    </div>
+
+
+        <div class="slds-align_absolute-center" if:true={showbutton2}>
+           <!-- <lightning-button variant="natural" label="Cancel" onclick={handleCancelpop}></lightning-button> -->
+        </div>
+        </div>
+    </lightning-card>
+
+   
+</template>

@@ -1,0 +1,158 @@
+<template>
+	<div if:true={isLoaded}>
+		<lightning-spinner alternative-text="Loading..." variant="brand"></lightning-spinner>
+	</div>
+	<lightning-card>
+		<div class="slds-p-horizontal_small">
+			<div class="slds-grid slds-wrap">
+				<div class="slds-col slds-size_6-of-12">
+					<div class="slds-p-around_small">
+						<lightning-input type="Date" label="Start Date" value={startDateTime} onchange={onStartDate}>
+						</lightning-input>
+					</div>
+				</div>
+				<div class="slds-col slds-size_6-of-12">
+					<div class="slds-p-around_small">
+						<lightning-input type="Date" label="End Date" value={endDateTime} onchange={onEndDate}>
+						</lightning-input>
+					</div>
+				</div>
+				<div class="slds-col slds-size_12-of-12">
+					<div class="slds-p-around_small">
+						<lightning-button variant="brand" label="Search" title="Search button"
+							onclick={handleSearchClick} class="slds-button slds-button_brand slds-button_stretch">
+						</lightning-button>
+					</div>
+				</div>
+
+			</div>
+			
+			<div class="slds-grid slds-wrap">
+				<div class="slds-col slds-size_12-of-12">
+					<div class="slds-p-around_small">
+						<!-- <lightning-combobox name="types" label="Customer"   value={optionvalue} options={dealerNameOptions} onchange={handleDealerChange}></lightning-combobox> -->
+						
+						<template if:true={subDealersLoaded}>
+							<c-multi-select-combobox label="Customer" name="types" class="onselect" options={dealerNameOptions}
+								onchange={handleDealerChange}></c-multi-select-combobox>	
+						</template>
+					</div>
+				</div>
+				<div class="slds-col slds-size_12-of-12">
+					<div class="slds-p-around_small">
+						<div class="slds-box opening-balance-box" style=""> Opening Balance({amountTypeOpening}) :
+							{openingBalance} <br> Closing Balance({amountTypeClosing}) : {closingBalance} </div>
+						</div>
+					</div>
+				</div>
+				<div class="slds-grid slds-wrap">
+					<div class="slds-col slds-size_12-of-12">
+						<lightning-datatable data={ledgerList} columns={columns} show-row-number-column
+							hide-checkbox-column key-field="Id"></lightning-datatable>
+						<template if:true={noRecordsMessage}>
+							<div style="text-align: center;	font-size: initial;"> No Record Found.... </div>
+						</template>
+					</div>
+				</div>
+				<!--
+			<div class="slds-grid slds-gutters" style="margin-left: auto;">
+				<div class="slds-col">
+					<span>
+						<lightning-input type="Date" label="Start Date" value={startDateTime} onchange={onStartDate}></lightning-input>
+					</span>
+				</div>
+				<div class="slds-col">
+					<span>
+						<lightning-input type="Date" label="End Date" value={endDateTime} onchange={onEndDate}></lightning-input>
+					</span>
+				</div>
+				<div class="slds-col" style="margin-top: auto;">
+					<span>
+						<lightning-button variant="brand" label="Search" title="Search button" onclick={handleSearchClick}></lightning-button>
+					</span>
+				</div>
+			</div>
+			<br>
+			<div class="slds-wrap slds-grid">
+				<div class=" slds-m-left_medium" style="width: 34%">
+					<span>
+						<lightning-combobox name="types" label="Sales Organisation"   value={value} options={salesOrgoptions} onchange={handleSalesOrganisationChange}></lightning-combobox>
+					</span>
+				</div>
+			</div>
+			<br>
+			<div class="slds-wrap slds-grid">
+				<div class="slds-col slds-m-left_medium" style="width: 135Px">
+					<span>
+						<lightning-combobox name="types" label="Customer"   value={optionvalue} options={dealerNameOptions} onchange={handleDealerChange}></lightning-combobox>
+					</span>
+				</div>
+				<div class="slds-col">
+					<span>
+						<div class="slds-box " style="inline-size: fit-content; font: initial;margin-left: 20px;"> Opening Balance({amountTypeOpening}) : {openingBalance} <br> Closing Balance({amountTypeClosing}) : {closingBalance} </div>
+					</span>
+				</div>
+				<div class="slds-col"><span></span></div>
+			</div>
+			<br>
+			-->
+				<!--<div  class="slds-float_right "></div> -->
+
+			</div>
+	</lightning-card>
+
+
+
+	<!-- <div if:true={showSalesRepresentativeUser}>
+
+		<lightning-card>
+
+			<div class="slds-grid slds-gutters" style="margin-left: auto;">
+				<div class="slds-col">
+					<span>
+			  <lightning-input type="Date" label="Start Date" value={startDateTime} onchange={onStartDate}></lightning-input>
+			</span>
+				</div>
+				<div class="slds-col">
+					<span>
+			  <lightning-input type="Date" label="End Date" value={endDateTime} onchange={onEndDate}></lightning-input>
+			</span>
+				</div>
+				<div class="slds-col" style="margin-top: auto;">
+					<span>
+			  <lightning-button variant="brand" label="Search" title="Search button" onclick={handleSearchClick}></lightning-button>
+			</span>
+				</div>
+			</div>
+			<br>
+			
+
+			<div class="slds-grid slds-gutters">
+				<div class="slds-col slds-m-left_medium" style="width: 150Px">
+					<span>   <lightning-combobox name="types" label="Dealer Name" value={optionvalue} options={dealerNameOptions} onchange={handleDealerChange}></lightning-combobox> </span>
+				</div>
+				<div class="slds-col">
+					<span>  <lightning-combobox name="types" disabled={subDealerdisableButton} label="Sub Dealer Name" value={optionvalue} options={subdealerNameOptions} onchange={handleSubDealerChange}></lightning-combobox> </span>
+				</div>
+				<div class="slds-col">
+					<span></span>
+				</div>
+			</div>
+			<br>
+
+			<div class="slds-box " style="inline-size: fit-content; font: initial"> Opening Balance : {openingBalance}
+				<br> Closing Balance : {closingBalance} </div>
+
+			
+				<div>
+					<lightning-datatable data={ledgerList} columns={columns} show-row-number-column hide-checkbox-column
+						key-field="Id"></lightning-datatable>
+				</div>
+				<template if:true={noRecordsMessage}>
+					<div style="text-align: center;	font-size: initial;"> No Record Found.... </div>
+				</template>
+		</lightning-card>
+
+	</div> -->
+
+</template>

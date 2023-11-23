@@ -1,0 +1,74 @@
+<template>
+	<!-- spinner -->
+	<div if:true={isLoaded} class="slds-is-relative">
+		<lightning-spinner alternative-text="Loading..." variant="brand">
+		</lightning-spinner>
+	</div>
+	<template if:true={isShowModal}>
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+			aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open" style="width: 90%; margin-left: 65px;">
+			<div class="slds-modal__container">
+				<!-- modal header start -->
+
+				<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideModalBox}>
+					<lightning-icon icon-name="utility:close"
+					alternative-text="close"
+					variant="inverse"
+					size="small" ></lightning-icon>
+					<span class="slds-assistive-text">Close</span>
+				</button>
+
+				<lightning-modal-header label="Select Object" class="my-modal-header textClass">
+				</lightning-modal-header>
+
+
+
+				<!-- modal body start -->
+				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+					<!-- <div class="header"></div> -->
+					<template if:false={isEditorCmp}>
+
+						<lightning-input label="Search Object" type="search" onfocus={showPicklistOptions}
+							onchange={search} value={selectedValue}>
+						</lightning-input>
+						<ul class="slds-listbox slds-listbox_vertical" role="presentation">
+							<template for:each={searchResults} for:item="searchResult">
+								<li key={searchResult.value} data-value={searchResult.value} role="presentation"
+									onclick={selectSearchResult} class="slds-listbox__item">
+									<div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small "
+										role="option">
+										<span class="slds-media__body">
+															<span class="slds-truncate" title={searchResult.label}>
+																{searchResult.label}
+															</span>
+										</span>
+									</div>
+								</li>
+							</template>
+						</ul>
+						<div if:true={error} class="slds-text-color_error">{error}</div>
+
+					</template>
+
+				</div>
+
+
+
+				<lightning-modal-footer>
+					<lightning-button label="Cancel" title="Non-primary action" onclick={hideModalBox}
+						class="slds-m-left_x-small"></lightning-button>
+					<lightning-button variant="brand" label="Next" onclick={handleNextClick}
+						class="slds-m-left_x-small button"></lightning-button>
+				</lightning-modal-footer>
+
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+	</template>
+	<!-- modal end -->
+
+	<!-- <template if:true={isEditorCmp}>
+		<c-configration-page-c-m-p selected-object-name={selectedObjectName}>
+		</c-configration-page-c-m-p>
+	</template> -->
+</template>

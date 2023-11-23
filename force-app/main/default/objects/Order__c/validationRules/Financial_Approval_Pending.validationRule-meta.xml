@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Financial_Approval_Pending</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (NOT (AND ( OR (ISBLANK(Truck_No__c), ISBLANK( Docket_No__c ) , ISBLANK( Driver_Name__c ) ))),  NOT(ISPICKVAL( Financial_Approval__c , &apos;Approved&apos;)),ISPICKVAL( StageName__c , &apos;Invoice&apos;)  )</errorConditionFormula>
+    <errorMessage>Please Submit Order to Financial team and take approval to proceed</errorMessage>
+</ValidationRule>

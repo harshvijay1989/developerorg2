@@ -1,0 +1,321 @@
+<template>
+
+	<!-- <div
+		style="background-color: #4B5D78;padding: 2%;color: white;width:100%;margin-top: 3%;text-align: center;font-size: 18px;margin-left: -1%;border-radius: 4px 4px 2px 2px;">
+		Merge Field Selections</div> -->
+
+	<div
+		style="padding: 7px; text-align: center;background-color:rgb(240, 241, 245);color: #0831a9; margin: 15px; border-radius: 3px;">
+		Selected Object :<Strong>{selectedObjectName}</Strong></div>
+
+	<div class="slds-form-element__control">
+		<div class="slds-combobox" style="margin-top:-39px; padding: 20px;">
+			<lightning-input class="slds-combobox__input" style="margin-top: 6%;" label="Related Parent Object"
+				type="search" onfocus={handleInputFocus} onblur={handleBlur} onchange={handelSearchKey}
+				value={searchTerm} placeholder="Search..." disabled={buttonParentDisabled}>
+			</lightning-input>
+			<div if:true={searchResultsVisible}>
+				<div class={getDropdownClass} role="listbox"
+					style="border:2px groove;background:white;height:200px;overflow:auto;width:100%; ">
+					<ul class="slds-listbox slds-listbox_vertical" role="presentation">
+						<template for:each={searchResults} for:item="result">
+							<li key={result.label} data-value={result.label} role="presentation"
+								onclick={handleResultClick} data-objectname={result.objectName}
+								data-label={result.label} class="slds-listbox__item">
+								<div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small "
+									role="option">
+									<span class="slds-media__figure slds-listbox__option-icon">
+                                           				 <span class="slds-icon_container slds-icon-standard-account">
+                                              				  <lightning-icon icon-name="standard:account" size="small"></lightning-icon>
+                                           				 </span>
+									</span>
+									<span class="slds-media__body">
+                                          				  <span class="slds-listbox__option-text slds-listbox__option-text_entity">{result.value}</span>
+									</span>
+								</div>
+							</li>
+						</template>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="slds-combobox" style="padding-left: 12px;">
+		<lightning-input class="slds-combobox__input" style="width:92%;margin-left: 9px;" label="Related Child Object"
+			type="search" onfocus={handleInputFocusChild} onblur={handleChildBlur} onchange={handelSearchKeyChild}
+			value={searchTerm1} placeholder="Search..." disabled={buttonDisbaled}>
+		</lightning-input>
+		<div if:true={searchResultsVisibleChild}>
+			<div class={getDropdownClass} role="listbox"
+				style="border:2px groove;background:white;height:200px;overflow:auto;width:95%;">
+				<ul class="slds-listbox slds-listbox_vertical" role="presentation">
+					<template for:each={searchResults1} for:item="result">
+						<li key={result.label} data-value={result.label} role="presentation"
+							onclick={handleResultChildClick} data-objectname={result.objectName}
+							data-label={result.label} class="slds-listbox__item">
+							<div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small "
+								role="option">
+								<span class="slds-media__figure slds-listbox__option-icon">
+                                           				 <span class="slds-icon_container slds-icon-standard-account">
+                                              				  <lightning-icon icon-name="standard:account" size="small"></lightning-icon>
+                                           				 </span>
+								</span>
+								<span class="slds-media__body">
+                                          				  <span class="slds-listbox__option-text slds-listbox__option-text_entity">{result.value}</span>
+								</span>
+							</div>
+						</li>
+					</template>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<template if:true={showChildFields}>
+		<div style="padding: 21px;">
+			<div class="slds-combobox_container resizable-container" onmousedown={startResize}>
+				<div class="slds-p-around_small">
+					<b>Selected Child Object Field</b>
+					<lightning-dual-listbox source-label="Available" selected-label="Selected" options={optionsPicklist}
+						value={selectedValues} onchange={handleSelectionChange}>
+					</lightning-dual-listbox>
+					<div style="margin-top:10px;" >
+						<lightning-button style="margin-left:7px" variant="brand" label="Preview" title="Preview"
+							onclick={handlePreview} disabled={disablePreview}></lightning-button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</template>
+
+	<template if:true={showContentBox}>
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+			aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+			<div class="slds-modal__container">
+				<header class="slds-modal__header" style="background-color: #0831a9;color: white;">
+					<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideModalBox}>
+									<lightning-icon icon-name="utility:close"
+									alternative-text="close"
+									variant="inverse"
+									size="small" ></lightning-icon>
+									<span class="slds-assistive-text">Close</span>
+								</button>
+					<h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+						{selectValue}
+						&nbsp; Table Preview</h2>
+				</header>
+
+				<!-- modal body start -->
+				<div class="slds-modal__content slds-p-around_medium my-class" id="modal-content-id-1"
+					style="overflow: scroll;">
+					<div>
+						<lightning-formatted-rich-text value={htmlTableBody}>
+						</lightning-formatted-rich-text>
+					</div>
+				</div>
+
+				<!-- modal footer start-->
+				<footer class="slds-modal__footer">
+					<lightning-button-group>
+						<lightning-button label="Cancel" variant="brand" icon-name="utility:close"
+							onclick={hideModalBox} ></lightning-button>&nbsp;&nbsp;&nbsp;
+						<lightning-button label="Copy" icon-name="utility:copy" onclick={copyHtmlBodyContent}>
+						</lightning-button>
+					</lightning-button-group>
+					<!-- <button class="slds-button slds-button_neutral" onclick={hideModalBox}>Cancel</button>
+					<button class="slds-button slds-button_brand" onclick={copyHtmlBodyContent}>Copy Table</button> -->
+				</footer>
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+	</template>
+
+
+	<template if:true={showParentObjects}>
+		<div style="color:var(--lwc-colorTextLink,rgb(1, 118, 211)); margin-left: 10px;">
+			<template if:true={ShowComboBox}>
+				<div>
+					<template if:true={isComboBoxVisible1}>
+						<lightning-combobox class="slds-p-horizontal_medium" placeholder="Select Fields"
+							style="margin-top:30px;margin-left:-4px;width:180px;" variant="label-hidden"
+							options={objectFields} value={selectedFieldContact} onchange={handleFieldChange}>
+						</lightning-combobox>
+					</template>
+					<template if:true={isItemSelected1}>
+						<div class="selectedValue"
+							style="margin-left:30px;margin-top:20px;font-weight:400;font-size:inherit;"
+							onclick={handleSelectedItemClick1}>
+							{selectedValue1}
+						</div>
+					</template>
+				</div>
+				<template if:true={boxOneIcon}>
+					<div>
+						<lightning-icon icon-name="utility:play" size='x-small'
+							style="margin-left:10px;margin-top:10px; !important;" alternative-text="Approved"
+							title="Approved">
+						</lightning-icon>
+					</div>
+				</template>
+			</template>
+
+			<template if:true={ShowComboBox2}>
+				<div>
+					<template if:true={isComboBoxVisible2}>
+						<lightning-combobox class="slds-p-horizontal_medium"
+							style="margin-top:3px;margin-left:-10px;width:180px;" variant="label-hidden"
+							placeholder="Select Fields" options={objectFields1} value={} onchange={handleFieldAccount}>
+						</lightning-combobox>
+					</template>
+					<template if:true={isItemSelected2}>
+						<div class="selectedValue"
+							style="margin-left: 30px;margin-top: 3px;font-weight: 400;font-size:inherit;"
+							onclick={handleSelectedItemClick2}>
+							{selectedValue2}
+						</div>
+					</template>
+				</div>
+
+				<template if:true={boxTwoIcon}>
+					<div>
+						<lightning-icon icon-name="utility:play" style="margin-left:10px;margin-top:9px;  !important;"
+							size='x-small' alternative-text="Approved" title="Approved">
+						</lightning-icon>
+					</div>
+				</template>
+
+
+			</template>
+
+			<template if:true={ShowComboBox3}>
+				<div>
+					<template if:true={isComboBoxVisible3}>
+						<lightning-combobox label="Select Fields" style="width:180px;margin-left:-12px;margin-top:3px;"
+							class="slds-p-horizontal_medium" variant="label-hidden" placeholder="Select Fields"
+							options={objectFields2} value={} onchange={handleCombo3}>
+						</lightning-combobox>
+					</template>
+					<template if:true={isItemSelected3}>
+						<div class="selectedValue"
+							style="margin-left:30px;margin-top: 3px;font-weight: 400;font-size:inherit;"
+							onclick={handleSelectedItemClick3}>
+							{selectedValue3}
+						</div>
+					</template>
+				</div>
+				<template if:true={boxThreeIcon}>
+					<div>
+						<lightning-icon icon-name="utility:play" style="margin-left:10px;margin-top:10px; !important;"
+							size='x-small' alternative-text="Approved" title="Approved">
+						</lightning-icon>
+					</div>
+				</template>
+
+
+			</template>
+
+			<template if:true={ShowComboBox4}>
+				<div>
+					<template if:true={isComboBoxVisible4}>
+						<lightning-combobox label="Select Fields" style="width:180px;margin-top:3px;margin-left:-7px;"
+							class="slds-p-horizontal_medium" variant="label-hidden" options={objectFields3} value={}
+							onchange={handlecombo4}>
+						</lightning-combobox>
+					</template>
+					<template if:true={isItemSelected4}>
+						<div class="selectedValue"
+							style="margin-left: 30px;margin-top:3px;font-weight:400;font-size:inherit;"
+							onclick={handleSelectedItemClick4}>
+							{selectedValue4}
+						</div>
+					</template>
+				</div>
+				<template if:true={boxFourIcon}>
+					<div>
+						<lightning-icon icon-name="utility:play" style="margin-left:10px;margin-top: 10px; !important;"
+							size='x-small' alternative-text="Approved" title="Approved">
+						</lightning-icon>
+					</div>
+				</template>
+
+			</template>
+
+
+			<template if:true={ShowComboBox5}>
+				<div>
+					<template if:true={isComboBoxVisible5}>
+						<lightning-combobox label="Select Fields" style="width:180px;margin-left:0px;margin-top:3px;"
+							class="slds-p-horizontal_medium" variant="label-hidden" placeholder="Select an option"
+							options={objectFields4} value={} onchange={handleCombo5}>
+						</lightning-combobox>
+					</template>
+					<template if:true={isItemSelected5}>
+						<div class="selectedValue"
+							style="margin-left: 30px;margin-top: 3px;font-weight: 400;font-size:inherit;"
+							onclick={handleSelectedItemClick5}>
+							{selectedValue5}
+						</div>
+					</template>
+				</div>
+
+			</template>
+		</div>
+	</template>
+
+
+	<br/>
+	<br/>
+	<br/>
+
+
+	<div class="slds-box" style="margin-top:-40px;margin-top: -40px; color: red;font-size: initial; border: firebrick;">
+		<p>{endLevel}</p>
+	</div>
+
+	<br>
+
+
+	<template if:true={selectedValue1}>
+		<div class="slds-grid slds-wrap" style="margin-top: -30px;"><br/>
+			<div class="slds-align_absolute-center">
+				<div class="slds-p-around_medium lgc-bg">
+					<div class="slds-grid slds-gutters">
+						<div class="slds-col">
+							<span>
+                                        <lightning-icon size="large" icon-name="standard:folder" ></lightning-icon>
+                                </span>
+						</div>
+						<div class="slds-col">
+							<span style="word-break: break-all">
+                                            <b>Field:</b><br/>
+                                            <p style="word-break: break-all">{paramString}</p>
+                                        </span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br/>
+        </template>
+		<div style="margin-right: 21px;padding-bottom: 12px;text-align: right;">
+			<template if:true={showButtons}>
+
+				<lightning-button-group>
+					<lightning-button label="Copy" variant="brand" icon-name="utility:copy" onclick={copyFields}
+						disabled={isDisable}></lightning-button>
+					<lightning-button label="Reset" icon-name="action:reset_password" style="margin-left: 8px;" onclick={resetModal}>
+					</lightning-button>
+				</lightning-button-group>
+
+				<!-- <button class="slds-button slds-button_brand " onclick={copyFields} disabled={isDisable} title="OK">Copy</button> -->
+				<!-- <button class="slds-button slds-button_neutral " onclick={closeModal} title="Cancel">Cancel</button> -->
+				<!-- <button class="slds-button slds-button_neutral " onclick={resetModal} title="Reset">Reset</button> -->
+
+			</template>
+		</div>
+
+	</template>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Overdue</fullName>
+    <columns>Invoice_No__c</columns>
+    <columns>Invoice_Date__c</columns>
+    <columns>Buyer__c</columns>
+    <columns>Consignee__c</columns>
+    <columns>Date_Time_of_Removal__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>Overdue Invoice</label>
+</ListView>

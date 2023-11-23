@@ -1,0 +1,267 @@
+<template>
+    <lightning-card >
+        <div class="slds-align_absolute-center slds-p-bottom_x-large" style="font-weight: bold;font-size: 25px;"> Dealer Onboarding Form</div>
+        <lightning-progress-indicator current-step={currentPage} type="base" has-error="" variant="base">
+            <lightning-progress-step label="Step 1" value="1" onclick={nextPage}></lightning-progress-step>
+            <!-- <lightning-progress-step label="Step 2" value="2" onclick={nextPage}></lightning-progress-step> -->
+            <lightning-progress-step label="Step 2" value="3" onclick={nextPage}></lightning-progress-step>
+        </lightning-progress-indicator>
+
+        <!-- Step 1 -->
+        <template if:true={stepOne}>
+            <div class="slds-p-horizontal_xx-large">
+                <lightning-layout multiple-rows>
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                        <lightning-input type="text" label="First Name" placeholder="" onkeyup={handleChangeFirstName} value={firstName}></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                        <lightning-input type="text" label="Last Name" placeholder="" onkeyup={handleChangeLastName} required class="lastName" value={lastName}></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                        <lightning-input type="text" label="Phone" placeholder="" onkeyup={handleChangePhone} value={phone}></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                        <lightning-input type="email" label="Email" placeholder="" onkeyup={handleChangeEmail} value={email}></lightning-input>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </template>
+        <!-- Step 2  Upload Document-->
+        <!--<template if:true={stepTwo}>
+            <lightning-accordion allow-multiple-sections-open active-section-name={activeSections} >
+                <lightning-accordion-section name="A" label="Identity Proof">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-3">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <img src={imgs}/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <input type="checkbox" name="options" id="checkbox-unique-id-81" value="checkbox-unique-id-81"/>&nbsp;Identity Proof
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_2-of-3">
+                            <h1 class="slds-text-heading_small slds-m-bottom_x-small">Identity Proof</h1>
+                            <p>Upload individual identity proof.</p>
+                            <div class="slds-form-element slds-m-top_small">
+                                <div class="slds-form-element__control">
+                                <div class="slds-file-selector slds-file-selector_files">
+                                    <div class="slds-file-selector__dropzone">
+                                    <input type="file" data-type="identity" onchange={handleChangeDoc} class="slds-file-selector__input slds-assistive-text" accept="*" id="file-upload-input-106" aria-labelledby="file-selector-primary-label-105 file-selector-secondary-label106" />
+                                    <label class="slds-file-selector__body" for="file-upload-input-106" id="file-selector-secondary-label106">
+                                        <span class="slds-file-selector__button slds-button slds-button_neutral">
+                                        <svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
+                                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
+                                        </svg>Upload Files</span>
+                                        <span class="slds-file-selector__text slds-medium-show">or Drop Files</span>
+                                    </label>
+                                    </div>
+                                </div>
+                                <template for:each={selectedIdentity} for:item="file">
+                                    <div key={file.id} class="slds-box slds-m-top_small slds-p-around_xxx-small">
+                                        <div class="slds-grid slds-grid_align-spread ">
+                                            <div class="slds-truncate">{file.name}</div>
+                                            <div class="slds-col_bump-left slds-m-left_small">
+                                                <lightning-button-icon
+                                                    icon-name="utility:delete"
+                                                    alternative-text="Delete"
+                                                    variant="bare"
+                                                    size="small"
+                                                    title="Delete"
+                                                    data-id={file.id}
+                                                    onclick={handleDeleteFile}>
+                                                </lightning-button-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </lightning-accordion-section>
+                <lightning-accordion-section name="B" label="PAN Card">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-3">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <img src={imgsPan}/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <input type="checkbox" name="options" id="checkbox-unique-id-82" value="checkbox-unique-id-81"/>&nbsp;PAN Card
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_2-of-3">
+                            <h1 class="slds-text-heading_small slds-m-bottom_x-small">PAN Card</h1>
+                            <p>Upload individual PAN Card.</p>
+                            <div class="slds-form-element slds-m-top_small">
+                                <div class="slds-form-element__control">
+                                <div class="slds-file-selector slds-file-selector_files">
+                                    <div class="slds-file-selector__dropzone">
+                                    <input type="file" data-type="pan" onchange={handleChangeDoc} class="slds-file-selector__input slds-assistive-text" accept="image/*" id="file-upload-input-107" aria-labelledby="file-selector-primary-label-105 file-selector-secondary-label107" />
+                                    <label class="slds-file-selector__body" for="file-upload-input-107" id="file-selector-secondary-label107">
+                                        <span class="slds-file-selector__button slds-button slds-button_neutral">
+                                        <svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
+                                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
+                                        </svg>Upload Files</span>
+                                        <span class="slds-file-selector__text slds-medium-show">or Drop Files</span>
+                                        <span id="pans" class="slds-file-selector__text slds-medium-show"></span>
+                                    </label>
+                                    </div>
+                                </div>
+                                <template for:each={selectedPan} for:item="file">
+                                    <div key={file.id} class="slds-box slds-m-top_small slds-p-around_xxx-small">
+                                        <div class="slds-grid slds-grid_align-spread ">
+                                            <div class="slds-truncate">{file.name}</div>
+                                            <div class="slds-col_bump-left slds-m-left_small">
+                                                <lightning-button-icon
+                                                    icon-name="utility:delete"
+                                                    alternative-text="Delete"
+                                                    variant="bare"
+                                                    size="small"
+                                                    title="Delete"
+                                                    data-id={file.id}
+                                                    onclick={handleDeleteFile}>
+                                                </lightning-button-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                                </div>
+                            </div>
+                            </div>
+                    </div>
+                </lightning-accordion-section>
+
+                <lightning-accordion-section name="C" label="Other Documents">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-3">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <img src={imgsDoc}/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <input type="checkbox" name="options" id="checkbox-unique-id-83" value="checkbox-unique-id-81"/>&nbsp;Other Documents
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_2-of-3">
+                            <h1 class="slds-text-heading_small slds-m-bottom_x-small">Other Documents</h1>
+                            <p>Upload individual Other Documents.</p>
+                            <div class="slds-form-element slds-m-top_small">
+                                <div class="slds-form-element__control">
+                                <div class="slds-file-selector slds-file-selector_files">
+                                    <div class="slds-file-selector__dropzone">
+                                    <input type="file" data-type="document" onchange={handleChangeDoc} class="slds-file-selector__input slds-assistive-text" accept="image/*" id="file-upload-input-108" aria-labelledby="file-selector-primary-label-105 file-selector-secondary-label108" />
+                                    <label class="slds-file-selector__body" for="file-upload-input-108" id="file-selector-secondary-label108">
+                                        <span class="slds-file-selector__button slds-button slds-button_neutral">
+                                        <svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
+                                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
+                                        </svg>Upload Files</span>
+                                        <span class="slds-file-selector__text slds-medium-show">or Drop Files</span>
+                                        <span id="documents" class="slds-file-selector__text slds-medium-show"></span>
+                                    </label>
+                                    </div>
+                                </div>
+                                <template for:each={selectedDocument} for:item="file">
+                                    <div key={file.id} class="slds-box slds-m-top_small slds-p-around_xxx-small">
+                                        <div class="slds-grid slds-grid_align-spread ">
+                                            <div class="slds-truncate">{file.name}</div>
+                                            <div class="slds-col_bump-left slds-m-left_small">
+                                                <lightning-button-icon
+                                                    icon-name="utility:delete"
+                                                    alternative-text="Delete"
+                                                    variant="bare"
+                                                    size="small"
+                                                    title="Delete"
+                                                    data-id={file.id}
+                                                    onclick={handleDeleteFile}>
+                                                </lightning-button-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </lightning-accordion-section>
+            </lightning-accordion>
+        </template>-->
+        <!-- Step 3 -->
+        <template if:true={stepThree}>
+            <div class="slds-p-around_small">
+                <template if:true={showResult}>
+                    <lightning-layout multiple-rows>
+                        <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                            <label> Registration Number </label>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                            {leadDetail.Registration_Number__c}
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                            <label> First Name </label>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                            {leadDetail.FirstName}
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                            <label> Last Name </label>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                            {leadDetail.LastName}
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                            <label> Phone </label>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                            {leadDetail.Phone}
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                            <label> Email </label>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                            {leadDetail.Email}
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
+                <template if:false={showResult}>
+                    <p> Click the save button. </p>
+                </template>
+            </div>
+        </template>
+        <!-- Card Footer Code  -->
+        <div slot="footer">
+            <template if:false={showResult}>
+                <!-- <lightning-button 
+                    class="slds-p-around_xx-small"
+                    label="Previous"
+                    variant="neutral"
+                    value={currentPage}
+                    onclick={nextPage}>
+                </lightning-button> -->
+                <template if:true={stepOne}>
+                    <lightning-button
+                        label="Save"
+                        variant="neutral"
+                        onclick={handleSave}
+                    ></lightning-button>
+                </template>
+                <!-- <template if:true={stepOne}>
+                    <lightning-button 
+                        class="slds-p-around_xx-small"
+                        label="Next"
+                        variant="neutral"
+                        value={currentPage}
+                        onclick={nextPage}
+                    ></lightning-button>
+                </template> -->
+                </template>
+        </div>
+    </lightning-card>
+    <template if:true={loaded}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+</template>

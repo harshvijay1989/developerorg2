@@ -1,0 +1,14 @@
+.dummy{
+	color : black;
+}
+.resizable-container {
+  border: 1px solid #ccc; /* Enables horizontal resizing */
+  overflow: auto;
+  max-width: 600px;
+  min-width: 200px;
+  padding: 5px;
+}
+
+.resizable-content {
+  /* Styling for the content of the resizable div */
+}

@@ -1,0 +1,59 @@
+<template>
+	<template if:true={isModalOpen}>
+	<template if:false={isEmailModalShow}>
+		
+	<!-- <lightning-modal-header label="Select Contact" class="my-modal-header textClass"></lightning-modal-header> -->
+	<div if:true={isLoaded} class="slds-spinner_container slds-is-relative">
+            <lightning-spinner
+                alternative-text="Loading..." variant="brand" style="padding-top:200px">
+            </lightning-spinner>
+        </div>
+	<template if:true={relatedContactRoletrue}>
+	 <lightning-card>
+        <lightning-datatable	
+            key-field="Id"
+            data={relatedContactRole}
+            columns={columns}
+			onrowselection={handleFunction}
+			selected-rows={selection}>
+        </lightning-datatable>
+    </lightning-card>
+		</template>
+		<template if:true={relatedContactRolefalse}>
+		
+           <div class="slds-text-align_center slds-text-heading_medium" >No Contact Found.</div>
+		</template>
+	<lightning-modal-footer>
+		        <lightning-button label="Cancel" title="Non-primary action" onclick={handleCancel} class="slds-m-left_x-small"></lightning-button>
+				<template if:true={relatedContactRoletrue}>
+        		<lightning-button  variant="Brand" label="Next" title="Primary action" onclick={handleNext} class="slds-m-left_x-small button"></lightning-button>
+				</template>
+    </lightning-modal-footer>
+	</template>
+	<template if:true={isEmailModalShow}>	
+		<!-- <lightning-modal-header label="Send Document To Customer" class="my-modal-header textClass"></lightning-modal-header> -->
+		<div class="slds-m-around_medium">
+			<label><b>To:</b></label>
+			<input type="text" id="text-input-id-47" placeholder="Email…" value ={ContactEmails} onchange={handleToEmailChange} required="" disabled class="slds-input" /></br>
+			<label><b>Subject:</b></label>
+			<lightning-input type="text" label="Subject" variant="label-hidden" value={subject} onchange={handleToSubject}>
+			</lightning-input></br>
+			<label><b>Email Body:</b></label>
+			<div if:true={isLoaded2} class="slds-spinner_container slds-is-relative">
+            <lightning-spinner
+                alternative-text="Loading..." variant="brand">
+            </lightning-spinner>
+        </div>
+			<lightning-input-rich-text label="" variant="label-hidden" value={mailBody} onchange={handleMailBodyChange}>
+			</lightning-input-rich-text>
+			<label><b>Attachment Name: </b></label>{attachmentName}
+			<div style="margin-top: 15px;">
+				<lightning-modal-footer >
+					<lightning-button label="Cancel" title="Non-primary action" onclick={handleCancel} class="slds-m-left_x-small"></lightning-button>
+					<lightning-button variant="brand" label="Send" onclick={sendEmailMtd} class="slds-m-left_x-small button"></lightning-button>
+				</lightning-modal-footer>
+			</div>
+		</div>
+	</template>
+	</template>
+</template>

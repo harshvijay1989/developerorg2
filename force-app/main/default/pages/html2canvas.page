@@ -1,0 +1,81 @@
+<apex:page controller="htmlToCanvas"   action="{!handleUrl}">
+    <html>
+        <head> 
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js">
+            </script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+            </script> 
+        </head>
+        <body>
+            <div id="header" style="width:100%" class="header"></div>
+            <div id="footer" style="width:100%" class="footer">
+            <div>Page <span class="pagenumber"/> of <span class="pagecount"/></div>
+            </div>
+        </body>
+        
+        <script>
+         $(document).ready(function(){ 
+                     
+              var lexOrigin = "{!orgBaseURL}";
+            
+                       
+             
+             function sendDataToLWC(payload) {
+                var message = {
+                    name:"HTML_2_CANVAS_CONVERT_VF",
+                    payload
+                }; 
+                parent.postMessage(message, lexOrigin);
+            }
+             
+             window.addEventListener("message", function(event){
+                 if(event.origin !== lexOrigin || event.data == undefined){ 
+                    console.log('lexOrigin', lexOrigin);
+                    console.log('event.origin', event.origin);
+                     return;
+                 }
+                    
+                    console.log('lexOrigin external', lexOrigin);
+                    console.log('event.origin external', event.origin);
+                 
+                 if(event.data.header || event.data.footer){
+ 
+                     $('.header').html(event.data.header);
+                     $('.footer').html(event.data.footer); 
+                      
+                     Promise.all([convert2image('header', event.data.header), convert2image('footer', event.data.footer)]).then((values) => { 
+                         sendDataToLWC(values);
+                     });
+                 }
+             },false);
+             
+             function convert2image(elementId, htmlData){ 
+                 return new Promise((resolve, reject) => { 
+                    
+                     html2canvas(document.getElementById(elementId), {allowTaint: true, useCORS: true}).then(function (canvas) { 
+                     resolve({ id :elementId, base64 : canvas.toDataURL("image/jpeg"), html : htmlData}); 
+                 });
+             }); 
+         }
+             
+             
+             
+             $("#btnConvert").on('click', function () {
+                 html2canvas(document.getElementById("html-content-holder"), {allowTaint: true, useCORS: true}).then(function (canvas) { 
+                     
+                      console.log(canvas.toDataURL());
+                     var anchorTag = document.createElement("a");
+                     document.body.appendChild(anchorTag);
+                     document.getElementById("previewImg").appendChild(canvas);
+                     anchorTag.download = "filename.jpg";
+                    
+                     anchorTag.href = canvas.toDataURL();
+                     anchorTag.target = '_blank';
+                     anchorTag.click();
+                 });
+             });
+        });
+        </script>
+        
+    </html>
+</apex:page>

@@ -1,0 +1,11 @@
+{
+  "activeViewId" : "7d728e4f-1656-4885-8c41-fbd40c456cd1",
+  "appPageId" : "b2b0fbd2-087e-4462-a7be-e45af45c9fc8",
+  "configurationTags" : [ ],
+  "id" : "832f7b2f-c90f-4bc3-9b3e-4c5c5a536dcf",
+  "label" : "Dealer Registration",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-dealer-registration",
+  "type" : "route",
+  "urlPrefix" : "dealer-registration"
+}

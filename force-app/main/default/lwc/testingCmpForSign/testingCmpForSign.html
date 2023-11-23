@@ -1,0 +1,44 @@
+<template>
+    <div>
+ 
+		<div class="slds-m-bottom_small"  style="display: inline-block; max-width: 100%; text-align: center;  display: block; margin: 0 auto;">
+			<canvas name="canvasItem" height="150px" width="600px" style="border: none;
+				background: transparent;"></canvas>
+		</div>
+        <div class="slds-m-left_medium slds-m-top_medium">
+            <button onclick={handleClearClick} class="clear-button">Clear</button>
+            <button onclick={handleSave} class="custom-button">Sign</button>
+            
+            <div if:true={spinner}>
+                <lightning-spinner alternative-text="Loading..." variant="brand">
+                </lightning-spinner>
+            </div>
+        </div>
+    </div>
+</template>
+
+
+<!-- BACKUP CODE START -->
+
+<!-- 
+<template>
+	<div>
+		<p class="slds-m-bottom_small">
+			<canvas name="canvasItem" height="200px" width="600px" style="border: groove;
+                background: transparent;margin-left: 17px;"></canvas>
+		</p>
+		<div class="slds-m-top_medium" style="margin-left: 491px;">
+			<button   onclick={handleClearClick} class="clear-button" >Clear</button>
+			<button   onclick={handleSave} class="custom-button"> Sign
+			</button>
+			
+			<div if:true={spinner}>
+				<lightning-spinner alternative-text="Loading..." variant="brand">
+				</lightning-spinner>
+			</div>
+		</div>
+	</div>
+</template>
+
+ -->
+<!-- BACKUP CODE ENDS -->

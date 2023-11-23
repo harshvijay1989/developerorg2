@@ -1,0 +1,136 @@
+<apex:page standardController="Order__c" extensions="HMC_OrderPreviewController"  renderAs="pdf" sidebar="false" showHeader="false">
+    <apex:outputText rendered="{!BuTypeOfDealer == 'Firefox'}">
+         <html>
+        <body>
+            <h2>{!quoObj.Account__r.Name}</h2>
+        </body>
+        <table  align="center" style="height: 300px; width: 800px;">
+            <tbody>
+                <tr>
+                    <td colspan="4" style="width: 118.328px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="width: 118.328px;color:white"> test</td>
+                </tr>
+                <tr>
+                    <td style="width: 138.328px;height:30px">Company Name</td>
+                    
+                    <td style="width: 235.625px;"> {!$organization.name}</td>
+                    <td style="width: 129.109px;">Created Date</td>
+                    <td style="width: 227.938px;"><apex:outputText value="{0,date,dd' 'MMMMM' 'yyyy}">
+                        <apex:param value="{!quoObj.createddate}" /> 
+                        </apex:outputText></td>
+                </tr>
+                <tr>
+                    <td style="width: 118.328px;">&nbsp;</td>
+                    <td style="width: 235.625px;">&nbsp;</td>
+                    <td style="width: 129.109px;">&nbsp;</td>
+                    <td style="width: 227.938px;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="width: 118.328px;">Prepared By</td>
+                    <td style="width: 235.625px;">{!quoObj.Owner.name}</td>
+                    <td style="width: 129.109px;">&nbsp;</td>
+                    <td style="width: 227.938px;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="width: 118.328px;">Email</td>
+                    <td style="width: 235.625px;">{!quoObj.Account__r.HMC_Contact_Email__c}</td>
+                    <td style="width: 129.109px;">&nbsp;</td>
+                    <td style="width: 227.938px;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="width: 118.328px;">&nbsp;</td>
+                    <td style="width: 235.625px;">&nbsp;</td>
+                    <td style="width: 129.109px;">&nbsp;</td>
+                    <td style="width: 227.938px;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="width: 118.328px;">Bill To Name</td>
+                    <td style="width: 235.625px;">{!quoObj.Account__r.Name}</td>
+                    <td style="width: 129.109px;">Ship To Name</td>
+                    <td style="width: 227.938px;">{!quoObj.Account__r.Name}</td>
+                </tr>
+                <tr>
+                    <td style="width: 118.328px;">Bill To</td>
+                    <td style="width: 235.625px;">{!quoObj.Account__r.BillingCity}</td>
+                    <td style="width: 129.109px;">Ship To</td>
+                    <td style="width: 227.938px;">{!quoObj.Account__r.BillingCity}</td>
+                </tr>
+                <tr>
+                    <td style="width: 118.328px;">&nbsp;</td>
+                    <td style="width: 235.625px;">{!quoObj.Account__r.BillingState}</td>
+                    <td style="width: 129.109px;">&nbsp;</td>
+                    <td style="width: 227.938px;">{!quoObj.Account__r.BillingState}</td>
+                </tr>
+                <tr>
+                    <td style="width: 118.328px;">&nbsp;</td>
+                    <td style="width: 235.625px;">{!quoObj.Account__r.BillingPostalCode}</td>
+                    <td style="width: 129.109px;">&nbsp;</td>
+                    <td style="width: 227.938px;">{!quoObj.Account__r.BillingPostalCode}</td>
+                </tr>
+                <tr>
+                    <td style="width: 118.328px;">&nbsp;</td>
+                    <td style="width: 235.625px;">{!quoObj.Account__r.BillingCountry}</td>
+                    <td style="width: 129.109px;">&nbsp;</td>
+                    <td style="width: 227.938px;">{!quoObj.Account__r.BillingCountry}</td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="width: 118.328px;color:white"> test</td>
+                </tr>
+            </tbody>
+        </table>
+    </html>
+    <apex:form >    
+        
+        <apex:pageBlock >    
+            <table width="700px" 
+                   style=" font-size: 15px; border: 1px solid #616161; border-collapse:collapse" >
+                <tr style="background-color: #767676;color: white;">
+                    <td style="text-align: center;border:2px solid #616161; border-right:none;">Product Name</td>
+                    <td style="text-align: center;border:2px solid #616161;border-right:none;">Product Code</td>
+                    <td style="text-align: center;border:2px solid #616161;border-right:none;">Base Price</td>
+                    <td style="text-align: center;border:2px solid #616161; border-right:none;">Quantity</td>
+                    <td style="text-align: center;border:2px solid #616161; border-right:none;">Discount</td>
+                    <td style="text-align: center;border:2px solid #616161;  border-right:none;">Tax</td>
+                    <td style="text-align: center;border:2px solid #616161;">Total Amount</td>
+                </tr>
+                <apex:repeat value="{!quoLineItemList}" var="c"> 
+                    <tr>
+                        <td style="text-align: left;border:2px solid #616161; border-top:none; border-right:none;"><apex:outputField value="{!c.Product__r.name}"/></td>
+                        <td style="text-align: center;border:2px solid #616161; border-top:none;  border-right:none;"><apex:outputField value="{!c.Product__r.ProductCode__c}"/></td>
+                        <td style="text-align: center;border:2px solid #616161; border-top:none;  border-right:none;"><apex:outputField value="{!c.Base_Price__c}"/></td>
+                        <td style="text-align: center;border:2px solid #616161; border-top:none;  border-right:none;"><apex:outputField value="{!c.Quantity__c}"/></td>
+                        <td style="text-align: center;border:2px solid #616161; border-top:none;  border-right:none;"><apex:outputField value="{!c.Total_Discount__c}"/></td>
+                        <td style="text-align: center;border:2px solid #616161; border-top:none;  border-right:none;"><apex:outputField value="{!c.Tax__c}"/></td>
+                        <td style="text-align: right;border:2px solid #616161; border-top:none; "><apex:outputField value="{!c.Net_Amount__c}"/></td>
+                    </tr>   
+                </apex:repeat>
+            </table>
+            <br/>
+            <br/>
+            <div style="position:absolute;right:0px;width:25%;height:100px;">
+                Total Quantity	 :	{!totalQuantity}<br/>
+                Total Price  :  {!totalPrice}
+            </div>
+            <br/>
+            <br/>
+            <h5 style="background-color: #767676; padding:7px"> <b>Order acceptance information</b></h5>
+            <p style=" font-size: 15px;">
+                Signature____________________________
+            </p>
+            <p style=" font-size: 15px;">
+                Name____________________________
+            </p>
+            <p style=" font-size: 15px;">
+                Title________________________
+            </p>
+            <p style=" font-size: 15px;">
+                Date____________________
+            </p>      
+            
+        </apex:pageBlock>
+    </apex:form>
+    </apex:outputText>
+</apex:page>

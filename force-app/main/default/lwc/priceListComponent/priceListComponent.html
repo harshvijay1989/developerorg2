@@ -1,0 +1,31 @@
+<template>
+
+	<div class="slds-p-around_medium">
+		<div if:true={isLoaded}>
+			<lightning-spinner alternative-text="Loading..." variant="brand"></lightning-spinner>
+		</div>
+		<template if:true={showPriceList}>
+			<template if:true={showOptions}>
+				<div class="slds-grid slds-align_absolute-center">
+					<div class="slds-size_1-of-2">
+						<!-- Adjust size as needed -->
+						<lightning-combobox label="Select an Option" options={attachmentOptions}
+							onchange={handleAttachmentSelection} class="slds-input_small"></lightning-combobox>
+					</div>
+				</div>
+				<div class="slds-m-top_medium">
+					<iframe if:true={pdfUrl} src={pdfUrl} width="100%" height="500px"></iframe>
+					<template if:false={pdfUrl}>
+						<p class="slds-grid slds-align_absolute-center">No PDF selected</p>
+					</template>
+				</div>
+			</template>
+		</template>
+		<template if:false={showPriceList}>
+			<div class="slds-box slds-theme_shade">
+				<center><p>There is no price list.</p></center>
+			</div>
+		</template>
+	</div>
+
+</template>

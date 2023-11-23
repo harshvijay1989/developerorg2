@@ -1,0 +1,9 @@
+/* yourComponentName.css */
+.smaller-combobox .slds-combobox_container {
+    text-align: center; /* Center-align the input */
+}
+
+.smaller-combobox .slds-form-element__control {
+    max-width: 50%; /* Make the input 50% smaller */
+    margin: 0 auto; /* Center-align the input */
+}

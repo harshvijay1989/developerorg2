@@ -1,0 +1,117 @@
+<apex:page controller="InvoiceOrderReceiptCls" renderAs="pdf" applyHtmlTag="false" sidebar="false" showHeader="false" standardStylesheets="false">
+	<html>
+        <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			<style>
+                /* Begin Custom Grid System */
+                .clearfix {
+                clear: both;
+                }
+                
+                .row {
+                display: block;
+                }
+                .col {
+                float: left;
+                }
+                .size-1-of-2 {
+                width: 48%;
+                }
+                .size-1-of-3 {
+                width: 33.33%;
+                }
+                .size-1-of-4 {
+                width: 25%;
+                }
+                .size-1-of-5 {
+                width: 20%;
+                }
+                /* End Custom Grid System */
+                
+                body{
+                    font-family: Arial, Helvetica, sans-serif;
+                    color: #666666;
+                  	font-weight: 400;
+				}
+                
+                table {
+                width: 100%;
+                border-collapse: collapse;
+                }
+                
+                th, td {
+                text-align: left;
+                padding: 8px;
+                border-bottom: 1px solid #ddd;
+                }
+                
+                th {
+                background-color: #f2f2f2;
+                }
+            </style>            
+        </head>
+        <body>
+            <h1 style="font-weight: 400;">
+                Paper Trader - Invoice
+            </h1>
+            <h3>
+                order #1082
+            </h3>
+          	<div style="border-bottom: 1px solid #ddd;margin-bottom:10px;"> </div>  
+            <div class='row'>
+                <div class='col size-1-of-2'>
+                    <strong>Billed To:</strong><br/><br/>
+                    {!orderData.Account__r.BillingStreet}<br/>
+                    {!orderData.Account__r.BillingCity},{!orderData.Account__r.BillingState}, {!orderData.Account__r.BillingCountry}<br/>
+                    P: {!orderData.Account__r.HMC_Contact_Number__c}<br/><br/>
+                    
+                    <strong>Payment Method:</strong><br/>
+                    Visa ending **** 1234<br/>
+                    {!orderData.Account__r.HMC_Contact_Email__c}<br/>
+                </div>
+                <div class='col size-1-of-2' style="text-align:right;">
+                    <strong>Shipped To:</strong><br/><br/>
+                    {!orderData.Account__r.ShippingStreet}<br/>
+                    {!orderData.Account__r.ShippingCity},{!orderData.Account__r.ShippingState}, {!orderData.Account__r.ShippingCountry}<br/>
+                    P: {!orderData.Account__r.HMC_Contact_Number__c}<br/><br/>
+                    
+                    <strong>Order Date:</strong><br/>
+                    {!orderDate}<br/>
+                </div>
+                <div class='clearfix'></div>
+                <h2 style="font-weight: 300;  text-transform: uppercase;">
+                    order summray
+                </h2>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Product</th>
+                            <th>Type</th>
+                            <th>SUBTOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <apex:variable value="{!1}" var="rowNum"/>
+                        <apex:repeat value="{!orderItemLst}" var="oli">
+                        <tr>
+                            <td data-label="Index">{!rowNum}</td>
+                            <td data-label="Text">
+                                <p>{!oli.Product__r.Name}</p>
+                            </td>
+                            <td data-label="HR">{!oli.Product__r.BusinessUnitType__c}</td>
+                            <td data-label="SUBTOTAL">{!oli.UnitPrice__c}</td>
+                        </tr>
+                            <apex:variable var="rowNum" value="{!rowNum + 1}"/>
+                        </apex:repeat>
+                    </tbody>
+                </table>
+                <br/>
+                <div style="text-align:right;">
+                    <strong>Total Price: </strong>{!orderData.HMC_Invoice_Amount__c}
+                </div>
+            </div>
+        </body>
+    </html>
+</apex:page>

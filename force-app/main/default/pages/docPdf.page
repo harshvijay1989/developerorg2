@@ -1,0 +1,63 @@
+<apex:page standardStylesheets="false"  action="{!setValues}" controller="DocController"  applyBodyTag="false" contentType="application/pdf#ABC.pdf"  renderAs="pdf" applyHtmlTag="false" sidebar="false" showHeader="false">
+   <html>
+   <head>
+    <title>ABC</title>
+    <style type="text/css">
+        .leadTable{
+            margin: 10px !important;
+         }      
+       <!--   leadTableb {
+              page-break-after: always;
+        }-->
+        <!--@page {
+            margin-top: 150px;
+            padding:0px;
+            margin-bottom: 90px;
+            
+            @top-left {
+                content: element(header); 
+            }                           
+            @bottom-left {   
+                content: element(footer);
+        		width:100%;
+            } 
+        }        
+        div.header {
+            margin-top:10px;
+            position: running(header); 
+            margin-right: 10px;
+        }
+        div.footer {                    
+            position: running(footer);
+            width: 100% !important;
+        }
+        .repeatTableHeader{-fs-table-paginate: paginate;}-->
+    </style>
+    
+    </head>
+    <body style="font-family:SansSerif !important;margin-left:12px;margin-right:12px;">
+        <div class="header">
+            <img src="https://crmlandingsoftwareprivatelimited--dev2.sandbox.file.force.com/sfc/servlet.shepherd/version/download/{!contentVersionId}" style="width:100%;" />
+        </div>        
+        <div class="footer">
+            <div style="width:100%">
+                  <apex:outputText escape="false" value="{!footer}"></apex:outputText>
+            </div>
+          
+            <!--<apex:outputText escape="false" value="{!footer}"></apex:outputText>-->
+        </div>
+        <div class="leadTable">
+            <apex:outputText escape="false" value="{!body}"></apex:outputText>
+			
+            
+            <!--<table class="repeatTableHeader">
+                <tr><td>CONTENT TO BE PAGINATED</td></tr>
+            </table>-->
+        </div>
+        <div class="leadTableb">
+            
+        </div>
+        
+    </body>
+    </html>
+</apex:page>

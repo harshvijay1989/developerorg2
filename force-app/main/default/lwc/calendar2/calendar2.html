@@ -1,0 +1,670 @@
+<!-- 
+@description: Lightning web component using Fullcalendar.io js library to display most recent events
+@author: Brahmaji tammana from www.auraenabled.com 
+@jslibrary: https://fullcalendar.io/ -->
+<template>
+
+	<!-- Spinner to show on waiting screens -->
+
+	<div if:true={showLoadingSpinner}>
+		<lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+	</div>
+
+
+	<div class="slds-grid slds-wrap slds-theme_default">
+		<div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_9-of-12">
+			<div class="slds-align_absolute-center slds-m-top_medium">
+				<div class="slds-grid slds-gutters">
+					<div class="slds-col">
+						<div class="dot2"></div>
+					</div>
+					<div class="slds-col">
+						<div>Planned-visit</div>
+					</div>
+					<div class="slds-col">
+						<div class="dot3"></div>
+					</div>
+					<div class="slds-col">
+						<div>Holiday-visit</div>
+					</div>
+					<!--<div class="slds-col">
+						<div class="dot1"></div>
+					</div>
+				<div class="slds-col">
+						<div>Ad-hoc-visit</div>
+					</div>-->
+				</div>
+			</div>
+
+			<template if:true={showWaitingMsg}>
+				<h2 class="slds-text-heading_small slds-m-left_small" style="color:red">Waiting for the Approval.</h2>
+			</template>
+			<div id="calendar" class="fullcalendarjs"></div>
+		</div>
+		<div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_3-of-12">
+			<!--
+             To display list of events or any parent records  
+                TODO: add drag items in this div to drop on fullcalendar.-->
+
+			<div class=" slds-p-around_medium slds-border_right slds-scrollable_y" style="height:800px">
+				<!--<div class="slds-clearfix">
+					<div class="slds-float_right">
+						<lightning-button icon-name="utility:add" slot="actions" alternative-text="add" title="Add"
+							size="small" class="slds-p-around_medium" label="Add Event" onclick={addEvent}>
+						</lightning-button>
+					</div>
+				</div>-->
+				<template for:each={events} for:item="eachevent">
+					<lightning-card key={eachevent.id} class="slds-p-left_medium slds-p-right_small">
+						<h3 slot="title" onclick={clickForInAndout}>
+							<span class="slds-p-right_small">
+								<lightning-icon icon-name="standard:event" size="small">
+								</lightning-icon>
+							</span>
+							{eachevent.title}
+						</h3>
+						<p class="slds-p-horizontal_small"> Visit Date: <lightning-formatted-date-time
+								value={eachevent.start} year="numeric" month="numeric" day="numeric">
+							</lightning-formatted-date-time>
+						</p>
+						<p class="slds-p-horizontal_small">Address :
+							{eachevent.billingStreet},{eachevent.billingCity}
+						</p>
+					</lightning-card>
+				</template>
+			</div>
+		</div>
+		<div class="slds-col slds-size_9-of-12">
+			<!-- fullcalendar sits in this div-->
+
+			<template if:true={showSubmit}>
+				<div class="slds-align_absolute-center" style="height:5rem">
+					<lightning-button label="Submit" variant="brand" onclick={SubmitRoutePlan}>
+					</lightning-button>
+				</div>
+			</template>
+			<template if:true={showApproveReject}>
+				<div class="slds-align_absolute-center" style="height:5rem">
+					<lightning-layout>
+						<lightning-layout-item padding="around-small">
+							<div class="header-column slds-align_absolute-center">
+								<lightning-button label="Approve" name="Approve" variant="brand" onclick={Approve}>
+								</lightning-button>
+							</div>
+						</lightning-layout-item>
+						<lightning-layout-item padding="around-small">
+							<div class="header-column slds-align_absolute-center">
+								<lightning-button label="Reject" name="Reject" variant="brand" onclick={Approve}>
+								</lightning-button>
+							</div>
+						</lightning-layout-item>
+						<lightning-layout-item padding="around-small">
+							<div class="header-column slds-align_absolute-center">
+								<lightning-button label="Update Needed" name="update" variant="brand" onclick={Approve}>
+								</lightning-button>
+							</div>
+						</lightning-layout-item>
+					</lightning-layout>
+				</div>
+			</template>
+
+		</div>
+
+
+	</div>
+
+	<template if:true={openmodelConfirmation}>
+		<div data-modal="custommodal" class="modalclass">
+			<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+				aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+					<header class="slds-modal__header">
+						<lightning-button-icon icon-name="utility:close" class="slds-modal__close "
+							alternative-text="Close" title="Close" size="large" variant="bare-inverse"
+							onclick={handleCancel}>
+
+						</lightning-button-icon>
+						<h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Confirmation</h2>
+					</header>
+				
+					<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+						<p>Comments If Any</p>
+						<lightning-input-rich-text label="Please Enter Comments" value={comments}
+							onchange={handlecomments}
+							disabled-categories="FORMAT_TEXT REMOVE_FORMATTING ALIGN_TEXT FORMAT_FONT FORMAT_BODY INSERT_CONTENT">
+						</lightning-input-rich-text>
+						&nbsp;
+						<div class="header-column slds-align_absolute-center">
+							<lightning-button label="Submit" variant="brand" onclick={ApproveSubmit}>
+							</lightning-button>
+						</div>
+					</div>
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open"></div>
+		</div>
+	</template>
+	<!-- Open a modal with new event form  -->
+
+	<template if:true={openModal}>
+		<div data-modal="custommodal" class="modalclass">
+			<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+				aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+					<header class="slds-modal__header">
+						<lightning-button-icon icon-name="utility:close" class="slds-modal__close "
+							alternative-text="Close" title="Close" size="large" variant="bare-inverse"
+							onclick={handleCancel}>
+
+						</lightning-button-icon>
+						<h2 id="modal-heading-03" class="slds-modal__title slds-hyphenate">New Event</h2>
+					</header>
+					<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-4">
+						
+						<!-- ////////////////////////////////////////////////////Added by Uday //////////////////////////////////// -->
+						<lightning-card class="slds-text-align_center slds-scrollable">
+							<slot name="title" class="widthExpanded">
+								<div><Strong>Manage Route Plan Activities of Dealers</Strong></div>
+							</slot>
+
+							<lightning-card>
+								<div class="slds-m-around_medium mobileView slds-scrollable_x slds-scrollable_y">
+									
+									<div class="slds-align_absolute-center">
+										<lightning-input type="date" value={startDate} onchange={nameChange}
+											class="slds-text-align_center slds-form-element" disabled="true"
+											style="width:300px;"></lightning-input>
+									</div> &nbsp;
+									<div class="slds-align_absolute-center">
+										<lightning-button label="Get Dealers" variant="neutral" onclick={getDealersLst}
+											class="slds-float_right slds-p-bottom_medium" disabled={disableaddplan}>
+										</lightning-button>
+									</div>
+								</div>
+
+
+								
+								<template if:true={isshow}>
+									<lightning-card title="Dealers" icon-name="custom:custom3">
+										<div class="slds-scrollable">
+											<table
+												class="slds-table slds-table_bordered slds-border_left slds-border_right slds-scrollable">
+												<thead>
+													<tr class="slds-line-height_reset">
+														<th class="" scope="col">
+															<div class="slds-truncate">
+																
+																<lightning-input onchange={allSelectedMatrix}
+																	type="checkbox" checked={matricCheck}
+																	value={matricCheck} data-id="nvfvfhvbfh">
+																</lightning-input>
+															</div>
+														</th>
+														<th class="" scope="col">
+															<div class="slds-truncate" title="Dealer">Dealer</div>
+														</th>
+														<th class="" scope="col">
+															<div class="slds-truncate" title="Action">Address</div>
+														</th>
+														<th class="" scope="col">
+															<div class="slds-truncate" title="Name">Name</div>
+														</th>
+
+														<!--<th class="" scope="col">
+															<div class="slds-truncate" title="Dealer">Sub Dealer</div>
+														</th>-->
+
+													</tr>
+												</thead>
+												<tbody>
+													<template for:each={beatPlans} for:item="row">
+														<tr key={row.Id}>
+															<td>
+																<div>
+																	<lightning-input type="checkbox" value={row.checked}
+																		data-id={row.Id} name={row.Name}
+																		onchange={handleCheckBoxChange}
+																		checked={row.checked}></lightning-input>
+																</div>
+															</td>
+															<td class="slds-cell-wrap">
+																<lightning-formatted-url value={row.Dealer}
+																	label={row.DealerName} target="_blank">
+																</lightning-formatted-url>
+															</td>
+															<td class="slds-cell-wrap">
+																<p style="white-space:normal">{row.Address}</p>
+															</td>
+															<td style="width: 25%;">{row.Name}</td>
+
+															<!--<td>
+																<template if:true={row.checkSubDealer}>
+																	<button class="slds-button" onclick={openpopup}>Sub
+																		Dealer</button>
+																</template>
+															</td>-->
+														</tr>
+													</template>
+												</tbody>
+											</table>
+										</div>
+									</lightning-card>
+
+									&nbsp;
+									<!--Beat Group Starts here-->
+									<lightning-card title="Beat Groups" icon-name="custom:custom3">
+										<div class="slds-scrollable">
+											<lightning-accordion allow-multiple-sections-open>
+												<template for:each={BeatGroup} for:item="row">
+													<lightning-accordion-section key={row.Id} name={row.Name}
+														label={row.Name}>
+														<table
+															class="slds-table slds-table_bordered slds-border_left slds-border_right slds-scrollable">
+															<thead>
+																<tr class="slds-line-height_reset">
+																	<th class="" scope="col">
+																		<div class="slds-truncate">
+																			<lightning-input onchange={allSelectedGroup}
+																				type="checkbox" checked={row.checked}
+																				value={row.checked} data-id={row.Id}>
+																			</lightning-input>
+																		</div>
+																	</th>
+																	<th class="" scope="col">
+																		<div class="slds-truncate" title="Dealer">Dealer
+																		</div>
+																	</th>
+																	<th class="" scope="col">
+																		<div class="slds-truncate"
+																			title="ActivityDates">Address</div>
+																	</th>
+																	<th class="" scope="col">
+																		<div class="slds-truncate" title="Name">Name
+																		</div>
+																	</th>
+
+																	<!--<th class="" scope="col">
+																		<div class="slds-truncate" title="Dealer">Sub
+																			Dealer</div>
+																	</th>-->
+																</tr>
+															</thead>
+															<tbody>
+																<template for:each={row.beatGroupMem} for:item="rrow">
+																	<tr key={rrow.Id}>
+																		<td>
+																			<div>
+																				<lightning-input type="checkbox"
+																					value={rrow.checked}
+																					data-id={rrow.Id}
+																					onchange={handleCheckBoxChange}
+																					checked={rrow.checked}>
+																				</lightning-input>
+																			</div>
+																		</td>
+																		<td class="slds-cell-wrap">
+																			<lightning-formatted-url value={rrow.Dealer}
+																				label={rrow.DealerName} target="_blank">
+																			</lightning-formatted-url>
+																		</td>
+																		<td class="slds-cell-wrap">
+																			<p style="white-space:normal">{rrow.Address}
+																			</p>
+																		</td>
+																		<td style="width: 25%;">{rrow.Name}</td>
+
+																		<!--<td>
+																			<template if:true={rrow.checkSubGrpDealer}>
+																				<button class="slds-button"
+																					onclick={openpopupGRP}>Sub
+																					Dealer</button>
+																			</template>
+																		</td>-->
+																	</tr>
+																</template>
+															</tbody>
+														</table>
+
+													</lightning-accordion-section>
+
+												</template>
+											</lightning-accordion>
+										</div>
+									</lightning-card>
+
+									&nbsp;
+									<div class="slds-align_absolute-center">
+										<lightning-button label="Save Selected" variant="neutral"
+											onclick={SaveSelectedDealers} class="slds-float_centre slds-p-bottom_medium"
+											disabled={disableaddplan}>
+										</lightning-button>
+									</div>
+								</template>
+								<!---->
+								<template if:true={isModalOpen}>
+									<div>
+										<!-- Modal/Popup Box LWC starts here -->
+										<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01"
+											aria-modal="true" aria-describedby="modal-content-id-1"
+											class="slds-modal slds-fade-in-open">
+											<div class="slds-modal__container">
+												<!-- Modal/Popup Box LWC header here -->
+												<header class="slds-modal__header">
+													<button
+														class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+														title="Close" onclick={closeModal}>
+														<lightning-icon icon-name="utility:close"
+															alternative-text="close" variant="inverse" size="small">
+														</lightning-icon>
+														<span class="slds-assistive-text">Close</span>
+													</button>
+													<h2 id="modal-heading-011"
+														class="slds-text-heading_medium slds-hyphenate">Plan Activities
+														for selected Dealer</h2>
+													<h1 class="slds-text-heading_medium slds-hyphenate">{dealer} -
+														{dealerCat}</h1>
+												</header>
+												<!-- Modal/Popup Box LWC body starts here -->
+												<div class="slds-modal__content slds-p-around_medium"
+													id="modal-content-id-11">
+
+													<table
+														class="slds-table slds-table_bordered slds-border_left slds-border_right">
+														<thead>
+															<tr class="slds-line-height_reset">
+																<th class="" scope="col">
+																	<div class="slds-truncate">
+																		<lightning-input onchange={allSelectedMatrixSub}
+																			type="checkbox" checked={matricCheck}
+																			value={matricCheck} data-id="nvfvfhvbfh">
+																		</lightning-input>
+																	</div>
+																</th>
+																<th class="" scope="col">
+																	<div class="slds-truncate" title="Action">Address
+																	</div>
+																</th>
+																<th class="" scope="col">
+																	<!--div class="slds-truncate" title="Name">Name</div-->
+																</th>
+
+																<th class="" scope="col">
+																	<div class="slds-truncate" title="Dealer">Dealer
+																	</div>
+																</th>
+															</tr>
+														</thead>
+														<tbody>
+															<template for:each={beatPlans} for:item="row">
+																<template for:each={row.subRouteWrap} for:item="roww">
+																	<tr key={roww.Id}>
+																		<td>
+																			<div>
+																				<lightning-input type="checkbox"
+																					value={roww.checked}
+																					data-id={roww.Id} name={roww.Name}
+																					onchange={handleCheckBoxChange}
+																					checked={row.checked}>
+																				</lightning-input>
+																			</div>
+																		</td>
+																		<td class="slds-cell-wrap">
+																			<p style="white-space:normal">{roww.Address}
+																			</p>
+																		</td>
+																		<!--td style="width: 25%;">{roww.Name}</td-->
+																		<td class="slds-cell-wrap">
+																			<lightning-formatted-url
+																				value={roww.Dealer}
+																				label={roww.DealerName}
+																				target="_blank">
+																			</lightning-formatted-url>
+																		</td>
+
+																	</tr>
+																</template>
+															</template>
+														</tbody>
+													</table>
+
+												</div>
+												<div class="slds-modal__content slds-p-around_medium"
+													id="modal-content-id-2">
+													<!--button class="slds-button slds-button_neutral" onclick={addRow} title="Add Row">Add Row</button>-->
+												</div>
+												<!-- Modal/Popup Box LWC footer starts here -->
+												<footer class="slds-modal__footer">
+													<button class="slds-button slds-button_neutral" onclick={closeModal}
+														title="Add">Add</button>
+													<!--button class="slds-button slds-button_brand" onclick={submitDetails} title="Save">Save</button-->
+												</footer>
+											</div>
+										</section>
+										<div class="slds-backdrop slds-backdrop_open"></div>
+									</div>
+								</template>
+								<!--Pop up ends here-->
+								<!--Group Member Starts here-->
+								<template if:true={isModalOpenForGrp}>
+									<div>
+										<!-- Modal/Popup Box LWC starts here -->
+										<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-011"
+											aria-modal="true" aria-describedby="modal-content-id-1"
+											class="slds-modal slds-fade-in-open">
+											<div class="slds-modal__container">
+												<!-- Modal/Popup Box LWC header here -->
+												<header class="slds-modal__header">
+													<button
+														class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+														title="Close" onclick={closeModalGRP}>
+														<lightning-icon icon-name="utility:close"
+															alternative-text="close" variant="inverse" size="small">
+														</lightning-icon>
+														<span class="slds-assistive-text">Close</span>
+													</button>
+													<h2 id="modal-heading-02"
+														class="slds-text-heading_medium slds-hyphenate">Plan Activities
+														for selected Dealer</h2>
+													<h1 class="slds-text-heading_medium slds-hyphenate">{dealer} -
+														{dealerCat}</h1>
+												</header>
+												<!-- Modal/Popup Box LWC body starts here -->
+												<div class="slds-modal__content slds-p-around_medium"
+													id="modal-content-id-3">
+
+													<table
+														class="slds-table slds-table_bordered slds-border_left slds-border_right">
+														<thead>
+															<tr class="slds-line-height_reset">
+																<th class="" scope="col">
+																	<div class="slds-truncate">
+																		<lightning-input onchange={allSelectedGroupSub}
+																			type="checkbox" checked={matricCheck}
+																			value={matricCheck} data-id="nvfvfhvbfh">
+																		</lightning-input>
+																	</div>
+																</th>
+																<th class="" scope="col">
+																	<div class="slds-truncate" title="Action">Address
+																	</div>
+																</th>
+																<!--th class="" scope="col">
+											  <div class="slds-truncate" title="Name">Name</div>
+											</th-->
+
+																<th class="" scope="col">
+																	<div class="slds-truncate" title="Dealer">Dealer
+																	</div>
+																</th>
+															</tr>
+														</thead>
+														<tbody>
+															<template for:each={BeatGroup} for:item="row">
+																<template for:each={row.beatGroupMem} for:item="roww">
+																	<template for:each={roww.subRouteGrpWrap}
+																		for:item="rowww">
+
+																		<tr key={rowww.Id}>
+																			<td>
+																				<div>
+																					<lightning-input type="checkbox"
+																						value={rowww.checked}
+																						data-id={rowww.Id}
+																						name={rowww.Name}
+																						onchange={handleCheckBoxChange}
+																						checked={rowww.checked}>
+																					</lightning-input>
+																				</div>
+																			</td>
+																			<td class="slds-cell-wrap">
+																				<p style="white-space:normal">
+																					{rowww.Address}</p>
+																			</td>
+																			<!--td style="width: 25%;">{rowww.Name}</td-->
+																			<td class="slds-cell-wrap">
+																				<lightning-formatted-url
+																					value={rowww.Dealer}
+																					label={rowww.DealerName}
+																					target="_blank">
+																				</lightning-formatted-url>
+																			</td>
+
+																		</tr>
+																	</template>
+																</template>
+															</template>
+														</tbody>
+													</table>
+
+												</div>
+												<div class="slds-modal__content slds-p-around_medium"
+													id="modal-content-id-7">
+													<!--button class="slds-button slds-button_neutral" onclick={addRow} title="Add Row">Add Row</button>-->
+												</div>
+												<!-- Modal/Popup Box LWC footer starts here -->
+												<footer class="slds-modal__footer">
+													<button class="slds-button slds-button_neutral" onclick={closeModal}
+														title="Add">Add</button>
+													<!--button class="slds-button slds-button_brand" onclick={submitDetails} title="Save">Save</button-->
+												</footer>
+											</div>
+										</section>
+										<div class="slds-backdrop slds-backdrop_open"></div>
+									</div>
+								</template>
+								<!--Pop up ends here-->
+
+								<!--Group Member Ends here-->
+							</lightning-card>
+						</lightning-card>
+						<!-- ////////////////////////////////////////////////////Ends here /////////////////////////////////////// -->
+					</div>
+					
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open"></div>
+		</div>
+	</template>
+	<!-- Open a modal to show error  -->
+	<template if:true={showError}>
+		<div data-modal="custommodal" class="modalclass">
+			<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-013" aria-modal="true"
+				aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+					<header class="slds-modal__header">
+						<lightning-button-icon icon-name="utility:close" class="slds-modal__close "
+							alternative-text="Close" title="Close" size="large" variant="bare-inverse"
+							onclick={handleCancel}>
+
+						</lightning-button-icon>
+						<h2 id="modal-heading-05" class="slds-modal__title slds-hyphenate">New Event</h2>
+					</header>
+					<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-6">
+						<p>Plan is Submitted for Approval/Approved By Manager. Can't edit</p>
+					</div>
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open"></div>
+		</div>
+	</template>
+
+	<!-- Open a modal with dealer  -->
+
+	<template if:true={openModalDealer}>
+
+		<div data-modal="custommodal" class="modalclass">
+			<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-012" aria-modal="true"
+				aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+					<header class="slds-modal__header">
+						<lightning-button-icon icon-name="utility:close" class="slds-modal__close "
+							alternative-text="Close" title="Close" size="large" variant="bare-inverse"
+							onclick={handleCancelDealer}>
+
+						</lightning-button-icon>
+						<h2 id="modal-heading-04" class="slds-modal__title slds-hyphenate">Delete Confirmation?</h2>
+					</header>
+					<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-23">
+						<div>
+							<div class="slds-align_absolute-center" style="height:5rem">
+								<p> Are you sure want to delete Route Plan?</p>
+							</div>
+							<div class="slds-align_absolute-center" style="height:5rem">
+								<button class="slds-button slds-button_neutral" onclick={handleclose}>No</button>
+								<button class="slds-button slds-button_brand" onclick={handledeleterecord}>Yes</button>
+							</div>
+						</div>
+					</div>
+					<footer class="slds-modal__footer">
+						
+					</footer>
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open"></div>
+		</div>
+
+
+	</template>
+
+	<template if:true={ismodeforError}>
+		<div>
+			<!-- Modal/Popup Box LWC starts here -->
+			<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+				aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+					<!-- Modal/Popup Box LWC header here -->
+					<header class="slds-modal__header">
+						<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+							title="Close" onclick={closeModal}>
+							<lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+								size="small"></lightning-icon>
+							<span class="slds-assistive-text">Close</span>
+						</button>
+						<h2 id="modal-heading-07" class="slds-text-heading_medium slds-hyphenate">Please review below
+							Errors</h2>
+					</header>
+					<!-- Modal/Popup Box LWC body starts here -->
+					<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-9">
+						<ul>
+							<template for:each={finalmsgDisplay} for:item="object">
+								<div key={object} class="slds-align_left">
+									<li>{object}</li>
+								</div>
+							</template>
+						</ul>
+					</div>
+					<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-10">
+						<!--button class="slds-button slds-button_neutral" onclick={addRowgroup} title="Add Row">Add Row</button>-->
+					</div>
+					<!-- Modal/Popup Box LWC footer starts here -->
+					<footer class="slds-modal__footer">
+						<button class="slds-button slds-button_neutral" onclick={closeModal}
+							title="Cancel">Cancel</button>
+					</footer>
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open"></div>
+		</div>
+	</template>
+
+</template>

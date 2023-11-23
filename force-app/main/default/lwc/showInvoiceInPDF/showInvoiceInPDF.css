@@ -1,0 +1,62 @@
+.dummy{
+	color : black;
+}
+.slds-modal__container{
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+}
+
+
+.dummy{
+	color : black;
+}
+.innerDiv{
+ 	background-color: #001B69;
+    color: white;
+    height: 7vh;
+    font-size: large;
+    text-align: center;
+    padding: 3px;
+   
+}
+.outerDiv{
+    height: 30vh;
+    width: 100%;
+    margin-left: 5%;
+    background-color:FFFFFF;
+    margin-top:5%;
+}
+.SelectType{
+    width: 60%;
+    height: 40%;
+    margin-left: 15%;
+	text-align: center;
+    padding: 8px;
+    font-size: inherit;
+    font-weight: 500;
+}
+lightning-button.button {
+	--sds-c-button-brand-color-background: #4B5D78;
+    --sds-c-button-text-color: #f4f7f9;
+}
+.my-modal-header {
+    --slds-c-modal-header-color-background:#4B5D78;
+    height: px;
+}
+.textClass{
+	color :white;
+}
+.headerClass {
+    margin-top:;
+    font-weight: inherit;
+    font-size: 20px;font-family:apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto;
+    text-align: center; 
+    color: white;
+    padding-top:7px;
+}
+
+.container {
+    padding :0px !important;
+}

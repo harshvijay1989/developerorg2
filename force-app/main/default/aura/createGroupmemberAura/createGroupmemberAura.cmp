@@ -1,0 +1,17 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" >
+	<aura:attribute name="recordId" type="String" />
+     <aura:html tag="style">
+        .slds-modal__content{padding: 0;height:auto!important;max-height:unset!important;}
+        .cuf-content{padding: 0!important;}
+        
+        @media (min-width: 40em){
+        .slds-modal__container {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 40rem;
+        min-width: 50rem;
+        }
+        }
+    </aura:html>
+     <c:beatMatrixGroupMembCreation recordId="{!v.recordId}"></c:beatMatrixGroupMembCreation>
+</aura:component>

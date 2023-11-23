@@ -1,0 +1,60 @@
+<template>
+    <template for:each={mapFromApex} for:item="mapEntry">
+        <div key={mapEntry.key}>
+            <div class="circle">{mapEntry.Counter}</div>
+            <p style="color:#032D60; margin-top: -25px; font-size: 16px; margin-left: 50px;">&nbsp; {mapEntry.mapValueOfObjRecName}</p>
+            <div style="padding: 3.5rem 1rem 0;" disabled="true" class="disabled">
+                <div class="slds-progress">
+                    <ol class="slds-progress__list">
+                        <template for:each={mapEntry.steps} for:item="step">
+                            <li key={step.key} class={step.classes}>
+                                <button class="slds-button slds-button_icon slds-progress__marker slds-progress__marker_icon" title={step.title}>
+                                    <lightning-icon class="green-utility-icon" size="small" icon-name="utility:success" alternative-text={step.title} if:true={step.completed}></lightning-icon>
+                                    <lightning-icon class="red-utility-icon" size="small" icon-name="utility:error" alternative-text={step.title} if:false={step.completed}></lightning-icon>
+                                    <span class="slds-assistive-text">{step.title}</span>
+                                </button>
+                            </li>
+                        </template>
+                    </ol>
+                    <div class="slds-progress-bar slds-progress-bar_x-small" aria-valuemin="0" aria-valuemax="100" aria-valuenow={mapEntry.progressValue} aria-label="Progress" role="progressbar">
+                        <span class="slds-progress-bar__value" style={mapEntry.progressStyle}></span>
+                        <span class="slds-assistive-text">Progress: {mapEntry.progressValue}%</span>
+                    </div>
+                </div>
+                <div class="slds-grid" style="padding-left: 5px;">
+                    <template for:each={mapEntry.steps} for:item="step">
+                        <div key={step.key} class="slds-col slds-size_1-of-5 slds-m-top_medium"  if:true={step.showInfo}>
+                            <div if:true={step.completed} class="slds-box" style="width: 140px; height: 150px; background: #032D60; color: white;">
+                                <p class="Info">{step.info}</p>
+                                <div style="margin-top:10px;">
+                                    <center>
+                                        <button class="slds-button slds-button_icon slds-progress__marker slds-progress__marker_icon" title={step.title}>
+                                            <lightning-icon class="blue-utility-icon" size="xx-small" icon-name="utility:success" alternative-text={step.title} if:true={step.completed}></lightning-icon>
+                                            <span class="slds-assistive-text">{step.title}</span>
+                                        </button>
+                                    </center>
+                                </div>
+                            </div>
+                            <div if:false={step.completed} class="slds-box" style="width: 140px; height: 150px; background: #EBEBE4; color: #032D60;">
+                                <p class="Info">{step.info}</p>
+                                <div style="margin-top:10px;">
+                                    <center>
+                                        <span class="slds-assistive-text">{step.title}</span>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+                <!-- <template for:each={mapEntry.steps} for:item="step">
+                    <div key={step.key} class="slds-popover slds-popover_tooltip slds-nubbin_bottom" role="tooltip" id="step-tooltip" style={step.tooltipStyle}>
+                        <div class="slds-popover__body">{mapEntry.tooltipText}</div>
+                    </div>
+                </template> -->
+                <br/>
+            </div>
+            <hr></hr>
+        </div>
+        
+    </template>
+</template>

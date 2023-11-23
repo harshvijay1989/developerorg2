@@ -1,0 +1,40 @@
+/* historyTrackerWithStyledProgress.css */
+.slds-progress-container {
+    //padding: 3.5rem 1rem 0;
+    //position: relative;
+}
+.slds-progress {
+    position: relative;
+    max-width: 82%;
+    width: 135%;
+    flex: 1 1 auto;
+    margin: inherit;
+    margin-left: 62px;
+}
+.blue-utility-icon {
+        --sds-c-icon-color-foreground-default: #032D60;
+}
+.green-utility-icon {
+        --sds-c-icon-color-foreground-default: green;
+}
+.red-utility-icon{
+    --sds-c-icon-color-foreground-default: red;
+}
+.circle {
+            width: 25px;
+            margin-left: 22px;
+            height: 25px;
+            background-color: #032D60;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+
+            //margin-right: 33px;
+            //margin-left: -22px;
+            //margin-top: 70px;
+        }
+
+/* Add any additional styling for slds-progress and other elements as needed */

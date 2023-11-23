@@ -1,0 +1,27 @@
+<template>
+	<lightning-quick-action-panel header="Add New Group Member">
+		<div class="slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none modalBodyy">
+			<lightning-card title="Group Member" icon-name="standard:contact">
+				<lightning-record-edit-form object-api-name="Beat_Matrix__c" onsubmit={handleSubmit}>
+					<lightning-messages> </lightning-messages>
+					<lightning-input-field field-name="Beat_Group__c" value={beatGroupId} disabled={beatgrp} >
+					</lightning-input-field>
+					<lightning-input-field field-name="Dealer__c" onchange={handleDealers} value ={selectedDealer} > </lightning-input-field>
+						<div class="slds-p-top_medium">
+							<template for:each={dealerNameLst} for:item="dealer">
+								<span key={dealer.Dealer__c}>
+									<lightning-pill name={dealer.Dealer__c} label={dealer.Name} onremove={handleRemovePill} ></lightning-pill>
+								</span>
+								&nbsp;&nbsp;&nbsp;&nbsp;
+							</template>
+						</div>
+					<br>
+					<div class="slds-align_absolute-center">
+						<lightning-button variant="brand" type="submit" label="Save">
+						</lightning-button>
+					</div>
+				</lightning-record-edit-form>
+			</lightning-card>
+		</div>
+	</lightning-quick-action-panel>
+</template>

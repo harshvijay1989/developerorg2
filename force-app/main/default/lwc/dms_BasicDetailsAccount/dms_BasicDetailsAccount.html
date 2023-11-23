@@ -1,0 +1,257 @@
+<template>
+	<template if:false={dealerName}>
+		<template if:false={showDocumentScreen}>
+			<div class="mainclass"><!-- style={backgroundStyle}-->
+				<template if:true={isform}>
+					<div class="slds-grid slds-wrap">
+						<div class="slds-col slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12">
+							<div class="container" style="max-width:none; margin-left: 22%;">
+
+								<div class="content">
+									<div class="form" >
+										<div class="header">
+											Customer Registration Form
+										</div>
+										<div class="slds-grid slds-wrap" style="font-size: 15px !important;">
+											<div class="slds-col slds-large-size_6-of-12 slds-p-right_small" >
+												<lightning-input class="form-field"  required label=" First Name"
+													value={accountFirstName} onchange={handleNameChange}>
+												</lightning-input>
+												<template if:true={isNameInvalid}>
+													<div class="slds-text-color_error">Please enter a valid name.</div>
+												</template>
+											</div>
+											<div class="slds-col slds-large-size_6-of-12">
+
+												<lightning-input class="form-field" required label="Last Name"
+													value={accountLastName} onchange={handleLastNameChange}>
+												</lightning-input>
+												<template if:true={isLastNameInvalid}>
+													<div class="slds-text-color_error">Please enter a valid last name.
+													</div>
+												</template>
+											</div>
+										</div>
+										<div class="slds-grid slds-wrap">
+											<div
+												class="slds-col slds-large-size_6-of-12 slds-p-right_small slds-medium-size_12-of-12 slds-size_12-of-12">
+												<lightning-input class="form-field" required label="Email" type="email"
+													value={accountEmail} onchange={handleEmailChange}></lightning-input>
+												<template if:true={isEmailInvalid}>
+													<div class="slds-text-color_error">Please enter a valid email
+														address.
+													</div>
+												</template>
+											</div>
+											<div
+												class="slds-col slds-large-size_6-of-12 slds-medium-size_12-of-12 slds-size_12-of-12">
+												<lightning-input class="form-field" required label="Phone"
+													disabled={showOTP} type="tel" value={accountPhone}
+													onchange={handlePhoneChange}>
+												</lightning-input>
+												<template if:true={isPhoneInvalid}>
+													<div class="slds-text-color_error">Please enter a valid 10-digit
+														phone
+														number.</div>
+												</template>
+											</div>
+										</div>
+										<lightning-input class="form-field" required label="Enterprise Name"
+											value={shopName} onchange={handleShopNameChange}></lightning-input>
+										<template if:true={isShopNameInvalid}>
+											<div class="slds-text-color_error">Please enter a valid shop name.</div>
+										</template>
+										<!-- ///////////////////////////////////////////////// -->
+										<lightning-combobox name="region" label="Region" required value={selectedRegion}
+											options={regionOptions} onchange={handleRegionChange}>
+										</lightning-combobox>
+										<!-- ///////////////////////////////////////////////// -->
+										<lightning-input-address address-label="Billing Address" street-label="Street"
+											city-label="City" country-label="Country" province-label="State"
+											postal-code-label="Postal Code" street={billingStreet} city={billingCity}
+											country={billingCountry} province={billingProvince}
+											postal-code={billingPostalCode} required field-level-help="Billing Address"
+											onchange={handleBillingAddressChange}>
+										</lightning-input-address>
+
+										<lightning-input class="form-field" type="checkbox"
+											label="Same as Billing Address" checked={isSameAsBilling}
+											onchange={handleSameAsBillingChange}>
+										</lightning-input>
+
+										<!-- Shipping Address -->
+										<lightning-input-address disabled={isSameAsBilling}
+											address-label="Shipping Address" street-label="Street" city-label="City"
+											country-label="Country" province-label="District"
+											postal-code-label="Postal Code" street={shippingStreet} city={shippingCity}
+											country={shippingCountry} province={shippingProvince}
+											postal-code={shippingPostalCode} required
+											field-level-help="Shipping Address" onchange={handleShippingAddressChange}>
+										</lightning-input-address>
+
+										<template if:true={showOTP}>
+											<div class="slds-m-right_medium">
+												<lightning-input label="Enter OTP" type="text" value={otp}
+													onchange={handleOTPChange} pattern="[0-9]*" onkeydown={validateOTP}>
+												</lightning-input>
+											</div>
+										</template>
+										<div class="slds-grid slds-wrap">
+											<div class="slds-col slds-size_6-of-12">
+												<div style="margin-top:20px;">
+													<lightning-button class="form-button" variant="brand"
+														label={otpButtonLabel} disabled={disableSendOTPButton}
+														onclick={handleSendOTP}>
+													</lightning-button>
+												</div>
+											</div>
+											<div class="slds-col slds-size_6-of-12 slds-text-align_right">
+												<div style="margin-top:20px;">
+													<lightning-button variant="brand" disabled={showSaveButton}
+														label="Next" onclick={handleSave}>
+													</lightning-button>
+												</div>
+											</div>
+										</div>
+
+										<div class="slds-align_absolute-center" style="margin-top:15px">
+											<template if:true={showSpinner}>
+												<div class="slds-spinner-container">
+													<div role="status"
+														class="slds-spinner slds-spinner_large slds-spinner_brand">
+														<span class="slds-assistive-text">Loading</span>
+														<div class="slds-spinner__dot-a"></div>
+														<div class="slds-spinner__dot-b"></div>
+													</div>
+												</div>
+											</template>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</template>
+			</div>
+		</template>
+
+		<template if:true={showDocumentScreen}>
+			<div class="mainclass">
+				<div class="slds-grid slds-wrap">
+					<div class="slds-col slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12">
+						<!-- <div class="container"
+							style="max-width: 600px; margin: 0 auto; padding: 10px; border-radius: 5px; margin-top:5px;">
+							<div class="content"> -->
+								<div
+									style="background: #fff; padding: 20px; border: 1px solid #ddd; border-radius: 5px;">
+									<div class="header">
+										Customer Documents Upload
+									</div>
+									<!-- <lightning-card> -->
+									<lightning-accordion allow-multiple-sections-open
+										active-section-name={activeSections}>
+										<lightning-accordion-section name="A" label="Identity Proof">
+											<div class="slds-grid slds-wrap">
+												<div
+													class="slds-col slds-large-size_5-of-12 slds-medium-size_6-of-12 slds-size_12-of-12">
+													<img style="width:270px;" src={imgs}/>
+																			</div>
+													<div
+														class="slds-col slds-large-size_7-of-12 slds-medium-size_6-of-12 slds-size_12-of-12">
+														<h1 class="slds-text-heading_small slds-m-bottom_x-small">
+															Identity
+															Proof
+														</h1>
+														<p>Upload individual identity proof.</p>
+														<lightning-file-upload label="" name="fileUploader"
+															accept={acceptedFormats} record-id={dealerId}
+															onuploadfinished={handleUploadFinished} data-index="1"
+															disabled={docIdUploaded}>
+														</lightning-file-upload>
+														<p if:true={idDocMsg}>{idDocMsg}</p>
+													</div>
+												</div>
+										</lightning-accordion-section>
+
+
+										<lightning-accordion-section name="B" label="PAN Card">
+											<div class="slds-grid slds-wrap">
+												<div
+													class="slds-col slds-large-size_5-of-12 slds-medium-size_6-of-12 slds-size_12-of-12">
+													<img style="width:270px;" src={imgsPan}/>
+																			</div>
+													<div
+														class="slds-col slds-large-size_7-of-12 slds-medium-size_6-of-12 slds-size_12-of-12">
+														<h1 class="slds-text-heading_small slds-m-bottom_x-small">PAN
+															Card
+														</h1>
+														<p>Upload individual PAN Card.</p>
+														<lightning-file-upload label="" name="fileUploader"
+															accept={acceptedFormats} record-id={dealerId}
+															onuploadfinished={handleUploadFinished} data-index="2"
+															disabled={docPanUploaded}>
+														</lightning-file-upload>
+														<p if:true={panDocMsg}>{panDocMsg}</p>
+													</div>
+												</div>
+										</lightning-accordion-section>
+
+										<lightning-accordion-section name="C" label="Other Documents">
+											<div class="slds-grid slds-wrap">
+												<div
+													class="slds-col slds-large-size_5-of-12 slds-medium-size_6-of-12 slds-size_12-of-12">
+													<!-- <center> -->
+													<img style="width:270px;" src={imgsDoc}/>
+													<!-- </center> -->
+																			</div>
+													<div
+														class="slds-col slds-large-size_7-of-12 slds-medium-size_6-of-12 slds-size_12-of-12">
+														<h1 class="slds-text-heading_small slds-m-bottom_x-small">Other
+															Documents</h1>
+														<p>Upload individual Other Documents.</p>
+														<lightning-file-upload label="" name="fileUploader"
+															accept={acceptedFormats} record-id={dealerId}
+															onuploadfinished={handleUploadFinished} data-index="3"
+															multiple disabled={docOtherUploaded}>
+														</lightning-file-upload>
+														<p if:true={otherDocMsg}>{otherDocMsg}</p>
+													</div>
+												</div>
+										</lightning-accordion-section>
+									</lightning-accordion>
+									<br/>
+									<br/>
+									<div class="slds-clearfix">
+										<div class="slds-float_left">
+										</div>
+										<div class="slds-float_right">
+											<lightning-button variant="brand" label="Submit" title="Submit"
+												onclick={handleSubmit}></lightning-button>
+										</div>
+									</div>
+									<!-- </lightning-card> -->
+								</div>
+							<!-- </div>
+						</div> -->
+					</div>
+				</div>
+			</div>
+		</template>
+	</template>
+	<template if:true={dealerName}>
+		<div class="registration-success">
+			<p class="success-message">Thank you! Your application is submitted successfully!</p>
+			</br>
+			<p class="dealer-name">Our automated process will provide activation details within 48 hours. </p>
+			<p class="dealer-name">We will call you if we need more information or face any challenge.</p>
+			</br>
+			<p class="dealer-name"><strong>Application Id:</strong> {dealer.Application_Id__c}</p>
+			</br>
+			</br>
+			<p class="dealer-name">Please contact us on abc@truecaller.com or 9674387257 if you don't hear from us in the next 48 hours.</p>
+			<!-- <span class="success-message">Dealer Registered Successfully</span>
+			<div class="dealer-name">Dealer Name :&nbsp; {dealerName}</div> -->
+		</div>
+	</template>
+</template>

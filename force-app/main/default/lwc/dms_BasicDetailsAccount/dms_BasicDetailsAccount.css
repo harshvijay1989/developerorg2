@@ -1,0 +1,97 @@
+/* your-component.css */
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top:5px;
+}
+
+.header {
+    text-align: center;
+   margin-bottom: 20px;
+   color:black;
+   
+   font-size:30px;
+   font-weight: bold;
+}
+
+.form {
+    //background-color:rgb(234, 234, 234,0.8); /* Adjust the alpha (fourth value) for opacity */
+    /* background: #fff; */
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width : 800px;
+    
+}
+
+
+.form-field {
+    margin-bottom: 5px;
+}
+
+.form-button {
+    margin-top: 8px; 
+}
+.button-container {
+    display: flex;
+    align-items: center; /* Vertically center the items */
+}
+
+.otp-input {
+    width: 100px; /* Adjust the width as needed */
+    margin-right: 10px; /* Add some spacing between OTP input and buttons */
+}
+
+.form-button {
+    margin-left: 5px; 
+    /* Add some spacing between buttons */
+}
+.mid-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.spinner-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.slds-spinner_container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    height: 100%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    z-index: 9999; /* Adjust the z-index as needed */
+}
+h1{
+    font-size: 25px;
+    
+}
+
+
+.registration-success {
+    text-align: center; /* Center the content horizontally */
+    margin: 20px 0; /* Add some margin for spacing */
+    background-color:white;
+}
+
+.success-message {
+    font-size: 24px; /* Style the success message */
+    color: #008000; /* Green color for success */
+}
+
+.dealer-name {
+    font-size: 18px; /* Style the dealer's name */
+    color: #000; /* Black color for the name */
+}
+.slds-form-element__label{
+    font-size: 15px !important;
+}

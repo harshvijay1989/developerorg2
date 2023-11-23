@@ -1,0 +1,156 @@
+<template>
+	<!-- <div>
+    <lightning-card variant="Narrow"  title="PDF Document Previewer" icon-name="action:preview">
+    </lightning-card> 
+    </div>
+    <div class="slds-box"  >
+     <lightning-button
+        label={buttonLabel}
+        onclick={navigateToVFPage}
+        variant="brand"
+    >
+    </lightning-button>
+    </div> -->
+
+
+	<table class="slds-box" style="border-radius:10px;">
+		<tr style="background:#F3F3F3;">
+			<th>
+				<div class="container">
+					<lightning-icon size="small" icon-name="action:preview" alternative-text="Preview"
+						title="PDF Document Preview"></lightning-icon>
+					<p class="custom-text">View & Send Document</p>
+				</div>
+			</th>
+		</tr>
+
+		<!-- <tr>
+			<td style="padding: 5px;">
+				<div style="display: flex; align-item:center;">
+					<button onclick={navigateToVFPage} class="buttonColor" style="color: white;color: white;width: 50%;height: 7vh;font-size: small; border-radius: 3px;" >{buttonLabel}
+					</button>
+					<p style="margin-top:1px; width: -webkit-fill-available;" if:true={contentTitle}> &nbsp;&nbsp;&nbsp;
+						- &nbsp;&nbsp; {contentTitle} </p>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<p style="margin-left: 174px; margin-top: -27px;" if:true={contentTitle}>&nbsp;&nbsp;&nbsp;{dateTime}
+				</p>
+				
+			</td>
+		</tr> -->
+	</table>
+	<div class="slds-grid slds-wrap">
+		<div class="slds-col slds-large-size_4-of-12 slds-medium-size_4-of-12 slds-size_4-of-12">
+			<div>
+				<button if:true={disable} class="buttonColor" style="color: black;height: 7vh;font-size: small; border-radius: 3px;margin :7px" disabled ={disable} >{buttonLabel}
+				</button>
+				<button if:false={disable} onclick={navigateToVFPage} class="buttonColor" style="color: white; background:green; height: 7vh;font-size: small; border-radius: 3px;margin :7px" disabled ={disable} >{buttonLabel}
+				</button>
+			</div>
+		</div>
+		<div class="  slds-col slds-large-size_8-of-12 slds-medium-size_8-of-12 slds-size_8-of-12">
+			<div class="slds-grid slds-wrap" style="margin-left:-5px;">
+
+				<div class="slds-col slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12" style="margin-top:8px;">
+					<p  if:true={contentTitle}> - {contentTitle} </p>
+				</div>
+
+				<div class="slds-col slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12" style="margin-top:4px;">
+					<p  if:true={contentTitle}>
+					{dateTime}
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<template if:true={vfPgaeUrl2}>
+		<div style="left: -13%;" class="modal">
+			<section style="" role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+				aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+					<!-- modal header start -->
+					<header class="slds-modal__header"
+						style="left: -23%; margin-top: -15px; padding-top: 10px;width:150%; background-color:#4B5D78;color: white;font-size: large;font-weight: 500;">
+						{titleName}
+						<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideModalBox}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" onclick={iconClosed}></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                        </button>
+					</header>
+
+					<!-- <div class="exampleHolder" if:true={spinner}>
+                        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                    </div> -->
+					<!-- modal body start -->
+					<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1"
+						style="margin-left: -23%; width:150%;">
+						<div class="slds-box" variant="label-hidden" style="background-color: white;">
+							<div if:true={vfPgaeUrl3} style="height: 100%; ">
+								<div if:true={iframeSpnr} class="slds-is-relative"
+									style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+									<lightning-spinner alternative-text="Loading..." variant="brand">
+									</lightning-spinner>
+								</div>
+								<iframe src={vfPgaeUrl} width="100%" height="400px" margin-top="2%" frameborder="0"
+									scrolling="auto" onload={handleIframeLoad}></iframe>
+							</div>
+						</div>
+					</div>
+					<!-- modal footer start-->
+					<footer class="slds-modal__footer" style="margin-bottom: -50px; margin-left: -23%; width:150%;">
+						<button class="slds-button slds-button_neutral" onclick={hideModalBox} >Close</button>
+						<button class="slds-button slds-button_brand" onclick={handleClickSendEmail}  >Send Document</button>
+					</footer>
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open"></div>
+		</div>
+	</template>
+
+
+	<template if:true={sendEmailAct}>
+		<div style="left: -13%;" class="modal">
+			<section style="" role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+				aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+					<!-- modal header start -->
+					<header class="slds-modal__header"
+						style="left: -23%; margin-top: -15px; padding-top: 0%;width:150%; background-color:#4B5D78;color: white;font-size: x-large;font-weight: 500;">
+						{titleName}
+						<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideModalBox}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                        </button>
+					</header>
+					<!-- modal body start -->
+					<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-"
+						style="margin-left: -23%; width:150%; overflow: hidden;">
+						<div class="slds-box" variant="label-hidden" style="background-color: white;">
+							<lightning-spinner if:true={conRolSpnr} alternative-text="Loading" size="small"
+								style="position: static;"></lightning-spinner>
+							<div if:true={sendEmailAct}>
+								<c-email-activity onincreasecount={hanldeProgressValueChange} record-id={recordId}>
+								</c-email-activity>
+							</div>
+						</div>
+					</div>
+					<!-- modal footer start-->
+
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open"></div>
+		</div>
+	</template>
+</template>

@@ -1,0 +1,21 @@
+<template>
+    <lightning-card title ="Retailer Accounts">
+        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+            <thead>
+                <tr>
+                    <th scope="col">Account Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={accountList} for:item="account">
+                    <tr key={account.Id} data-id={account.Id} onclick={navigateToAccount} >
+                        <td>  
+                              
+                           <a href="javascript:void(0)" >{account.Name}</a>
+                        </td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+    </lightning-card>
+</template>

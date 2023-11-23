@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Normal Bike</fullName>
+                <default>false</default>
+                <label>Normal Bike</label>
+            </value>
+            <value>
+                <fullName>Electric Bike/Bicycle</fullName>
+                <default>false</default>
+                <label>Electric Bike/Bicycle</label>
+            </value>
+            <value>
+                <fullName>Octane / Sprint Pro</fullName>
+                <default>false</default>
+                <label>Octane / Sprint Pro</label>
+            </value>
+            <value>
+                <fullName>Hero / Sprint / Others</fullName>
+                <default>false</default>
+                <label>Hero / Sprint / Others</label>
+            </value>
+            <value>
+                <fullName>Kids</fullName>
+                <default>false</default>
+                <label>Kids</label>
+            </value>
+            <value>
+                <fullName>Cycle</fullName>
+                <default>false</default>
+                <label>Cycle</label>
+            </value>
+            <value>
+                <fullName>Spare</fullName>
+                <default>false</default>
+                <label>Spare</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
